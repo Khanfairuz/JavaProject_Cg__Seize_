@@ -20,13 +20,32 @@ import javafx.util.Duration;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
+class Obstacles {
+    private Rectangle shape; // Shape of the obstacle
+    private double speed; // Movement speed of the obstacle
+
+    public Obstacles(double minWidth, double maxWidth, double height, Color color, int speed) {
+        double width = Math.random() * (maxWidth - minWidth) + minWidth; // Generate a random width within the range
+        this.shape = new Rectangle(width, height, color);
+        this.speed = speed;
+    }
+
+
+
+    public Rectangle getShape() {
+        return shape;
+    }
+
+    public double getSpeed() {
+        return speed;
+    }
+}
 public class HelloQiuz extends Application {
     private static final int SCENE_WIDTH = 800;
     private static final int SCENE_HEIGHT = 600;
-    private static final int SCROLL_SPEED = 4;
+    private static final int SCROLL_SPEED = 10;
     private static final int ROAD_HEIGHT = 40;
     private static final int ROAD_Y = SCENE_HEIGHT - ROAD_HEIGHT;
     private static final int HERO_WIDTH = 200; // Adjust width as needed
@@ -34,14 +53,18 @@ public class HelloQiuz extends Application {
     private static final int HERO_Y = ROAD_Y - HERO_HEIGHT; // Adjust Y position as needed
     private static final int HERO_ANIMATION_INTERVAL = 10; // Interval between hero image changes in frames
     private static final int COIN_WIDTH = 50; // Adjust the width of the coin as needed
-    private static final int COIN_HEIGHT = 50; // Adjust the height of the coin as needed
-
+    private static final int COIN_HEIGHT = 50;
+    private static final int ENEMY_WIDTH = 100; // Adjust width as needed
+    private static final int ENEMY_HEIGHT = 100;
+    private static final int QUIZ_WIDTH = 200; // Adjust these dimensions as needed
+    private static final int QUIZ_HEIGHT = 200;
     private Pane root;
     private ImageView heroView;
     private Image[] heroImages;
     private int currentHeroImageIndex = 0;
     private int frameCount = 0;
     private List<ImageView> coins = new ArrayList<>();
+    private List<ImageView> quizzes = new ArrayList<>();
     private int points = 0;
     private javafx.scene.text.Text pointsLabel;
     // Define a separate label for bonus points
@@ -50,9 +73,9 @@ public class HelloQiuz extends Application {
     private Random random = new Random(); // Declare the random variable as a class-level field
     private Image coinImage;
     private boolean isJumping = false;
-    private static final int ENEMY_WIDTH = 300; // Adjust width as needed
-    private static final int ENEMY_HEIGHT = 300; // Adjust height as needed
+
     private Image enemyImage;
+    private Image quizImage;
     private boolean isAttacking = false; // Flag to track if the hero is attacking
     // Define the enemies list and bonus points
     private List<ImageView> enemies = new ArrayList<>();
@@ -60,6 +83,12 @@ public class HelloQiuz extends Application {
     // Modify the checkCoinCollisions method to update bonus points separately
     private int bonusPoints = 0;
     private boolean isDownKeyPressed = false; // Declare isDownKeyPressed at the class level
+    private Image obstacleImage; // Image for obstacle (if using images)
+    private List<Obstacles> obstacles = new ArrayList<>();
+    private int damagePoints = 0; // Initialize damage points
+    private javafx.scene.text.Text damagePointsLabel;
+    private static final int DAMAGE_VALUE = 10;
+
 
 
 
@@ -73,7 +102,8 @@ public class HelloQiuz extends Application {
         // Set initial positions of background views
         backgroundView1.setLayoutX(0);
         backgroundView2.setLayoutX(backgroundView1.getImage().getWidth());
-        enemyImage = new Image(getClass().getResource("/Enemy/enemyImage.gif").toExternalForm());
+        enemyImage = new Image(getClass().getResource("/Enemy/wow.png").toExternalForm());
+        quizImage = new Image(getClass().getResource("/Gold/QUIZ.gif").toExternalForm());
 
         // Create a Pane to hold the background image views
         root = new Pane(backgroundView1, backgroundView2);
@@ -106,7 +136,9 @@ public class HelloQiuz extends Application {
         List<Rectangle> parallelRoadSegmentList2 = new ArrayList<>(Arrays.asList(parallelRoadSegments2));
         Random random = new Random();
         generateCoins(roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random, coinImage);
-        generateEnemy(roadSegmentList,  parallelRoadSegmentList1,  parallelRoadSegmentList2, random,enemyImage);
+        //generateEnemy(roadSegmentList,  parallelRoadSegmentList1,  parallelRoadSegmentList2, random,enemyImage);
+        generateObstacles(roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
+        generateEnemy( random,enemyImage);
 
         // Load hero images
         heroImages = new Image[6];
@@ -177,6 +209,8 @@ public class HelloQiuz extends Application {
 
                 // Check for coin collisions
                 checkCoinCollisions();
+                checkObstacleCollisions();
+                checkEnemyCollisions();
             }
         };
         timer.start();
@@ -208,7 +242,7 @@ public class HelloQiuz extends Application {
                 // Debug output to verify execution of down key event handler
                 System.out.println("Down key pressed");
                 isDownKeyPressed = true;
-                checkEnemyCollisions(); // Check for collisions when the down key is pressed
+                //checkEnemyCollisions(); // Check for collisions when the down key is pressed
 
                 // Switch hero's image to attack animation
                 isAttacking = true;
@@ -252,7 +286,14 @@ public class HelloQiuz extends Application {
         bonusPointsLabel.setLayoutX(20);
         bonusPointsLabel.setLayoutY(120);
         root.getChildren().add(bonusPointsLabel);
-        checkEnemyCollisions();
+        // Add this code in the start method after initializing the points label
+        damagePointsLabel = new javafx.scene.text.Text("Damage Points: " + damagePoints);
+        damagePointsLabel.setFill(Color.WHITE);
+        damagePointsLabel.setStyle("-fx-font-size: 55px; -fx-text-fill: white;");
+        damagePointsLabel.setLayoutX(SCENE_WIDTH );
+        damagePointsLabel.setLayoutY(50);
+        root.getChildren().add(damagePointsLabel);
+        //checkEnemyCollisions();
 
 
         // Set the stage
@@ -288,9 +329,17 @@ public class HelloQiuz extends Application {
                     // Move the coin
                     moveCoin(coin, segment);
                 })
+
         );
+        Timeline quizTimeline = new Timeline(
+                //new KeyFrame(Duration.minutes(2).add(Duration.seconds(30)),
+                new KeyFrame(Duration.seconds(1),event -> {
+                    addQuizToRoads(quizImage, roadSegments);
+                })
+        );
+        quizTimeline.play();
         // Pause coin generation for a certain time
-        Duration pauseDuration = Duration.seconds(5); // Adjust the pause duration as needed
+        Duration pauseDuration = Duration.seconds(2); // Adjust the pause duration as needed
         coinTimeline.setDelay(pauseDuration);
 
         // Set the cycle count to INDEFINITE so the timeline continues indefinitely
@@ -298,6 +347,8 @@ public class HelloQiuz extends Application {
 
         // Start the timeline
         coinTimeline.play();
+        Duration stopDuration = Duration.minutes(2).add(Duration.seconds(28));
+
     }
 
     public static int cnt=0;
@@ -335,6 +386,39 @@ public class HelloQiuz extends Application {
             coinTransition.stop();
         }
     }
+    private void checkCoinCollisions() {
+        // Calculate the bounds for the lower quarter of the hero's image
+        double heroLowerY = heroView.getLayoutY() + HERO_HEIGHT * 0.95;
+        double heroLowerHeight = HERO_HEIGHT * 0.05;
+
+        for (ImageView coin : new ArrayList<>(coins)) {
+            // Check if the lower quarter of the hero's image intersects with the coin
+            if (coin.getBoundsInParent().intersects(heroView.getLayoutX(), heroLowerY, HERO_WIDTH, heroLowerHeight)) {
+                // Collision detected between hero and coin
+                root.getChildren().remove(coin); // Remove the coin from the scene
+                coins.remove(coin); // Remove the coin from the list
+                // Increment points and update points label
+                points++;
+                pointsLabel.setText("Points: " + points);
+                /*if (points >= 5) {
+                    // Launch  after collecting 5 points
+                    Platform.runLater(() -> {
+                        try {
+                            // Create a new instance of HelloController and start it
+                            HelloController helloController = new HelloController();
+                            helloController.start(new Stage());
+                            // Close the current stage (HelloQiuz)
+                            ((Stage) root.getScene().getWindow()).close();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
+                }*/
+
+            }
+        }
+
+    }
     private void jump() {
         isJumping = true;
         double initialJumpHeight = isJumping ? -200 : -100; // Initial jump height or higher jump height
@@ -362,128 +446,210 @@ public class HelloQiuz extends Application {
             });
         }
     }
-    private void generateEnemy(List<Rectangle> roadSegments, List<Rectangle> parallelRoadSegments1, List<Rectangle> parallelRoadSegments2, Random random, Image enemyImage) {
-        // Create a timeline to continuously generate enemies
-        Timeline enemyTimeline = new Timeline(
-                new KeyFrame(Duration.seconds(3), event -> { // Adjust the duration as needed
-                    // Randomly select a road segment for the enemy to land on
+
+    // Generate obstacles similar to coins
+    private void generateObstacles(List<Rectangle> roadSegments, List<Rectangle> parallelRoadSegments1, List<Rectangle> parallelRoadSegments2, Random random) {
+        Timeline obstacleTimeline = new Timeline(
+                new KeyFrame(Duration.seconds(6), event -> {
                     Rectangle segment;
                     int randomIndex = random.nextInt(roadSegments.size() + parallelRoadSegments1.size() + parallelRoadSegments2.size());
-                    if (randomIndex < roadSegments.size()) { // Select middle road
+                    if (randomIndex < roadSegments.size()) {
                         segment = roadSegments.get(randomIndex);
-                    } else if (randomIndex < roadSegments.size() + parallelRoadSegments1.size()) { // Select upper parallel road
+                    } else if (randomIndex < roadSegments.size() + parallelRoadSegments1.size()) {
                         segment = parallelRoadSegments1.get(randomIndex - roadSegments.size());
-                    } else { // Select lower parallel road
+                    } else {
                         segment = parallelRoadSegments2.get(randomIndex - roadSegments.size() - parallelRoadSegments1.size());
                     }
+                    int minWidth = 30;
+                    int maxWidth = 100;
+                    double width = Math.random() * (maxWidth - minWidth) + minWidth;
+                    //Color randomColor = Color.rgb(random.nextInt(256), random.nextInt(256), random.nextInt(256));
+                    //Obstacles obstacle = new Obstacles(width, 50, randomColor, 10); // Adjust other parameters as needed
+                    //root.getChildren().add(obstacle.getShape());
+                    Obstacles obstacle = new Obstacles(width,width, 60, Color.rgb(random.nextInt(256), random.nextInt(256), random.nextInt(256)), 40);
+                    double offsetY = segment.getHeight() - 50; // Adjust as needed
+                    root.getChildren().add(obstacle.getShape());
+                    obstacles.add(obstacle);
+                    moveObstacle(obstacle, segment, offsetY);
+                })
+        );
+        Duration pauseDuration = Duration.seconds(7); // Adjust the pause duration as needed
+        obstacleTimeline.setDelay(pauseDuration);
+        // Set timeline properties...
+        obstacleTimeline.setCycleCount(Timeline.INDEFINITE); // Make the timeline repeat indefinitely
+        obstacleTimeline.play(); // Start the timeline
+    }
+
+    // Move obstacles across the screen
+    // Move obstacles across the screen
+    // Move obstacles across the screen with the specified offsetY
+    private void moveObstacle(Obstacles obstacle, Rectangle segment, double offsetY) {
+        TranslateTransition obstacleTransition = new TranslateTransition(Duration.seconds(5), obstacle.getShape());
+        obstacleTransition.setFromX(SCENE_WIDTH);
+        obstacleTransition.setToX(-obstacle.getShape().getBoundsInLocal().getWidth());
+        // Adjust the Y-coordinate to position the obstacle lower on the Y-axis
+        obstacleTransition.setFromY(segment.getLayoutY() + offsetY);
+        obstacleTransition.setToY(segment.getLayoutY() + offsetY);
+        obstacleTransition.setOnFinished(event -> root.getChildren().remove(obstacle.getShape()));
+        obstacleTransition.play();
+    }
+    private void checkObstacleCollisions() {
+        // Calculate the bounds for the lower quarter of the hero's image
+        double heroLowerY = heroView.getLayoutY() + HERO_HEIGHT * 0.95;
+        double heroLowerHeight = HERO_HEIGHT * 0.05;
+
+        // Iterate through each obstacle
+        for (Obstacles obstacle : new ArrayList<>(obstacles)) {
+            // Get the bounds of the obstacle
+            Bounds obstacleBounds = obstacle.getShape().getBoundsInParent();
+
+            // Calculate the bounds for the specific part of the hero's body you want to consider
+            double heroPartX = heroView.getLayoutX(); // Adjust as needed
+            double heroPartY = heroLowerY; // Adjust as needed
+            double heroPartWidth = HERO_WIDTH; // Adjust as needed
+            double heroPartHeight = heroLowerHeight; // Adjust as needed
+
+            // Check if the specific part of the hero's body intersects with the obstacle
+            if (obstacleBounds.intersects(heroPartX, heroPartY, heroPartWidth, heroPartHeight)) {
+                // Collision detected between hero and obstacle
+                // Remove the obstacle from the scene and the list
+                root.getChildren().remove(obstacle.getShape());
+                obstacles.remove(obstacle);
+
+                // Decrement health points and update health points label
+                damagePoints -= DAMAGE_VALUE; // Adjust damage value as needed
+                damagePointsLabel.setText("Damage Points: " + damagePoints);
+            }
+        }
+    }
+
+    public static int Cnt=0;
+
+    private void generateEnemy(Random random, Image enemyImage) {
+        // Define an offset value to position enemies above the road segments
+        double yOffset = 200; // Adjust this value as needed
+        double maxY = (SCENE_HEIGHT-50) - yOffset; // Max height for enemy generation
+
+        // Create a timeline to continuously generate enemies
+        Timeline enemyTimeline = new Timeline(
+                new KeyFrame(Duration.seconds(8), event -> { // Adjust the duration as needed
+                    // Randomly select a Y position above all road segments with an offset
+                    double enemyY = random.nextDouble() * maxY;
 
                     // Create the enemy ImageView
                     ImageView enemy = new ImageView(enemyImage);
                     enemy.setFitWidth(ENEMY_WIDTH);
                     enemy.setFitHeight(ENEMY_HEIGHT);
 
-                    // Set the initial position of the enemy
-                    enemy.setLayoutX(SCENE_WIDTH); // Start from the right side of the window
-                    enemy.setLayoutY(segment.getLayoutY() - ENEMY_HEIGHT); // Land on top of the selected road
+                    // Set the initial position of the enemy outside the right side of the window
+                    enemy.setLayoutX(SCENE_WIDTH);
+                    enemy.setLayoutY(enemyY);
 
-                    // Add the enemy to the root
+                    // Add the enemy to the root and enemies list
                     root.getChildren().add(enemy);
+                    enemies.add(enemy);
 
-                    // Move the enemy
-                    double desiredLandingX=100;
-                    double desiredLandingY=400;
-                    moveEnemy(enemy, segment, desiredLandingX, desiredLandingY);
-
+                    // Move the enemy from right to left
+                    moveEnemy(enemy);
                 })
         );
+        Duration pauseDuration = Duration.seconds(10); // Adjust the pause duration as needed
+        enemyTimeline.setDelay(pauseDuration);
+
+        // Set the cycle count to INDEFINITE so the timeline continues indefinitely
         enemyTimeline.setCycleCount(Timeline.INDEFINITE);
+
+        // Start the timeline
         enemyTimeline.play();
     }
 
 
-    private void moveEnemy(ImageView enemy, Rectangle segment, double landingX, double landingY) {
-        TranslateTransition enemyTransition = new TranslateTransition(Duration.seconds(2), enemy);
 
-        // Set the initial X position of the enemy to be in the middle of the window
-        enemy.setLayoutX(SCENE_WIDTH / 2 - ENEMY_WIDTH / 2);
+    private void moveEnemy(ImageView enemy) {
+        TranslateTransition enemyTransition = new TranslateTransition(Duration.seconds(5), enemy);
 
-        // Set the initial Y position of the enemy to be above the window
-        enemy.setLayoutY(-ENEMY_HEIGHT);
+        // Calculate the distance to move the enemy across the screen
+        double distance = SCENE_WIDTH + enemy.getBoundsInLocal().getWidth();
 
-        // Move the enemy vertically to the specified landing Y position on the selected road
-        enemyTransition.setToY(segment.getLayoutY() - ENEMY_HEIGHT + landingY);
+        // Move the enemy from right to left
+        enemyTransition.setFromX(SCENE_WIDTH);
+        enemyTransition.setToX(-distance);
 
-        // Move the enemy horizontally to the specified landing X position
-        enemyTransition.setToX(landingX);
-
-        // Remove the enemy from the root when the transition finishes
+        // Remove the enemy from the root and enemies list when the transition finishes
         enemyTransition.setOnFinished(event -> {
             root.getChildren().remove(enemy);
+            enemies.remove(enemy);
         });
 
         // Start the enemy transition
         enemyTransition.play();
     }
 
-    private void checkCoinCollisions() {
-        // Calculate the bounds for the lower quarter of the hero's image
-        double heroLowerY = heroView.getLayoutY() + HERO_HEIGHT * 0.95;
-        double heroLowerHeight = HERO_HEIGHT * 0.05;
-
-        for (ImageView coin : new ArrayList<>(coins)) {
-            // Check if the lower quarter of the hero's image intersects with the coin
-            if (coin.getBoundsInParent().intersects(heroView.getLayoutX(), heroLowerY, HERO_WIDTH, heroLowerHeight)) {
-                // Collision detected between hero and coin
-                root.getChildren().remove(coin); // Remove the coin from the scene
-                coins.remove(coin); // Remove the coin from the list
-                // Increment points and update points label
-                points++;
-                pointsLabel.setText("Points: " + points);
-            }
-        }
-
-    }
     private void checkEnemyCollisions() {
-        // Define the additional range to increase the collision area around the hero
-        final double collisionRangeX = 400; // Adjust as needed
-        final double collisionRangeY = 400; // Adjust as needed
+        // Calculate the bounds for the lower quarter of the hero's image
+        double heroLowerY = heroView.getLayoutY() + HERO_HEIGHT * 0;
+        double heroLowerHeight = HERO_HEIGHT * 1;
 
-        // Get the bounds of the hero including the collision range
-        Bounds heroBounds = new BoundingBox(
-                heroView.getBoundsInParent().getMinX() - collisionRangeX,
-                heroView.getBoundsInParent().getMinY() - collisionRangeY,
-                heroView.getBoundsInParent().getWidth() + 2 * collisionRangeX,
-                heroView.getBoundsInParent().getHeight() + 2 * collisionRangeY
-        );
-
-        // Iterate through each enemy
-        for (ImageView enemy : new ArrayList<>(enemies)) {
-            // Get the bounds of the enemy
-            Bounds enemyBounds = enemy.getBoundsInParent();
-
-            // Check if the bounds of the hero intersect with the bounds of the enemy
-            if (heroBounds.intersects(enemyBounds)) {
-                // Handle collision between hero and enemy
-                // Remove the enemy from the scene and the list
-                root.getChildren().remove(enemy);
-                enemies.remove(enemy);
-
-                // Increment bonus points and update bonus points label
-                bonusPoints++;
-                bonusPointsLabel.setText("Bonus points: " + bonusPoints);
+        // Check if the down key is pressed
+        if (isDownKeyPressed||((isJumping==true))&&isDownKeyPressed) {
+            // Iterate through each enemy
+            for (ImageView enemy : new ArrayList<>(enemies)) {
+                // Check if the lower quarter of the hero's image intersects with the enemy
+                if (enemy.getBoundsInParent().intersects(heroView.getLayoutX(), heroLowerY, HERO_WIDTH, heroLowerHeight)) {
+                    // Collision detected between hero and enemy
+                    root.getChildren().remove(enemy); // Remove the enemy from the scene
+                    enemies.remove(enemy); // Remove the enemy from the list
+                    // Increment points and update points label
+                    bonusPoints++;
+                    bonusPointsLabel.setText("Bonus: " + bonusPoints);
+                }
             }
         }
     }
 
-
-    private boolean isInSameRoad(ImageView hero, ImageView enemy) {
-        double heroY = hero.getLayoutY();
-        double enemyY = enemy.getLayoutY();
-        double roadHeight = ROAD_HEIGHT;
-
-        // Check if the enemy and hero are in the same road segment
-        return Math.abs(heroY - enemyY) <= roadHeight;
+    private void addQuizToRoads(Image quizImage, List<Rectangle> roadSegments) {
+        for (Rectangle segment : roadSegments) {
+            ImageView quiz = new ImageView(quizImage);
+            quiz.setFitWidth(QUIZ_WIDTH);
+            quiz.setFitHeight(QUIZ_HEIGHT);
+            quiz.setLayoutX(segment.getLayoutX() + segment.getWidth() / 2 - QUIZ_WIDTH / 2);
+            quiz.setLayoutY(segment.getLayoutY() + segment.getHeight() / 2 - QUIZ_HEIGHT / 2);
+            root.getChildren().add(quiz);
+            quizzes.add(quiz);
+        }
     }
+/*
+    private void startQuizTimeline() {
+        Timeline quizTimeline = new Timeline(
+                new KeyFrame(Duration.minutes(2).add(Duration.seconds(30)), event -> {
+                    addQuizToRoads(quizImage, roadSegments);
+                })
+        );
+        quizTimeline.play();
+    }
+
+    private void stopAllTimelines() {
+        // Stop coin, obstacle, and enemy timelines
+        coinTimeline.stop();
+        obstacleTimeline.stop();
+        enemyTimeline.stop();
+        // Stop the main animation timer
+        timer.stop();
+    }
+
+    private void checkQuizCollisions() {
+        // Iterate through each quiz
+        for (ImageView quiz : new ArrayList<>(quizzes)) {
+            // Check if the hero collides with the quiz
+            if (heroView.getBoundsInParent().intersects(quiz.getBoundsInParent())) {
+                // Stop all timelines if collision occurs
+                stopAllTimelines();
+            }
+        }
+    }*/
+
+
+
 
 
     public static void main(String[] args) {
