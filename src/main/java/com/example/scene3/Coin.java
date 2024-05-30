@@ -14,12 +14,10 @@ import java.util.List;
 import java.util.Random;
 
 public class Coin extends Pane{
-    private static final int COIN_WIDTH = 50; // Adjust the width of the coin as needed
-    private static final int COIN_HEIGHT = 50; // Adjust the height of the coin as needed
+    private static final int COIN_WIDTH = 50;
+    private static final int COIN_HEIGHT = 50;
     private List<ImageView> coins = new ArrayList<>();
-    public static int points = 0;
-    public static javafx.scene.text.Text pointsLabel;
-    private Random random = new Random(); // Declare the random variable as a class-level field
+    private Random random = new Random();
     private Image coinImage;
    // private ImageView coinImageView;
     private Timeline coinTimeline;
@@ -124,8 +122,8 @@ public class Coin extends Pane{
         double heroLowerHeight = Hero.HERO_HEIGHT * 0.10;
 
         for (ImageView coin : new ArrayList<>(coins)) {
-            double coinLowerY = coin.getLayoutY() + COIN_HEIGHT * 0.90;
-            double coinLowerHeight = COIN_HEIGHT * 0.10;
+           // double coinLowerY = coin.getLayoutY() + COIN_HEIGHT * 0.90;
+           // double coinLowerHeight = COIN_HEIGHT * 0.10;
             // Check if the lower quarter of the hero's image intersects with the coin
             if ((coin.getBoundsInParent() ).intersects(heroView.getLayoutX(), heroLowerY, Hero.HERO_WIDTH, heroLowerHeight)) {
                 // Collision detected between hero and coin

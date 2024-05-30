@@ -11,8 +11,8 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 
 public class Hero extends Pane {
-    public static final int HERO_WIDTH = 150; // Adjust width as needed
-    public static final int HERO_HEIGHT = 150; // Adjust height as needed
+    public static final int HERO_WIDTH = 150;
+    public static final int HERO_HEIGHT = 150;
     public static final int HERO_Y = HelloController.ROAD_Y - HERO_HEIGHT+30; // Adjust Y position as needed
     private static final int HERO_ANIMATION_INTERVAL = 10; // In
     public ImageView heroView;
@@ -61,7 +61,7 @@ public class Hero extends Pane {
         double initialJumpHeight = isJumping ? -200 : -100; // Initial jump height or higher jump height
         TranslateTransition jumpAnimation = new TranslateTransition(Duration.seconds(0.3), heroView);
         jumpAnimation.setByY(initialJumpHeight); // Set initial or higher jump height
-        jumpAnimation.setCycleCount(1); // Only one cycle for each jump
+        jumpAnimation.setCycleCount(1);
 
         jumpAnimation.setOnFinished(event -> {
             isJumping = false;
@@ -154,7 +154,7 @@ public class Hero extends Pane {
             if(obstacle==null)
                 jumpToGroundAnimation.setByY(0);
             else
-            jumpToGroundAnimation.setToY(obstacle.getTranslateY()-240); // Move the character back to the ground
+            jumpToGroundAnimation.setToY(obstacle.getTranslateY()-240); // Move the character in the Y axis
             // Adjust the X coordinate to move the character a bit forward
             jumpToGroundAnimation.setToX(heroView.getTranslateX() + 70); // Adjust 50 as needed
 

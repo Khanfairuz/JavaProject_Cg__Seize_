@@ -26,7 +26,7 @@ public class HelloController extends Application {
     private static final int SCROLL_SPEED = 4;
     private static final int ROAD_HEIGHT = 40;
     public static final int ROAD_Y = SCENE_HEIGHT - ROAD_HEIGHT-30;
-    private static final int HERO_HEIGHT = 200; // Adjust height as needed
+    private static final int HERO_HEIGHT = 200; // heror height
 
     boolean isObstacleGen=false;
     boolean isBigObstacleGen=false;
@@ -36,7 +36,7 @@ public class HelloController extends Application {
     private int frameCount = 0;
     public static int points = 0;
     public static javafx.scene.text.Text pointsLabel;
-    private Random random = new Random(); // Declare the random variable as a class-level field
+    private Random random = new Random();
     private Image coinImage;
     private Hero hero=new Hero(root);
     public static Obstacle obstacles = new Obstacle(20,20);
@@ -52,20 +52,19 @@ public class HelloController extends Application {
         ImageView backgroundView1 = new ImageView("alien.jpg");
         ImageView backgroundView2 = new ImageView("alien.jpg");
 
-        // Set initial positions of background views
         backgroundView1.setLayoutX(0);
         backgroundView2.setLayoutX(backgroundView1.getImage().getWidth());
 
-        // Create a Pane to hold the background image views
+        // Create a Pane to hold everything
         root.getChildren().addAll(backgroundView1, backgroundView2);
 
         // FileInputStream coinFileStream = new FileInputStream("C:\\Users\\HP\\Music\\coin.png");
         coinImage = new Image(getClass().getResource("/Gold/coin.png").toExternalForm()); // Initialize the coinImage variable
 
         // Create road segments
-        Rectangle[] roadSegments = new Rectangle[4]; // Adjust the number of segments as needed
-        Rectangle[] parallelRoadSegments1 = new Rectangle[4]; // Adjust the number of segments as needed
-        Rectangle[] parallelRoadSegments2 = new Rectangle[4]; // Adjust the number of segments as needed
+        Rectangle[] roadSegments = new Rectangle[4];
+        Rectangle[] parallelRoadSegments1 = new Rectangle[4];
+        Rectangle[] parallelRoadSegments2 = new Rectangle[4];
         for (int i = 0; i < roadSegments.length; i++) {
             roadSegments[i] = new Rectangle(SCENE_WIDTH, ROAD_HEIGHT, Color.BLUEVIOLET);
             roadSegments[i].setLayoutY(ROAD_Y);
@@ -110,7 +109,7 @@ public class HelloController extends Application {
                     }
                 }
 
-                // Update parallel road segments' positions
+
                 for (Rectangle segment : parallelRoadSegments1) {
                     segment.setLayoutX(segment.getLayoutX() - SCROLL_SPEED);
                     if (segment.getLayoutX() <= -SCENE_WIDTH) {
@@ -214,7 +213,7 @@ public class HelloController extends Application {
             }
         });
 
-        // Initialize points label
+
         pointsLabel = new javafx.scene.text.Text("Points: " + points);
         pointsLabel.setFill(Color.WHITE);
         pointsLabel.setStyle("-fx-font-size: 55px; -fx-text-fill: white;");
@@ -222,7 +221,7 @@ public class HelloController extends Application {
         pointsLabel.setLayoutY(50);
         root.getChildren().add(pointsLabel);
 
-        // Set the stage
+
         primaryStage.setScene(scene);
         primaryStage.setTitle("Scrolling Background with Continuous Road and Animated Hero");
         primaryStage.show();

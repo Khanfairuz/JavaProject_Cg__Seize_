@@ -98,7 +98,7 @@ public class thirdScene {
 
             //database call
             dc = new database_connection();
-            dc.connection("objectorientedprogramming" ,this);
+           // dc.connection("objectorientedprogramming" ,this);
             label1.setText(question);
             A.setText(optionA);
             B.setText(optionB);

@@ -160,6 +160,7 @@ public class HelloQiuz extends Application {
             heroAttackImages[i] = new Image(getClass().getResource("/sword/adventurer-attack1-0" + (i + 1) + ".png").toExternalForm());
         }
 
+        //declare korbo enemy
 
         // Set up animation timer to scroll the background, road, and animate the hero
         AnimationTimer timer = new AnimationTimer() {

@@ -22,7 +22,6 @@ public class BigObstacle  {
     private double obstacle_width = 1000;
     private double obstacle_height = 60;
     private Image image;
-    private int scoreNeg = 0;
     public static List<ImageView> Bigobstacles = new ArrayList<>();
     public Timeline BigobstacleTimeline;
     public TranslateTransition obstacleTransition;
