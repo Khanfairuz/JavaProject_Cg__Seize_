@@ -4,18 +4,13 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
-import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.CheckBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -56,38 +51,8 @@ public class HelloController extends Application {
     public static QuizObstacle quizObstacle=new QuizObstacle();
     public static AnimationTimer timer;
     public static BigObstacle bigObstacle=new BigObstacle(60, 20);
+    public boolean quizDown=true;  //quiz r mid er down key er jonno
 
-    private  int frameCountM=0;
-
-    private  static  final int  MONSTER_HEIGHT=250;
-    private static final int HERO_Y = ROAD_Y - HERO_HEIGHT; // Adjust Y position as needed
-    private  static  final  int MONSTER_Y=ROAD_Y-MONSTER_HEIGHT;
-    private static  int HERO_ANIMATION_INTERVAL = 10; // Interval between hero image changes in frames
-    private  static int MONSTER_ANIMATION_INTERVAL=10;
-    private  static  final  int MONSTER_SCROLL_SPEED=2;
-    public  boolean oneTimeGenerate=true;
-    public  boolean thirdlevel=false;
-    public  double elapsedTimeSeconds_check=0;
-    private javafx.scene.text.Text questionLabel;
-    //////////////////////////////////
-    public  boolean track_zombie_kill=false;
-    public  boolean track_hero_kill=true;
-    private database_connection dc;
-    ////////////////////
-    private  String question;
-    private  String optionA;
-    private  String optionB;
-    private  String optionC;
-    private  String optionD;
-    private  String correctAns;
-    private long startTime;
-    private  boolean  oneKill=false;
-    private  boolean stopMonster=false;
-    private  boolean stopHero=false;
-    private  boolean  flag_hero_gone=false;
-    ////PLay music
-    public  audio_play audio=new audio_play();
-    public static Monster monster=new Monster();
 
     @Override
     public void start(Stage primaryStage) throws FileNotFoundException {
@@ -104,14 +69,6 @@ public class HelloController extends Application {
         // FileInputStream coinFileStream = new FileInputStream("C:\\Users\\HP\\Music\\coin.png");
         coinImage = new Image(getClass().getResource("/Gold/coin.png").toExternalForm()); // Initialize the coinImage variable
 
-        //monster add starts
-
-
-        Image[] heroAttackImages = new Image[4];
-        for (int i = 0; i < heroAttackImages.length; i++) {
-            //FileInputStream inputStream = new FileInputStream("/sword/adventurer-attack1-0" + (i + 1) + ".png");
-            heroAttackImages[i] = new Image(getClass().getResource("/sword/adventurer-attack1-0" + (i + 1) + ".png").toExternalForm());
-        }
         // Create road segments
         Rectangle[] roadSegments = new Rectangle[4];
         Rectangle[] parallelRoadSegments1 = new Rectangle[4];
@@ -145,7 +102,6 @@ public class HelloController extends Application {
 
         root.getChildren().add(hero.heroView);
         //hero.heroView.toFront();
-        //startTime = System.nanoTime();
 
         // Set up animation timer to scroll the background, road, and animate the hero
         timer = new AnimationTimer() {
@@ -177,12 +133,9 @@ public class HelloController extends Application {
                     }
                 }
 
-                // Update monster position
-               // monster.monsterView.setLayoutX(monster.monsterView.getLayoutX() - MONSTER_SCROLL_SPEED);
-
                 // Animate hero
                 frameCount++;
-                frameCount = hero.frameHero(frameCount, stopHero, oneKill, flag_hero_gone);
+                frameCount=hero.frameHero(frameCount);
 
                 // Check if any background view is completely out of the scene, then reposition it
                 if (backgroundView1.getLayoutX() <= -backgroundView1.getImage().getWidth()) {
@@ -196,104 +149,33 @@ public class HelloController extends Application {
                 // checkCoinCollisions();
                 coin.checkCoinCollisions(root, hero.heroView);
                 quiz.checkEnemyCollisions(hero.isDownKeyPressed, bonusPointsLabel);
-                if (coin.isCoinFinished && quiz.isEnemyFinished) {
+                if(coin.isCoinFinished && quiz.isEnemyFinished)
+                {
                     obstacles.generateCoins(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
-                    coin.isCoinFinished = false;
-                    isObstacleGen = true;
+                    coin.isCoinFinished=false;
+                    isObstacleGen=true;
                 }
-                obstacles.checkObstacleCollisions(root, hero.heroView, hero.isJumping);
-                if (obstacles.isObstacleFinished) {
+                obstacles.checkObstacleCollisions( root, hero.heroView, hero.isJumping);
+                if(obstacles.isObstacleFinished)
+                {
                     bigObstacle.generateBigCoins(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
                     //mid.generateMid(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
-                    obstacles.isObstacleFinished = false;
-                    isBigObstacleGen = true;
+                    obstacles.isObstacleFinished=false;
+                    isBigObstacleGen=true;
                 }
                 bigObstacle.checkBigObstacleCollisions(root, hero.heroView, hero.isJumping);
 
                 //if(!isTimerRunning) {return;}
-                if (bigObstacle.isBigObstacleFinished && isTimerRunning) {
+                if(bigObstacle.isBigObstacleFinished && isTimerRunning) {
                     System.out.println("Why");
                     mid.generateMid(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
-                    bigObstacle.isBigObstacleFinished = false;
+                    bigObstacle.isBigObstacleFinished=false;
                 }
 
                 mid.checkCoinCollisions(root, hero.heroView);
-                if (mid.isMidFinished && isTimerRunning) {
-                    System.out.println("fairuz");
-                    quizObstacle.generateObstacles(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
-                    //coin.generateCoins(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
-                    mid.isMidFinished = false;
-                    quizObstacle.isQuizObstacleFinished=false;
-                }
-                quizObstacle.checkObstacleCollisions(root, hero.heroView, damagePointsLabel);
-                //coin.checkCoinCollisions(root, hero.heroView);
+                //quizObstacle.generateObstacles(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
 
-                if (quizObstacle.isQuizObstacleFinished) {
-                    System.out.println("finished");
-                    if (oneTimeGenerate) {
-                        monster.generateMonster(root);
-                        quizObstacle.isQuizObstacleFinished = false;
-                        checkQues();
-                        oneTimeGenerate = false;
-                        thirdlevel=true;
-                        startTimer();
-                    }
-                }
-                if(thirdlevel==true){
-
-
-                    frameCountM++;
-                    monster.HeroKillMonster(frameCountM, stopMonster, oneKill);
-                    // Calculate the elapsed time in seconds
-
-
-                    // Update the label with the elapsed time
-                    // System.out.println("Elapsed Time: %.1f seconds "+elapsedTimeSeconds);
-                    //time pore chenge kora jabe
-                    if (elapsedTimeSeconds_check > 7.4 && elapsedTimeSeconds_check< 7.6 && oneKill == false) {
-                        oneKill = true;
-                        if (track_zombie_kill == true) {
-                            //
-                            for (int i = 0; i < monster.Monster.length; i++) {
-                                // FileInputStream inputStream = new FileInputStream("C:\\Users\\HP\\Music\\run3\\run3-0" + i + ".png");
-                                monster.Monster[i] = new Image(getClass().getResource("/monster1kill/monster1kill-" + i + ".png").toExternalForm());
-
-                            }
-                            frameCountM = 0;
-                            monster.currentMonsterIndex = 0;
-                            MONSTER_ANIMATION_INTERVAL = 12;
-                        } else {
-                            flag_hero_gone = true;
-                            //
-                            for (int i = 0; i < monster.Monster.length; i++) {
-                                // FileInputStream inputStream = new FileInputStream("C:\\Users\\HP\\Music\\run3\\run3-0" + i + ".png");
-                                monster.Monster[i] = new Image(getClass().getResource("/monster1killhero/monster1killhero-" + i + ".png").toExternalForm());
-
-                            }
-                            frameCountM = 0;
-                            monster.currentMonsterIndex = 0;
-                            MONSTER_ANIMATION_INTERVAL = 8;
-
-
-                            for (int i = 0; i < hero.heroImages.length; i++) {
-                                // FileInputStream inputStream = new FileInputStream("C:\\Users\\HP\\Music\\run3\\run3-0" + i + ".png");
-                                hero.heroImages[i] = new Image(getClass().getResource("/hero1kill/hero1kill-" + i + ".png").toExternalForm());
-                            }
-                            frameCount = 0;
-                            hero.currentHeroImageIndex = 0;
-
-
-                        }
-
-
-                    }
-                    //quizObstacle.generateObstacles(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
-
-                    // }
-                }
-
-
-
+                // }
             }
         };
         timer.start();
@@ -351,13 +233,8 @@ public class HelloController extends Application {
                 }
             }
         });
-//        scene.setOnKeyReleased(event -> {
-//            if (event.getCode() == KeyCode.DOWN) {
-//                hero.isDownKeyPressed = false;
-//            }
-//        });
 
-        connect_database();
+
         pointsLabel = new javafx.scene.text.Text("Points: " + points);
         pointsLabel.setFill(Color.WHITE);
         pointsLabel.setStyle("-fx-font-size: 55px; -fx-text-fill: white;");
@@ -382,199 +259,9 @@ public class HelloController extends Application {
         root.getChildren().add(damagePointsLabel);
 
 
-
-
-        // Set the stage
         primaryStage.setScene(scene);
         primaryStage.setTitle("Scrolling Background with Continuous Road and Animated Hero");
         primaryStage.show();
-        primaryStage.setFullScreen(true);
-    }
-    public void checkQues()
-    {
-        questionLabel=new javafx.scene.text.Text(question);
-        questionLabel.setFill(Color.WHITE);
-        questionLabel.setStyle("-fx-font-size: 40px; -fx-text-fill: white;");
-        questionLabel.setX(500);
-        questionLabel.setY((50+ questionLabel.getLayoutBounds().getHeight()) / 2);
-
-
-        // Set the width and height of the root pane based on text dimensions
-        root.setPrefWidth(questionLabel.getLayoutBounds().getWidth());
-        root.setPrefHeight(questionLabel.getLayoutBounds().getHeight());
-        root.getChildren().add(questionLabel);
-        // checkBox
-        // Create an HBox to hold the checkboxes
-        VBox checkBoxes = new VBox();
-        checkBoxes.setAlignment(Pos.TOP_LEFT);
-        checkBoxes.setSpacing(10); // Set spacing between checkboxes
-
-        checkBoxes.setLayoutX(500); // Position relative to the question label
-        checkBoxes.setLayoutY(questionLabel.getY() + questionLabel.getBoundsInLocal().getHeight() + 20); // Position below the question label
-
-        // Create four checkboxes
-        CheckBox checkBoxA = new CheckBox(optionA);
-        CheckBox checkBoxB = new CheckBox(optionB);
-        CheckBox checkBoxC = new CheckBox(optionC);
-        CheckBox checkBoxD = new CheckBox(optionD);
-        // Apply font style to checkboxes
-        checkBoxA.setStyle("-fx-font-family: Arial; -fx-font-size: 25px; -fx-text-fill: white;");
-        checkBoxB.setStyle("-fx-font-family: Arial; -fx-font-size: 25px; -fx-text-fill: white;");
-        checkBoxC.setStyle("-fx-font-family: Arial; -fx-font-size: 25px; -fx-text-fill: white;");
-        checkBoxD.setStyle("-fx-font-family: Arial; -fx-font-size: 25px; -fx-text-fill: white;");
-        // Add the checkboxes to the HBox
-        checkBoxes.getChildren().addAll(checkBoxA, checkBoxB, checkBoxC, checkBoxD);
-
-        // Add the HBox to the root pane
-        root.getChildren().add(checkBoxes);
-
-        checkBoxA.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                // Invoke function when checkBoxA is selected
-                checkA();
-                System.out.println("HLLLLL");
-            } else {
-                // Optionally handle when checkBoxA is deselected
-
-            }
-        });
-        checkBoxB.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                // Invoke function when checkBoxA is selected
-                checkB();
-            } else {
-                // Optionally handle when checkBoxA is deselected
-
-            }
-        });
-        checkBoxC.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                // Invoke function when checkBoxA is selected
-                checkC();
-            } else {
-                // Optionally handle when checkBoxA is deselected
-
-            }
-        });
-        checkBoxD.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                // Invoke function when checkBoxA is selected
-                checkD();
-            } else {
-                // Optionally handle when checkBoxA is deselected
-
-            }
-        });
-    }
-    public void startTimer() {
-        startTime = System.nanoTime();
-
-        timer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                long elapsedTimeNano = now - startTime;
-                double elapsedTimeMillis = elapsedTimeNano / 1_000_000_000.0;
-                 elapsedTimeSeconds_check=elapsedTimeMillis;
-                // Print elapsed time
-                System.out.printf("Elapsed Time: %.1f milliseconds\n", elapsedTimeMillis);
-
-                // Example condition: print message between 10.5 and 11 seconds
-                if (elapsedTimeMillis >7200 && elapsedTimeMillis <7300) {
-
-                    System.out.println("Elapsed Time is between 10.5 and 11 seconds");
-                }
-            }
-        };
-
-        timer.start();
-    }
-
-    public  void connect_database()
-    {
-        dc = new database_connection();
-        dc.connection("objectorientedprogramming" ,HelloController.this);
-        System.out.println("Correct ANS :"+correctAns);
-
-
-    }
-    //databse......
-    public void setQuestion(String question) {
-        this.question = question;
-    }
-
-    public void setOptionA(String optionA) {
-        this.optionA = optionA;
-    }
-
-    public void setOptionB(String optionB) {
-        this.optionB = optionB;
-    }
-
-    public void setOptionC(String optionC) {
-        this.optionC = optionC;
-    }
-
-    public void setOptionD(String optionD) {
-        this.optionD = optionD;
-    }
-
-    public void setCorrectAns(String correctAns) {
-        this.correctAns = correctAns;
-    }
-
-    @FXML
-    public  void  checkA()
-    {
-        if(correctAns.equals("A"))
-        {
-            track_zombie_kill=true;
-        }
-        else
-        {
-            track_hero_kill=true;
-        }
-        System.out.println("Checked A");
-
-    }
-    @FXML
-    public  void  checkB()
-    {
-        if(correctAns.equals("B"))
-        {
-            track_zombie_kill=true;
-        }
-        else
-        {
-            track_hero_kill=true;
-        }
-        System.out.println("Checked B");
-
-    }
-    @FXML
-    public  void  checkC()
-    {
-        if(correctAns.equals("C"))
-        {
-            track_zombie_kill=true;
-        }
-        else
-        {
-            track_hero_kill=true;
-        }
-        System.out.println("Checked C");
-    }
-    @FXML
-    public  void  checkD()
-    {
-        if(correctAns.equals("D"))
-        {
-            track_zombie_kill=true;
-        }
-        else
-        {
-            track_hero_kill=true;
-        }
-        System.out.println("Checked D");
     }
 
 

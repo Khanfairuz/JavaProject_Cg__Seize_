@@ -5,7 +5,7 @@ import java.sql.*;
 
 public class database_connection {
 
-  public void connection(String tableName , HelloController scene) {
+  public void connection(String tableName , finalRound1 scene) {
     //String sql = "select question from objectorientedprogramming where index=2";
     String sql = "SELECT question, optiona, optionb, optionc, optiond, correctans FROM " + tableName + " WHERE index = ?";
     String url = "jdbc:postgresql://localhost:5432/question_and_answer_2";

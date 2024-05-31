@@ -205,7 +205,7 @@ public class Mid extends Pane {
     }
 
 
-    public void checkCoinCollisions(Pane root, ImageView heroView) {
+    /*public void checkCoinCollisions(Pane root, ImageView heroView) {
         // Calculate the bounds for the lower quarter of the hero's image
         double heroLowerY = heroView.getLayoutY() + Hero.HERO_HEIGHT * 0.90;
         double heroLowerHeight = Hero.HERO_HEIGHT * 0.10;
@@ -235,7 +235,107 @@ public class Mid extends Pane {
 
             }
         }
+    }*/
+    public void checkCoinCollisions(Pane root, ImageView heroView, List<Rectangle> roadSegments, List<Rectangle> parallelRoadSegments1, List<Rectangle> parallelRoadSegments2) {
+        // Calculate the bounds for the lower quarter of the hero's image
+        double heroLowerY = heroView.getLayoutY() + Hero.HERO_HEIGHT * 0.90;
+        double heroLowerHeight = Hero.HERO_HEIGHT * 0.10;
+
+        if (!HelloController.isTimerRunning) {
+            System.out.println("Timer stopped");
+            midTimeline.stop();
+        }
+
+        for (ImageView mid : new ArrayList<>(mids)) {
+            if (!collided) {
+                // Check if the mid coin and hero are on the same road segment
+                Rectangle heroSegment = getHeroSegment(heroView, roadSegments, parallelRoadSegments1, parallelRoadSegments2);
+                Rectangle midSegment = getMidSegment(mid, roadSegments, parallelRoadSegments1, parallelRoadSegments2);
+
+                if (heroSegment != null && midSegment != null && heroSegment.equals(midSegment)) {
+                    System.out.println("Hero and mid are on the same segment");
+
+                    // Check if the lower quarter of the hero's image intersects with the coin
+                    if (mid.getBoundsInParent().intersects(heroView.getLayoutX(), heroLowerY, Hero.HERO_WIDTH, heroLowerHeight)) {
+                        System.out.println("Collision detected");
+                        // Collision detected between hero and coin
+                        root.getChildren().remove(mid); // Remove the coin from the scene
+                        midTransition.stop();
+                        mids.remove(mid); // Remove the coin from the list
+                        // Increment points and update points label
+                        ShowMidWin(root);
+                        HelloController.points += 75;
+                        HelloController.pointsLabel.setText("Points: " + HelloController.points);
+                        collided = true;
+                    }
+                } else {
+                    System.out.println("Hero and mid are not on the same segment");
+                }
+            }
+        }
     }
+
+    // Helper method to find the road segment the hero is on
+    private Rectangle getHeroSegment(ImageView heroView, List<Rectangle> roadSegments, List<Rectangle> parallelRoadSegments1, List<Rectangle> parallelRoadSegments2) {
+        double heroY = heroView.getLayoutY() + Hero.HERO_HEIGHT / 2;
+        System.out.println("Hero Y: " + heroY);
+
+        for (Rectangle segment : roadSegments) {
+            if (isWithinSegment(heroY, segment)) {
+                return segment;
+            }
+        }
+
+        for (Rectangle segment : parallelRoadSegments1) {
+            if (isWithinSegment(heroY, segment)) {
+                return segment;
+            }
+        }
+
+        for (Rectangle segment : parallelRoadSegments2) {
+            if (isWithinSegment(heroY, segment)) {
+                return segment;
+            }
+        }
+
+        return null;
+    }
+
+    // Helper method to find the road segment the mid coin is on
+    private Rectangle getMidSegment(ImageView mid, List<Rectangle> roadSegments, List<Rectangle> parallelRoadSegments1, List<Rectangle> parallelRoadSegments2) {
+        double midY = mid.getLayoutY() + MID_HEIGHT / 2;
+        System.out.println("Mid Y: " + midY);
+
+        for (Rectangle segment : roadSegments) {
+            if (isWithinSegment(midY, segment)) {
+                return segment;
+            }
+        }
+
+        for (Rectangle segment : parallelRoadSegments1) {
+            if (isWithinSegment(midY, segment)) {
+                return segment;
+            }
+        }
+
+        for (Rectangle segment : parallelRoadSegments2) {
+            if (isWithinSegment(midY, segment)) {
+                return segment;
+            }
+        }
+
+        return null;
+    }
+
+    // Helper method to check if a Y coordinate is within a segment
+    private boolean isWithinSegment(double y, Rectangle segment) {
+        boolean result = y >= segment.getLayoutY() && y <= (segment.getLayoutY() + segment.getHeight());
+        System.out.println("Checking segment: " + segment + " with Y: " + y + " - Result: " + result);
+        return result;
+    }
+
+
+
 
     public void ShowMidWin(Pane root)
     {
