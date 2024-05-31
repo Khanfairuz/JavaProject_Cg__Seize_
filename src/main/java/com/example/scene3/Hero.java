@@ -179,6 +179,39 @@ public class Hero extends Pane {
         });
         heroView.setY(0);
     }
+    private void quizjump() {
+        isJumping = true;
+        double initialJumpHeight = -200; // Adjust this value as needed
+        double forwardDistance = 50; // Distance to move forward on the x-axis
+
+        TranslateTransition jumpAnimation = new TranslateTransition(Duration.seconds(0.4), heroView);
+        jumpAnimation.setByY(initialJumpHeight); // Set initial jump height
+        jumpAnimation.setByX(forwardDistance); // Move forward on the x-axis
+        jumpAnimation.setCycleCount(1); // Only one cycle for each jump
+
+        jumpAnimation.setOnFinished(event -> {
+            quizjumpToGround(forwardDistance); // Move the character back to the ground after the jump, preserving the forward position
+        });
+
+        jumpAnimation.play();
+    }
+
+    private void quizjumpToGround(double forwardDistance) {
+        double currentY = heroView.getTranslateY();
+        if (currentY != 0) {
+            TranslateTransition jumpToGroundAnimation = new TranslateTransition(Duration.seconds(0.1), heroView);
+            jumpToGroundAnimation.setToY(0); // Move the character back to the ground
+            jumpToGroundAnimation.setByX(forwardDistance); // Ensure the forward position is maintained
+            jumpToGroundAnimation.play();
+            jumpToGroundAnimation.setOnFinished(event -> {
+                isJumping = false; // Set isJumping to false after the jump animation finishes
+                System.out.println("Jump animation finished, isJumping set to false");
+            });
+        } else {
+            isJumping = false; // Set isJumping to false if already on the ground
+            System.out.println("Jump animation finished, isJumping set to false");
+        }
+    }
 
 
 
