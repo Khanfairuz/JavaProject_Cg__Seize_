@@ -33,7 +33,7 @@ public class Coin extends Pane{
     public void generateCoins(Pane root, List<Rectangle> roadSegments, List<Rectangle> parallelRoadSegments1, List<Rectangle> parallelRoadSegments2, Random random) {
         // Create a timeline to continuously generate coins
 
-
+        cnt=0;
         coinTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(0.6), event -> { // Decrease the duration to generate coins more frequently
                     // Randomly select a road segment
@@ -57,6 +57,7 @@ public class Coin extends Pane{
                     HelloController.root.getChildren().add(coin);
                     //coin.setVisible(true);
                     coins.add(coin);
+                    System.out.println("inside of coin gen");
 
                     // Move the coin
                     moveCoin(root, coin, segment);
@@ -64,6 +65,8 @@ public class Coin extends Pane{
 
                 })
         );
+        Duration pauseDuration = Duration.seconds(3); // Adjust the pause duration as needed
+        coinTimeline.setDelay(pauseDuration);
         coinTimeline.setCycleCount(Timeline.INDEFINITE);
         coinTimeline.play();
 
@@ -94,10 +97,11 @@ public class Coin extends Pane{
 
         if(cnt==3)//20)
         {
-            //System.out.println("???"+cnt);
+            System.out.println("coin "+cnt);
             coinTransition.stop();
             coinTimeline.stop();
             isCoinFinished=true;
+            System.out.println("coin ase? "+isCoinFinished);
         }
 
         coinTransition.setOnFinished(event -> {

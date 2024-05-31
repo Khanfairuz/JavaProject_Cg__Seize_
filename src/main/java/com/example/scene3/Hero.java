@@ -20,7 +20,7 @@ public class Hero extends Pane {
     private static final int HERO_ANIMATION_INTERVAL = 10; // In
     public ImageView heroView;
     public Image[] heroImages;
-    private int currentHeroImageIndex = 0;
+   public int currentHeroImageIndex = 0;
     public Point2D heroVelocity=new Point2D(0,1);
     boolean canJump=true;
     boolean jumpObsColl=false;
@@ -54,12 +54,17 @@ public class Hero extends Pane {
         }
     }
 
-    public int frameHero(int frameCount)
+    public int frameHero(int frameCount, boolean stopHero, boolean oneKill,boolean flag_hero_gone )
     {
-        if (frameCount >= HERO_ANIMATION_INTERVAL) {
+        if (frameCount >= HERO_ANIMATION_INTERVAL &&stopHero==false) {
             frameCount = 0;
             currentHeroImageIndex = (currentHeroImageIndex + 1) % heroImages.length;
             heroView.setImage(heroImages[currentHeroImageIndex]);
+            if(oneKill==true && currentHeroImageIndex==5 &&   flag_hero_gone==true )
+            {
+                heroView.setVisible(false);
+                stopHero=true;
+            }
         }
         return frameCount;
     }

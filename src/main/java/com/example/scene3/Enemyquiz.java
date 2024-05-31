@@ -86,8 +86,8 @@ public class Enemyquiz {
                     moveEnemy(enemy);
                 })
         );
-//        Duration pauseDuration = Duration.seconds(1); // Adjust the pause duration as needed
-//        enemyTimeline.setDelay(pauseDuration);
+        Duration pauseDuration = Duration.seconds(3); // Adjust the pause duration as needed
+        enemyTimeline.setDelay(pauseDuration);
 
         // Set the cycle count to INDEFINITE so the timeline continues indefinitely
         enemyTimeline.setCycleCount(Timeline.INDEFINITE);

@@ -82,8 +82,11 @@ public class QuizObstacle {
 
     private javafx.scene.text.Text damagePointsLabel;
     private static final int DAMAGE_VALUE = 10;
+    public boolean isQuizObstacleFinished=false;
+    private static int cnt=0;
+    public Timeline obstacleTimeline;
     public void generateObstacles(Pane root, List<Rectangle> roadSegments, List<Rectangle> parallelRoadSegments1, List<Rectangle> parallelRoadSegments2, Random random) {
-        Timeline obstacleTimeline = new Timeline(
+        obstacleTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(6), event -> {
                     Rectangle segment;
                     int randomIndex = random.nextInt(roadSegments.size() + parallelRoadSegments1.size() + parallelRoadSegments2.size());
@@ -107,7 +110,7 @@ public class QuizObstacle {
                     moveObstacle(root, obstacle, segment, offsetY);
                 })
         );
-        Duration pauseDuration = Duration.seconds(7); // Adjust the pause duration as needed
+        Duration pauseDuration = Duration.seconds(3); // Adjust the pause duration as needed
         obstacleTimeline.setDelay(pauseDuration);
         // Set timeline properties...
         obstacleTimeline.setCycleCount(Timeline.INDEFINITE); // Make the timeline repeat indefinitely
@@ -118,19 +121,29 @@ public class QuizObstacle {
     // Move obstacles across the screen
     // Move obstacles across the screen with the specified offsetY
     private void moveObstacle(Pane root, Obstacles obstacle, Rectangle segment, double offsetY) {
-        TranslateTransition obstacleTransition = new TranslateTransition(Duration.seconds(5), obstacle.getShape());
+        TranslateTransition obstacleTransition = new TranslateTransition(Duration.seconds(3), obstacle.getShape());
         obstacleTransition.setFromX(SCENE_WIDTH);
         obstacleTransition.setToX(-obstacle.getShape().getBoundsInLocal().getWidth());
         // Adjust the Y-coordinate to position the obstacle lower on the Y-axis
         obstacleTransition.setFromY(segment.getLayoutY() + offsetY);
         obstacleTransition.setToY(segment.getLayoutY() + offsetY);
+        cnt++;
+
+        if(cnt==2)
+        {
+            System.out.println("quizobs ");
+            obstacleTransition.stop();
+            obstacleTimeline.stop();
+            isQuizObstacleFinished=true;
+            System.out.println("choto quiz: "+ isQuizObstacleFinished);
+        }
         obstacleTransition.setOnFinished(event -> root.getChildren().remove(obstacle.getShape()));
         obstacleTransition.play();
     }
-    public void checkObstacleCollisions(Pane root) {
+    public void checkObstacleCollisions(Pane root, ImageView heroView,  javafx.scene.text.Text damagePointsLabel) {
         // Calculate the bounds for the lower quarter of the hero's image
-        double heroLowerY = heroView.getLayoutY() + HERO_HEIGHT * 0.95;
-        double heroLowerHeight = HERO_HEIGHT * 0.05;
+        double heroLowerY = heroView.getLayoutY() + HERO_HEIGHT * 0.90;
+        double heroLowerHeight = HERO_HEIGHT * 0.10;
 
         // Iterate through each obstacle
         for (Obstacles obstacle : new ArrayList<>(obstacles)) {
@@ -152,6 +165,7 @@ public class QuizObstacle {
 
                 // Decrement health points and update health points label
                 damagePoints -= DAMAGE_VALUE; // Adjust damage value as needed
+                System.out.println(damagePoints);
                 damagePointsLabel.setText("Damage Points: " + damagePoints);
             }
         }
