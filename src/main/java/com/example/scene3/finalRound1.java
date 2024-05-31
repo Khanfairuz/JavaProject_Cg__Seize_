@@ -28,7 +28,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class finalRound1 extends Application {
+/*public class finalRound1 extends Application {
 
     private static final int SCENE_WIDTH = 800;
     private static final int SCENE_HEIGHT = 600;
@@ -147,7 +147,7 @@ public class finalRound1 extends Application {
         root.getChildren().add(monsterView); */
 
         // Create road segments
-        Rectangle[] roadSegments = new Rectangle[4]; // Adjust the number of segments as needed
+        /*Rectangle[] roadSegments = new Rectangle[4]; // Adjust the number of segments as needed
         Rectangle[] parallelRoadSegments1 = new Rectangle[4]; // Adjust the number of segments as needed
         Rectangle[] parallelRoadSegments2 = new Rectangle[4]; // Adjust the number of segments as needed
         for (int i = 0; i < roadSegments.length; i++) {
@@ -587,4 +587,4 @@ public class finalRound1 extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-}
+}*/

@@ -619,39 +619,6 @@ public class HelloQiuz extends Application {
             quizzes.add(quiz);
         }
     }
-/*
-    private void startQuizTimeline() {
-        Timeline quizTimeline = new Timeline(
-                new KeyFrame(Duration.minutes(2).add(Duration.seconds(30)), event -> {
-                    addQuizToRoads(quizImage, roadSegments);
-                })
-        );
-        quizTimeline.play();
-    }
-
-    private void stopAllTimelines() {
-        // Stop coin, obstacle, and enemy timelines
-        coinTimeline.stop();
-        obstacleTimeline.stop();
-        enemyTimeline.stop();
-        // Stop the main animation timer
-        timer.stop();
-    }
-
-    private void checkQuizCollisions() {
-        // Iterate through each quiz
-        for (ImageView quiz : new ArrayList<>(quizzes)) {
-            // Check if the hero collides with the quiz
-            if (heroView.getBoundsInParent().intersects(quiz.getBoundsInParent())) {
-                // Stop all timelines if collision occurs
-                stopAllTimelines();
-            }
-        }
-    }*/
-
-
-
-
 
     public static void main(String[] args) {
         launch(args);
