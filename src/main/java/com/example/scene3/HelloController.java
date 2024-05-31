@@ -48,6 +48,7 @@ public class HelloController extends Application {
     public static Coin coin=new Coin();
     public static Mid mid=new Mid();
     public Enemyquiz quiz;
+    public static QuizObstacle quizObstacle=new QuizObstacle();
     public static AnimationTimer timer;
     public static BigObstacle bigObstacle=new BigObstacle(60, 20);
     public boolean quizDown=true;  //quiz r mid er down key er jonno
@@ -164,13 +165,16 @@ public class HelloController extends Application {
                 }
                 bigObstacle.checkBigObstacleCollisions(root, hero.heroView, hero.isJumping);
 
+                //if(!isTimerRunning) {return;}
                 if(bigObstacle.isBigObstacleFinished && isTimerRunning) {
                     System.out.println("Why");
                     mid.generateMid(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
                     bigObstacle.isBigObstacleFinished=false;
                 }
-                // if(isTimerRunning) {
-                mid.checkCoinCollisions(root, hero.heroView);
+
+                mid.checkCoinCollisions(root,hero.heroView,roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2);
+                //quizObstacle.generateObstacles(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
+
                 // }
             }
         };
@@ -212,10 +216,10 @@ public class HelloController extends Application {
                 hero.quizjump();
                 //hero.moveY((int)hero.heroVelocity.getY());
             }
-//            if((event.getCode() == KeyCode.DOWN) && !quizDown)
-//            {
-//                hero.ground();
-//            }
+            if((event.getCode() == KeyCode.DOWN) && isBigObstacleGen)
+            {
+                hero.ground();
+            }
             //mrim
             if((event.getCode() == KeyCode.DOWN))// && quizDown)
             {
