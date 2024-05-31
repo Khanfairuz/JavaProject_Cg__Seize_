@@ -192,7 +192,7 @@ public class Hero extends Pane {
         });
         heroView.setY(0);
     }
-    private void quizjump() {
+    public void quizjump() {
         isJumping = true;
         double initialJumpHeight = -200; // Adjust this value as needed
         double forwardDistance = 50; // Distance to move forward on the x-axis
@@ -215,6 +215,13 @@ public class Hero extends Pane {
             TranslateTransition jumpToGroundAnimation = new TranslateTransition(Duration.seconds(0.1), heroView);
             jumpToGroundAnimation.setToY(0); // Move the character back to the ground
             jumpToGroundAnimation.setByX(forwardDistance); // Ensure the forward position is maintained
+            jumpToGroundAnimation.setToX(heroView.getTranslateX() + 70); // Adjust 50 as needed
+
+            if(heroView.getTranslateX()+200>HelloController.SCENE_WIDTH)
+            {
+                jumpToGroundAnimation.setToX(HelloController.SCENE_WIDTH - HERO_WIDTH - 700);
+            }
+
             jumpToGroundAnimation.play();
             jumpToGroundAnimation.setOnFinished(event -> {
                 isJumping = false; // Set isJumping to false after the jump animation finishes

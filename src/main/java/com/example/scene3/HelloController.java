@@ -147,7 +147,7 @@ public class HelloController extends Application {
                 // Check for coin collisions
                 // checkCoinCollisions();
                 coin.checkCoinCollisions(root, hero.heroView);
-                quiz.checkEnemyCollisions();
+                quiz.checkEnemyCollisions(hero.isDownKeyPressed, bonusPointsLabel);
                 if(coin.isCoinFinished && quiz.isEnemyFinished)
                 {
                     obstacles.generateCoins(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
@@ -208,22 +208,24 @@ public class HelloController extends Application {
 //                {
 //                    obstacles.checkObstacleCollisions( root, hero.heroView, (!hero.isJumping));
 //                }
-                hero.jump(root);
+               // hero.jump(root);
+                hero.quizjump();
                 //hero.moveY((int)hero.heroVelocity.getY());
             }
-            if((event.getCode() == KeyCode.DOWN) && !quizDown)
-            {
-                hero.ground();
-            }
+//            if((event.getCode() == KeyCode.DOWN) && !quizDown)
+//            {
+//                hero.ground();
+//            }
             //mrim
-            if((event.getCode() == KeyCode.DOWN) && quizDown)
+            if((event.getCode() == KeyCode.DOWN))// && quizDown)
             {
                 hero.DownKeyQuiz();
             }
             if (scene != null) {
                 if (event.getCode() == KeyCode.UP) {
                     // hero.jumpHero();
-                    hero.jump(root);
+                    //hero.jump(root);
+                    hero.quizjump();
                 }
             }
         });

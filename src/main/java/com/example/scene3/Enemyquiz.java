@@ -32,7 +32,7 @@ public class Enemyquiz {
     private double HERO_HEIGHT;
     private double HERO_WIDTH;
     private int bonusPoints;
-    private Label bonusPointsLabel;
+   // private Label bonusPointsLabel=new Label();
     private Image enemyImage;
     private Image quizImage;
     private List<ImageView> enemies = new ArrayList<>();
@@ -65,7 +65,7 @@ public class Enemyquiz {
 
         // Create a timeline to continuously generate enemies
         enemyTimeline = new Timeline(
-                new KeyFrame(Duration.seconds(8), event -> { // Adjust the duration as needed
+                new KeyFrame(Duration.seconds(1), event -> { // Adjust the duration as needed
                     // Randomly select a Y position above all road segments with an offset
                     double enemyY = random.nextDouble() * maxY;
 
@@ -86,7 +86,7 @@ public class Enemyquiz {
                     moveEnemy(enemy);
                 })
         );
-        Duration pauseDuration = Duration.seconds(10); // Adjust the pause duration as needed
+        Duration pauseDuration = Duration.seconds(1); // Adjust the pause duration as needed
         enemyTimeline.setDelay(pauseDuration);
 
         // Set the cycle count to INDEFINITE so the timeline continues indefinitely
@@ -125,18 +125,22 @@ public class Enemyquiz {
         enemyTransition.play();
     }
 
-    public void checkEnemyCollisions() {
+    public void checkEnemyCollisions(Boolean isDownKeyPressed, javafx.scene.text.Text bonusPointsLabel) {
         // Calculate the bounds for the lower quarter of the hero's image
         double heroLowerY = heroView.getLayoutY() + HERO_HEIGHT * 0;
         double heroLowerHeight = HERO_HEIGHT * 1;
 
+       // System.out.println("chinsoooooooooooo");
         // Check if the down key is pressed
-        if (isDownKeyPressed||((isJumping==true))&&isDownKeyPressed) {
+        if (isDownKeyPressed||((isJumping==true)&&isDownKeyPressed)) {
             // Iterate through each enemy
+            System.out.println("123456");
             for (ImageView enemy : new ArrayList<>(enemies)) {
+                System.out.println("inside of check collision enemy");
                 // Check if the lower quarter of the hero's image intersects with the enemy
-                if (enemy.getBoundsInParent().intersects(heroView.getLayoutX(), heroLowerY, HERO_WIDTH, heroLowerHeight)) {
+                if (enemy.getBoundsInParent().intersects(heroView.getBoundsInParent())){//.getLayoutX(), heroLowerY, HERO_WIDTH, heroLowerHeight)) {
                     // Collision detected between hero and enemy
+                    System.out.println("collide kkorse yay");
                     root.getChildren().remove(enemy); // Remove the enemy from the scene
                     enemies.remove(enemy); // Remove the enemy from the list
                     // Increment points and update points label
