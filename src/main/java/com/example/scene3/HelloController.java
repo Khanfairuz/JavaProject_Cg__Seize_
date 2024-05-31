@@ -172,7 +172,7 @@ public class HelloController extends Application {
                     bigObstacle.isBigObstacleFinished=false;
                 }
 
-                mid.checkCoinCollisions(root, hero.heroView);
+                mid.checkCoinCollisions(root,hero.heroView,roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2);
                 //quizObstacle.generateObstacles(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
 
                 // }
