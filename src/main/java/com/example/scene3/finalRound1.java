@@ -28,7 +28,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-/*public class finalRound1 extends Application {
+public class finalRound1 extends Application {
 
     private static final int SCENE_WIDTH = 800;
     private static final int SCENE_HEIGHT = 600;
@@ -132,7 +132,7 @@ import java.util.Random;
         coinImage = new Image(getClass().getResource("/Gold/coin.png").toExternalForm()); // Initialize the coinImage variable
 
         //load monster image
-        /*Monster = new Image[4];
+        Monster = new Image[4];
         for (int i = 0; i < Monster.length; i++) {
             // FileInputStream inputStream = new FileInputStream("C:\\Users\\HP\\Music\\run3\\run3-0" + i + ".png");
             Monster[i] = new Image(getClass().getResource("/monster1walk/monster1walk-" + i + ".png").toExternalForm());
@@ -144,10 +144,10 @@ import java.util.Random;
         monsterView.setLayoutX(Screen.getPrimary().getVisualBounds().getWidth());
         // Get the last rectangle from the combined list of road segments
         monsterView.setLayoutY(MONSTER_Y);
-        root.getChildren().add(monsterView); */
+        root.getChildren().add(monsterView);
 
         // Create road segments
-        /*Rectangle[] roadSegments = new Rectangle[4]; // Adjust the number of segments as needed
+        Rectangle[] roadSegments = new Rectangle[4]; // Adjust the number of segments as needed
         Rectangle[] parallelRoadSegments1 = new Rectangle[4]; // Adjust the number of segments as needed
         Rectangle[] parallelRoadSegments2 = new Rectangle[4]; // Adjust the number of segments as needed
         for (int i = 0; i < roadSegments.length; i++) {
@@ -587,4 +587,4 @@ import java.util.Random;
     public static void main(String[] args) {
         launch(args);
     }
-}*/
+}

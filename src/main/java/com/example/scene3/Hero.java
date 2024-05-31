@@ -1,10 +1,13 @@
 package com.example.scene3;
 
+import javafx.animation.AnimationTimer;
 import javafx.animation.TranslateTransition;
+import javafx.event.ActionEvent;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
@@ -23,6 +26,9 @@ public class Hero extends Pane {
     boolean jumpObsColl=false;
     public boolean isJumping = false;
     public Pane root;
+    private boolean isAttacking = false; // Flag to track if the hero is attacking
+    public boolean isDownKeyPressed = false; // Declare isDownKeyPressed at the class level
+    Image[] heroAttackImages = new Image[4];
 
     public Hero(Pane root)
     {
@@ -40,6 +46,12 @@ public class Hero extends Pane {
        // heroView.setTranslateZ(-100);
         getChildren().add(heroView);
       //  HelloController.root.getChildren().add(heroView);
+
+
+        for (int i = 0; i < heroAttackImages.length; i++) {
+            //FileInputStream inputStream = new FileInputStream("/sword/adventurer-attack1-0" + (i + 1) + ".png");
+            heroAttackImages[i] = new Image(getClass().getResource("/sword/adventurer-attack1-0" + (i + 1) + ".png").toExternalForm());
+        }
     }
 
     public int frameHero(int frameCount)
@@ -69,6 +81,29 @@ public class Hero extends Pane {
         });
 
         jumpAnimation.play();
+    }
+    private void jumpToGround(Pane root) {
+        double currentY = heroView.getTranslateY();
+        if (currentY != 0) {
+            TranslateTransition jumpToGroundAnimation = new TranslateTransition(Duration.seconds(0.1), heroView);
+            ImageView obstacle=Obstacle.collisionY(root, heroView);
+            if(obstacle==null)
+                jumpToGroundAnimation.setByY(0);
+            else
+                jumpToGroundAnimation.setToY(obstacle.getTranslateY()-240); // Move the character in the Y axis
+            // Adjust the X coordinate to move the character a bit forward
+            jumpToGroundAnimation.setToX(heroView.getTranslateX() + 70); // Adjust 50 as needed
+
+            if(heroView.getTranslateX()+200>HelloController.SCENE_WIDTH)
+            {
+                jumpToGroundAnimation.setToX(HelloController.SCENE_WIDTH - HERO_WIDTH - 700);
+            }
+            jumpToGroundAnimation.play();
+            jumpToGroundAnimation.setOnFinished(event -> {
+                isJumping = false; // Set isJumping to false after the jump animation finishes
+                System.out.println("Jump animation finished, isJumping set to false");
+            });
+        }
     }
 
 //    private void jumpToGround() {
@@ -146,29 +181,7 @@ public class Hero extends Pane {
             }
         }
     }
-    private void jumpToGround(Pane root) {
-        double currentY = heroView.getTranslateY();
-        if (currentY != 0) {
-            TranslateTransition jumpToGroundAnimation = new TranslateTransition(Duration.seconds(0.1), heroView);
-            ImageView obstacle=Obstacle.collisionY(root, heroView);
-            if(obstacle==null)
-                jumpToGroundAnimation.setByY(0);
-            else
-            jumpToGroundAnimation.setToY(obstacle.getTranslateY()-240); // Move the character in the Y axis
-            // Adjust the X coordinate to move the character a bit forward
-            jumpToGroundAnimation.setToX(heroView.getTranslateX() + 70); // Adjust 50 as needed
 
-            if(heroView.getTranslateX()+200>HelloController.SCENE_WIDTH)
-            {
-                jumpToGroundAnimation.setToX(HelloController.SCENE_WIDTH - HERO_WIDTH - 700);
-            }
-            jumpToGroundAnimation.play();
-            jumpToGroundAnimation.setOnFinished(event -> {
-                isJumping = false; // Set isJumping to false after the jump animation finishes
-                System.out.println("Jump animation finished, isJumping set to false");
-            });
-        }
-    }
     public void ground()
     {
         TranslateTransition backToGround=new TranslateTransition(Duration.seconds(0.1), heroView);
@@ -213,6 +226,34 @@ public class Hero extends Pane {
         }
     }
 
+    public void DownKeyQuiz()
+    {
+         {
+            // Debug output to verify execution of down key event handler
+            System.out.println("Down key pressed");
+            isDownKeyPressed = true;
+            //checkEnemyCollisions(); // Check for collisions when the down key is pressed
+
+            // Switch hero's image to attack animation
+            isAttacking = true;
+            new AnimationTimer() {
+                int currentAttackFrame = 0;
+
+                @Override
+                public void handle(long now) {
+                    // Update hero's image with attack animation frames
+                    heroView.setImage(heroAttackImages[currentAttackFrame]);
+                    currentAttackFrame++;
+                    if (currentAttackFrame >= heroAttackImages.length) {
+                        this.stop(); // Stop the animation after reaching the last frame
+                        // Switch back to the previous hero image after the attack animation
+                        isAttacking = false;
+                        heroView.setImage(heroImages[currentHeroImageIndex]);
+                    }
+                }
+            }.start();
+        }
+    }
 
 
 

@@ -82,10 +82,11 @@ public class HelloQiuz extends Application {
     private static final int BONUS_POINTS = 50; // Define the bonus points value
     // Modify the checkCoinCollisions method to update bonus points separately
     private int bonusPoints = 0;
+    private int damagePoints = 0; // Initialize damage points
     private boolean isDownKeyPressed = false; // Declare isDownKeyPressed at the class level
     private Image obstacleImage; // Image for obstacle (if using images)
     private List<Obstacles> obstacles = new ArrayList<>();
-    private int damagePoints = 0; // Initialize damage points
+
     private javafx.scene.text.Text damagePointsLabel;
     private static final int DAMAGE_VALUE = 10;
 

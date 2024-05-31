@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -18,53 +19,52 @@ import java.util.Random;
 
 public class Enemyquiz {
     private Pane root;
-    private List<ImageView> enemies;
-    private List<ImageView> quizzes;
-    private double SCENE_WIDTH;
-    private double SCENE_HEIGHT;
-    private double ENEMY_WIDTH;
-    private double ENEMY_HEIGHT;
-    private double QUIZ_WIDTH;
-    private double QUIZ_HEIGHT;
+    private double SCENE_WIDTH=800;
+    private double SCENE_HEIGHT=600;
+    private double ENEMY_WIDTH=100;
+    private double ENEMY_HEIGHT=100;
+    private double QUIZ_WIDTH=30;
+    private double QUIZ_HEIGHT=30;
     private boolean isDownKeyPressed;
     private boolean isJumping;
+    public boolean isEnemyFinished=false;
     private ImageView heroView;
     private double HERO_HEIGHT;
     private double HERO_WIDTH;
     private int bonusPoints;
     private Label bonusPointsLabel;
+    private Image enemyImage;
+    private Image quizImage;
+    private List<ImageView> enemies = new ArrayList<>();
+    private List<ImageView> quizzes = new ArrayList<>();
 
-    public EnemyQuiz(Pane root, List<ImageView> enemies, List<ImageView> quizzes, double sceneWidth, double sceneHeight,
-                     double enemyWidth, double enemyHeight, double quizWidth, double quizHeight, boolean isDownKeyPressed,
-                     boolean isJumping, ImageView heroView, double heroHeight, double heroWidth, int bonusPoints,
-                     Label bonusPointsLabel) {
+    private Timeline enemyTimeline;
+
+    Random random=new Random();
+
+    public Enemyquiz(Pane root, Hero hero, int bonusPoints) {
         this.root = root;
-        this.enemies = enemies;
-        this.quizzes = quizzes;
-        this.SCENE_WIDTH = sceneWidth;
-        this.SCENE_HEIGHT = sceneHeight;
-        this.ENEMY_WIDTH = enemyWidth;
-        this.ENEMY_HEIGHT = enemyHeight;
-        this.QUIZ_WIDTH = quizWidth;
-        this.QUIZ_HEIGHT = quizHeight;
-        this.isDownKeyPressed = isDownKeyPressed;
-        this.isJumping = isJumping;
-        this.heroView = heroView;
-        this.HERO_HEIGHT = heroHeight;
-        this.HERO_WIDTH = heroWidth;
+        this.isDownKeyPressed = hero.isDownKeyPressed;
+        this.isJumping = hero.isJumping;
+        this.heroView = hero.heroView;
+        this.HERO_HEIGHT = hero.HERO_HEIGHT;
+        this.HERO_WIDTH = hero.HERO_WIDTH;
         this.bonusPoints = bonusPoints;
-        this.bonusPointsLabel = bonusPointsLabel;
+
+        enemyImage = new Image(getClass().getResource("/Enemy/wow.png").toExternalForm());
+        quizImage = new Image(getClass().getResource("/Gold/QUIZ.gif").toExternalForm());
     }
 
     public static int Cnt=0;
 
-    private void generateEnemy(Random random, Image enemyImage) {
+    public void generateEnemy() {
+
         // Define an offset value to position enemies above the road segments
-        double yOffset = 200; // Adjust this value as needed
+        double yOffset = 300; // Adjust this value as needed
         double maxY = (SCENE_HEIGHT-50) - yOffset; // Max height for enemy generation
 
         // Create a timeline to continuously generate enemies
-        Timeline enemyTimeline = new Timeline(
+        enemyTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(8), event -> { // Adjust the duration as needed
                     // Randomly select a Y position above all road segments with an offset
                     double enemyY = random.nextDouble() * maxY;
@@ -108,6 +108,13 @@ public class Enemyquiz {
         enemyTransition.setFromX(SCENE_WIDTH);
         enemyTransition.setToX(-distance);
 
+        if(Cnt==10)
+        {
+            //System.out.println("???"+cnt);
+            enemyTransition.stop();
+            enemyTimeline.stop();
+            isEnemyFinished=true;
+        }
         // Remove the enemy from the root and enemies list when the transition finishes
         enemyTransition.setOnFinished(event -> {
             root.getChildren().remove(enemy);
@@ -118,7 +125,7 @@ public class Enemyquiz {
         enemyTransition.play();
     }
 
-    private void checkEnemyCollisions() {
+    public void checkEnemyCollisions() {
         // Calculate the bounds for the lower quarter of the hero's image
         double heroLowerY = heroView.getLayoutY() + HERO_HEIGHT * 0;
         double heroLowerHeight = HERO_HEIGHT * 1;
