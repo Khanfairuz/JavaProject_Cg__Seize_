@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane fx:id="ac" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.scene3.startPage">
+    <children>
+        <ImageView fx:id="img" fitHeight="900.0" fitWidth="986.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../../start/startPage.png" />
+            </image>
+        </ImageView>
+        <Button fx:id="start" layoutX="406.0" layoutY="468.0" mnemonicParsing="false" onAction="#click" prefHeight="50.0" prefWidth="85.0" text="Start">
+            <font>
+                <Font size="23.0" />
+            </font>
+            <textFill>
+                <LinearGradient endX="1.0" endY="1.0">
+                    <stops>
+                        <Stop>
+                            <color>
+                                <Color red="0.7488394975662231" green="0.580740749835968" blue="0.800000011920929" />
+                            </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                            <color>
+                                <Color red="0.38182714581489563" green="0.26370370388031006" blue="0.4000000059604645" />
+                            </color>
+                        </Stop>
+                    </stops>
+                </LinearGradient>
+            </textFill>
+        </Button>
+        <Button fx:id="exit" layoutX="401.0" layoutY="645.0" mnemonicParsing="false" onAction="#exitApplication" prefHeight="41.0" prefWidth="110.0" text="Exit">
+            <font>
+                <Font size="25.0" />
+            </font>
+            <textFill>
+                <LinearGradient endX="1.0" endY="1.0">
+                    <stops>
+                        <Stop>
+                            <color>
+                                <Color red="0.7488394975662231" green="0.580740749835968" blue="0.800000011920929" />
+                            </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                            <color>
+                                <Color red="0.5400000214576721" green="0.21060000360012054" blue="0.47297731041908264" />
+                            </color>
+                        </Stop>
+                    </stops>
+                </LinearGradient>
+            </textFill>
+        </Button>
+        <Button fx:id="about" layoutX="53.0" layoutY="105.0" mnemonicParsing="false" onAction="#showInfo" prefHeight="31.0" prefWidth="92.0" text="About" textFill="#61185f">
+            <font>
+                <Font size="22.0" />
+            </font>
+        </Button>
+    </children>
+</AnchorPane>

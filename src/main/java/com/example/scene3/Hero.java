@@ -225,7 +225,7 @@ public class Hero extends Pane {
                 System.out.println("null collide");
             }
             else
-                jumpToGroundAnimation.setToY(obstacle.getTranslateY()-40); // Move the character in the Y axis
+                jumpToGroundAnimation.setToY(obstacle.getTranslateY()-50); // Move the character in the Y axis
 
             jumpToGroundAnimation.setToX(heroView.getTranslateX() + 70); // Adjust 50 as needed
 

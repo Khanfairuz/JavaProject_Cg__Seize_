@@ -25,7 +25,7 @@ import java.util.Random;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
-public class HelloController extends Application {
+public class HelloController  {
     public static final int SCENE_WIDTH = 800;
     private static final int SCENE_HEIGHT = 600;
     private static final int SCROLL_SPEED = 4;
@@ -63,7 +63,7 @@ public class HelloController extends Application {
     private static final int HERO_Y = ROAD_Y - HERO_HEIGHT; // Adjust Y position as needed
     private  static  final  int MONSTER_Y=ROAD_Y-MONSTER_HEIGHT;
     private static  int HERO_ANIMATION_INTERVAL = 10; // Interval between hero image changes in frames
-    private  static int MONSTER_ANIMATION_INTERVAL=10;
+    private  static int MONSTER_ANIMATION_INTERVAL=5;
     private  static  final  int MONSTER_SCROLL_SPEED=2;
     public  boolean oneTimeGenerate=true;
     public  boolean thirdlevel=false;
@@ -89,8 +89,8 @@ public class HelloController extends Application {
     public  audio_play audio=new audio_play();
     public static Monster monster=new Monster();
 
-    @Override
-    public void start(Stage primaryStage) throws FileNotFoundException {
+
+    public void start_new(Stage primaryStage) throws FileNotFoundException {
         // Load background image
         ImageView backgroundView1 = new ImageView("alien.jpg");
         ImageView backgroundView2 = new ImageView("alien.jpg");
@@ -100,6 +100,8 @@ public class HelloController extends Application {
 
         // Create a Pane to hold everything
         root.getChildren().addAll(backgroundView1, backgroundView2);
+        //audio
+        audio.play_music_normal(root);
 
         // FileInputStream coinFileStream = new FileInputStream("C:\\Users\\HP\\Music\\coin.png");
         coinImage = new Image(getClass().getResource("/Gold/coin.png").toExternalForm()); // Initialize the coinImage variable
@@ -231,12 +233,15 @@ public class HelloController extends Application {
                 if (quizObstacle.isQuizObstacleFinished) {
                     System.out.println("finished");
                     if (oneTimeGenerate) {
+                        audio.stopMusic_normal();
+                        audio.play_music_zombie(root);
                         monster.generateMonster(root);
                         quizObstacle.isQuizObstacleFinished = false;
                         checkQues();
                         oneTimeGenerate = false;
                         thirdlevel=true;
                         startTimer();
+                        damagePointsLabel.setVisible(false);
                     }
                 }
                 if(thirdlevel==true){
@@ -250,7 +255,7 @@ public class HelloController extends Application {
                     // Update the label with the elapsed time
                     // System.out.println("Elapsed Time: %.1f seconds "+elapsedTimeSeconds);
                     //time pore chenge kora jabe
-                    if (elapsedTimeSeconds_check > 7.4 && elapsedTimeSeconds_check< 7.6 && oneKill == false) {
+                    if (elapsedTimeSeconds_check > 7.5 && elapsedTimeSeconds_check< 7.7 && oneKill == false) {
                         oneKill = true;
                         if (track_zombie_kill == true) {
                             //
@@ -578,9 +583,7 @@ public class HelloController extends Application {
     }
 
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+
 }
 
 
