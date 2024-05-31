@@ -316,18 +316,23 @@ public class BigObstacle  {
         double heroLowerY = heroView.getLayoutY() + Hero.HERO_HEIGHT * 0.90;
         double heroLowerHeight = Hero.HERO_HEIGHT * 0.10;
 
+        System.out.println("big obstacle collision check shuru hoise ");
+
         boolean collided = false;
         for (ImageView obstacle : new ArrayList<>(Bigobstacles)) {
             // Check if the lower quarter of the hero's image intersects with the coin
+
+            System.out.println("Big obstacle ");
             if (!collided) {
                 if (obstacle.getBoundsInParent().intersects(heroView.getLayoutX(), heroLowerY, Hero.HERO_WIDTH, heroLowerHeight)) {
                     // Collision detected between hero and coin
 
+                    System.out.println("Big obstacle collide");
                     collided = true;
                     return obstacle;
                     //obstacles.remove(obstacle);
                 }
-                break;
+                //break;
             }
         }
         return null;

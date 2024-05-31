@@ -213,8 +213,15 @@ public class Hero extends Pane {
         double currentY = heroView.getTranslateY();
         if (currentY != 0) {
             TranslateTransition jumpToGroundAnimation = new TranslateTransition(Duration.seconds(0.1), heroView);
-            jumpToGroundAnimation.setToY(0); // Move the character back to the ground
-            jumpToGroundAnimation.setByX(forwardDistance); // Ensure the forward position is maintained
+            ImageView obstacle=BigObstacle.collisionY(root, heroView);
+            if(obstacle==null) {
+                jumpToGroundAnimation.setToY(0);
+
+                System.out.println("null collide");
+            }
+            else
+                jumpToGroundAnimation.setToY(obstacle.getTranslateY()-40); // Move the character in the Y axis
+
             jumpToGroundAnimation.setToX(heroView.getTranslateX() + 70); // Adjust 50 as needed
 
             if(heroView.getTranslateX()+200>HelloController.SCENE_WIDTH)
@@ -222,6 +229,8 @@ public class Hero extends Pane {
                 jumpToGroundAnimation.setToX(HelloController.SCENE_WIDTH - HERO_WIDTH - 700);
             }
 
+
+            jumpToGroundAnimation.setByX(forwardDistance); // Ensure the forward position is maintained
             jumpToGroundAnimation.play();
             jumpToGroundAnimation.setOnFinished(event -> {
                 isJumping = false; // Set isJumping to false after the jump animation finishes

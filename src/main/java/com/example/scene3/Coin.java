@@ -92,7 +92,7 @@ public class Coin extends Pane{
         coinTransition.setToX(-distance);
        // root.getChildren().add(coin);
 
-        if(cnt==2)//20)
+        if(cnt==3)//20)
         {
             //System.out.println("???"+cnt);
             coinTransition.stop();

@@ -1,4 +1,4 @@
-package com.example.scene3;
+/*package com.example.scene3;
 
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
@@ -22,11 +22,11 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
-class Obstacles {
+class obstacle {
     private Rectangle shape; // Shape of the obstacle
     private double speed; // Movement speed of the obstacle
 
-    public Obstacles(double minWidth, double maxWidth, double height, Color color, int speed) {
+    public obstacle(double minWidth, double maxWidth, double height, Color color, int speed) {
         double width = Math.random() * (maxWidth - minWidth) + minWidth; // Generate a random width within the range
         this.shape = new Rectangle(width, height, color);
         this.speed = speed;
@@ -85,7 +85,7 @@ public class HelloQiuz extends Application {
     private int damagePoints = 0; // Initialize damage points
     private boolean isDownKeyPressed = false; // Declare isDownKeyPressed at the class level
     private Image obstacleImage; // Image for obstacle (if using images)
-    private List<Obstacles> obstacles = new ArrayList<>();
+    private List<obstacle> obstacles = new ArrayList<>();
 
     private javafx.scene.text.Text damagePointsLabel;
     private static final int DAMAGE_VALUE = 10;
@@ -417,11 +417,11 @@ public class HelloQiuz extends Application {
                     });
                 }*/
 
-            }
-        }
+        //    }
+      //  }
 
-    }
-    private void jump() {
+    //}
+    /*private void jump() {
         isJumping = true;
         double initialJumpHeight = isJumping ? -200 : -100; // Initial jump height or higher jump height
         TranslateTransition jumpAnimation = new TranslateTransition(Duration.seconds(0.4), heroView);
@@ -448,6 +448,40 @@ public class HelloQiuz extends Application {
             });
         }
     }
+    private void jump() {
+        isJumping = true;
+        double initialJumpHeight = -200; // Adjust this value as needed
+        double forwardDistance = 50; // Distance to move forward on the x-axis
+
+        TranslateTransition jumpAnimation = new TranslateTransition(Duration.seconds(0.4), heroView);
+        jumpAnimation.setByY(initialJumpHeight); // Set initial jump height
+        jumpAnimation.setByX(forwardDistance); // Move forward on the x-axis
+        jumpAnimation.setCycleCount(1); // Only one cycle for each jump
+
+        jumpAnimation.setOnFinished(event -> {
+            jumpToGround(forwardDistance); // Move the character back to the ground after the jump, preserving the forward position
+        });
+
+        jumpAnimation.play();
+    }
+
+    private void jumpToGround(double forwardDistance) {
+        double currentY = heroView.getTranslateY();
+        if (currentY != 0) {
+            TranslateTransition jumpToGroundAnimation = new TranslateTransition(Duration.seconds(0.1), heroView);
+            jumpToGroundAnimation.setToY(0); // Move the character back to the ground
+            jumpToGroundAnimation.setByX(forwardDistance); // Ensure the forward position is maintained
+            jumpToGroundAnimation.play();
+            jumpToGroundAnimation.setOnFinished(event -> {
+                isJumping = false; // Set isJumping to false after the jump animation finishes
+                System.out.println("Jump animation finished, isJumping set to false");
+            });
+        } else {
+            isJumping = false; // Set isJumping to false if already on the ground
+            System.out.println("Jump animation finished, isJumping set to false");
+        }
+    }
+
 
     // Generate obstacles similar to coins
     private void generateObstacles(List<Rectangle> roadSegments, List<Rectangle> parallelRoadSegments1, List<Rectangle> parallelRoadSegments2, Random random) {
@@ -468,11 +502,11 @@ public class HelloQiuz extends Application {
                     //Color randomColor = Color.rgb(random.nextInt(256), random.nextInt(256), random.nextInt(256));
                     //Obstacles obstacle = new Obstacles(width, 50, randomColor, 10); // Adjust other parameters as needed
                     //root.getChildren().add(obstacle.getShape());
-                    Obstacles obstacle = new Obstacles(width,width, 60, Color.rgb(random.nextInt(256), random.nextInt(256), random.nextInt(256)), 40);
+                    Obstacles obstacle1 = new Obstacles(width,width, 60, Color.rgb(random.nextInt(256), random.nextInt(256), random.nextInt(256)), 40);
                     double offsetY = segment.getHeight() - 50; // Adjust as needed
-                    root.getChildren().add(obstacle.getShape());
-                    obstacles.add(obstacle);
-                    moveObstacle(obstacle, segment, offsetY);
+                    root.getChildren().add(obstacle1.getShape());
+                    obstacles.add(obstacle1);
+                    moveObstacle(obstacle1, segment, offsetY);
                 })
         );
         Duration pauseDuration = Duration.seconds(7); // Adjust the pause duration as needed
@@ -625,3 +659,4 @@ public class HelloQiuz extends Application {
         launch(args);
     }
 }
+*/

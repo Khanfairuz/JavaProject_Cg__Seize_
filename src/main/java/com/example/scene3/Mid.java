@@ -69,7 +69,9 @@ public class Mid extends Pane {
 
                 })
         );
-        midTimeline.setCycleCount(1);
+        Duration pauseDuration = Duration.seconds(1); // Adjust the pause duration as needed
+        midTimeline.setDelay(pauseDuration);
+        //midTimeline.setCycleCount(1);
         midTimeline.play();
 
     }
@@ -78,19 +80,20 @@ public class Mid extends Pane {
 
 
 
-    private void moveMid(Pane root, ImageView coin, Rectangle segment) {
+    private void moveMid(Pane root, ImageView mid, Rectangle segment) {
         cnt++;
-        midTransition = new TranslateTransition(Duration.seconds(6), coin);
+        System.out.println("In movemid");
+        midTransition = new TranslateTransition(Duration.seconds(6), mid);
 
         // Set the X position of the coin to be outside the scene on the right side
-        coin.setLayoutX(HelloController.SCENE_WIDTH);
+        mid.setLayoutX(HelloController.SCENE_WIDTH);
 
         // Set the Y position of the coin to be within the segment's Y range random.nextDouble()
         double y = segment.getLayoutY() + 1 * segment.getHeight() - MID_HEIGHT;
-        coin.setLayoutY(y);
+        mid.setLayoutY(y);
 
         // Calculate the distance to move the coin across the screen
-        double distance = HelloController.SCENE_WIDTH + coin.getBoundsInLocal().getWidth();
+        double distance = HelloController.SCENE_WIDTH + mid.getBoundsInLocal().getWidth();
 
         // Move the coin from right to left
         midTransition.setFromX(HelloController.SCENE_WIDTH);
@@ -105,7 +108,8 @@ public class Mid extends Pane {
             isMidFinished=true;
         }
 
-
+        midTransition.setOnFinished(event->
+                root.getChildren().remove(mid));
 
         // Start the coin transition
         midTransition.play();

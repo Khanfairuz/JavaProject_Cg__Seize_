@@ -86,8 +86,8 @@ public class Enemyquiz {
                     moveEnemy(enemy);
                 })
         );
-        Duration pauseDuration = Duration.seconds(1); // Adjust the pause duration as needed
-        enemyTimeline.setDelay(pauseDuration);
+//        Duration pauseDuration = Duration.seconds(1); // Adjust the pause duration as needed
+//        enemyTimeline.setDelay(pauseDuration);
 
         // Set the cycle count to INDEFINITE so the timeline continues indefinitely
         enemyTimeline.setCycleCount(Timeline.INDEFINITE);
@@ -99,6 +99,7 @@ public class Enemyquiz {
 
 
     private void moveEnemy(ImageView enemy) {
+        Cnt++;
         TranslateTransition enemyTransition = new TranslateTransition(Duration.seconds(5), enemy);
 
         // Calculate the distance to move the enemy across the screen
@@ -108,7 +109,7 @@ public class Enemyquiz {
         enemyTransition.setFromX(SCENE_WIDTH);
         enemyTransition.setToX(-distance);
 
-        if(Cnt==10)
+        if(Cnt==1)
         {
             //System.out.println("???"+cnt);
             enemyTransition.stop();
@@ -134,7 +135,7 @@ public class Enemyquiz {
         // Check if the down key is pressed
         if (isDownKeyPressed||((isJumping==true)&&isDownKeyPressed)) {
             // Iterate through each enemy
-            System.out.println("123456");
+
             for (ImageView enemy : new ArrayList<>(enemies)) {
                 System.out.println("inside of check collision enemy");
                 // Check if the lower quarter of the hero's image intersects with the enemy

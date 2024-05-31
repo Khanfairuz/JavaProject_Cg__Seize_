@@ -112,7 +112,7 @@ public class Obstacle extends Pane {
         obstacleTransition.setFromX(HelloController.SCENE_WIDTH);
         obstacleTransition.setToX(-distance);
 
-        if(cnt==15)
+        if(cnt==3)
         {
             System.out.println("???"+cnt);
             obstacleTransition.stop();
@@ -139,6 +139,7 @@ public class Obstacle extends Pane {
         double heroLowerHeight = Hero.HERO_HEIGHT * 0.10;
 
         boolean collided = false;
+        //System.out.println("choto obstacle");
         for (ImageView obstacle : new ArrayList<>(obstacles)) {
             // Check if the lower quarter of the hero's image intersects with the coin
             if (!collided) {
