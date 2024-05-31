@@ -3,9 +3,15 @@ package com.example.scene3;
 import java.sql.*;
 
 
+
+
+
 public class database_connection {
 
-  public void connection(String tableName , finalRound1 scene) {
+  // Your existing connection method
+
+
+  void connection(String tableName, finalRoundTry scene) {
     //String sql = "select question from objectorientedprogramming where index=2";
     String sql = "SELECT question, optiona, optionb, optionc, optiond, correctans FROM " + tableName + " WHERE index = ?";
     String url = "jdbc:postgresql://localhost:5432/question_and_answer_2";
@@ -51,4 +57,19 @@ public class database_connection {
       e.printStackTrace();
     }
   }
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+

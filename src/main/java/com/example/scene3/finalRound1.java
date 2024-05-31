@@ -1,5 +1,5 @@
 package com.example.scene3;
-
+/*
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -591,3 +591,6 @@ public class finalRound1 extends Application {
         launch(args);
     }
 }
+
+
+ */
