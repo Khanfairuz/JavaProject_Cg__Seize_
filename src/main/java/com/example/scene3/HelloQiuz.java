@@ -103,7 +103,7 @@ public class HelloQiuz extends Application {
         backgroundView1.setLayoutX(0);
         backgroundView2.setLayoutX(backgroundView1.getImage().getWidth());
         enemyImage = new Image(getClass().getResource("/Enemy/wow.png").toExternalForm());
-        quizImage = new Image(getClass().getResource("/Gold/QUIZ.gif").toExternalForm());
+        //quizImage = new Image(getClass().getResource("/Gold/QUIZ.gif").toExternalForm());
 
         // Create a Pane to hold the background image views
         root = new Pane(backgroundView1, backgroundView2);
