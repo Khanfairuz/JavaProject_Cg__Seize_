@@ -35,15 +35,22 @@ public class HelloController extends Application {
     public static Pane root=new Pane();
     private int frameCount = 0;
     public static int points = 0;
+    private int bonusPoints = 0;
+    private int damagePoints = 0; // Initialize damage points
     public static javafx.scene.text.Text pointsLabel;
+    // Define a separate label for bonus points
+    private javafx.scene.text.Text bonusPointsLabel;
+    private javafx.scene.text.Text damagePointsLabel;
     private Random random = new Random();
     private Image coinImage;
     private Hero hero=new Hero(root);
     public static Obstacle obstacles = new Obstacle(20,20);
     public static Coin coin=new Coin();
     public static Mid mid=new Mid();
+    public Enemyquiz quiz;
     public static AnimationTimer timer;
     public static BigObstacle bigObstacle=new BigObstacle(60, 20);
+    public boolean quizDown=true;  //quiz r mid er down key er jonno
 
 
     @Override
@@ -87,6 +94,8 @@ public class HelloController extends Application {
         List<Rectangle> parallelRoadSegmentList2 = new ArrayList<>(Arrays.asList(parallelRoadSegments2));
         Random random = new Random();
         coin.generateCoins(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
+        quiz=new Enemyquiz(root, hero, bonusPoints);
+        quiz.generateEnemy();
         //generateCoins(roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random, coinImage);
         // obstacles.generateCoins(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
 
@@ -138,7 +147,8 @@ public class HelloController extends Application {
                 // Check for coin collisions
                 // checkCoinCollisions();
                 coin.checkCoinCollisions(root, hero.heroView);
-                if(coin.isCoinFinished)
+                quiz.checkEnemyCollisions(hero.isDownKeyPressed, bonusPointsLabel);
+                if(coin.isCoinFinished && quiz.isEnemyFinished)
                 {
                     obstacles.generateCoins(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
                     coin.isCoinFinished=false;
@@ -172,13 +182,13 @@ public class HelloController extends Application {
             if (event.getCode() == KeyCode.LEFT) {
 
                 //new
-                if(hero.heroView.getLayoutY()==hero.HERO_Y)
+                if(hero.heroView.getLayoutY()== Hero.HERO_Y)
                 {
-                    hero.heroView.setLayoutY(hero.HERO_Y-ROAD_HEIGHT-20);
+                    hero.heroView.setLayoutY(Hero.HERO_Y -ROAD_HEIGHT-20);
                 }
-                else if(hero.heroView.getLayoutY()==hero.HERO_Y+ROAD_HEIGHT+20)
+                else if(hero.heroView.getLayoutY()== Hero.HERO_Y +ROAD_HEIGHT+20)
                 {
-                    hero.heroView.setLayoutY(hero.HERO_Y);
+                    hero.heroView.setLayoutY(Hero.HERO_Y);
                 }
 
             } else if (event.getCode() == KeyCode.RIGHT) {
@@ -198,17 +208,24 @@ public class HelloController extends Application {
 //                {
 //                    obstacles.checkObstacleCollisions( root, hero.heroView, (!hero.isJumping));
 //                }
-                hero.jump(root);
+               // hero.jump(root);
+                hero.quizjump();
                 //hero.moveY((int)hero.heroVelocity.getY());
             }
-            if(event.getCode() == KeyCode.DOWN)
+//            if((event.getCode() == KeyCode.DOWN) && !quizDown)
+//            {
+//                hero.ground();
+//            }
+            //mrim
+            if((event.getCode() == KeyCode.DOWN))// && quizDown)
             {
-                hero.ground();
+                hero.DownKeyQuiz();
             }
             if (scene != null) {
                 if (event.getCode() == KeyCode.UP) {
                     // hero.jumpHero();
-                    hero.jump(root);
+                    //hero.jump(root);
+                    hero.quizjump();
                 }
             }
         });
@@ -220,6 +237,22 @@ public class HelloController extends Application {
         pointsLabel.setLayoutX(20);
         pointsLabel.setLayoutY(50);
         root.getChildren().add(pointsLabel);
+
+        //mrim
+        // Add this code in the start method after initializing the points label
+        bonusPointsLabel = new javafx.scene.text.Text("Bonus Points: 0");
+        bonusPointsLabel.setFill(Color.WHITE);
+        bonusPointsLabel.setStyle("-fx-font-size: 55px; -fx-text-fill: white;");
+        bonusPointsLabel.setLayoutX(20);
+        bonusPointsLabel.setLayoutY(120);
+        root.getChildren().add(bonusPointsLabel);
+        // Add this code in the start method after initializing the points label
+        damagePointsLabel = new javafx.scene.text.Text("Damage Points: " + damagePoints);
+        damagePointsLabel.setFill(Color.WHITE);
+        damagePointsLabel.setStyle("-fx-font-size: 55px; -fx-text-fill: white;");
+        damagePointsLabel.setLayoutX(SCENE_WIDTH );
+        damagePointsLabel.setLayoutY(50);
+        root.getChildren().add(damagePointsLabel);
 
 
         primaryStage.setScene(scene);

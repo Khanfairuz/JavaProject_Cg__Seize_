@@ -82,10 +82,11 @@ public class HelloQiuz extends Application {
     private static final int BONUS_POINTS = 50; // Define the bonus points value
     // Modify the checkCoinCollisions method to update bonus points separately
     private int bonusPoints = 0;
+    private int damagePoints = 0; // Initialize damage points
     private boolean isDownKeyPressed = false; // Declare isDownKeyPressed at the class level
     private Image obstacleImage; // Image for obstacle (if using images)
     private List<Obstacles> obstacles = new ArrayList<>();
-    private int damagePoints = 0; // Initialize damage points
+
     private javafx.scene.text.Text damagePointsLabel;
     private static final int DAMAGE_VALUE = 10;
 
@@ -619,39 +620,6 @@ public class HelloQiuz extends Application {
             quizzes.add(quiz);
         }
     }
-/*
-    private void startQuizTimeline() {
-        Timeline quizTimeline = new Timeline(
-                new KeyFrame(Duration.minutes(2).add(Duration.seconds(30)), event -> {
-                    addQuizToRoads(quizImage, roadSegments);
-                })
-        );
-        quizTimeline.play();
-    }
-
-    private void stopAllTimelines() {
-        // Stop coin, obstacle, and enemy timelines
-        coinTimeline.stop();
-        obstacleTimeline.stop();
-        enemyTimeline.stop();
-        // Stop the main animation timer
-        timer.stop();
-    }
-
-    private void checkQuizCollisions() {
-        // Iterate through each quiz
-        for (ImageView quiz : new ArrayList<>(quizzes)) {
-            // Check if the hero collides with the quiz
-            if (heroView.getBoundsInParent().intersects(quiz.getBoundsInParent())) {
-                // Stop all timelines if collision occurs
-                stopAllTimelines();
-            }
-        }
-    }*/
-
-
-
-
 
     public static void main(String[] args) {
         launch(args);

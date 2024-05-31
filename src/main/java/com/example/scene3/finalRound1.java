@@ -135,7 +135,7 @@ public class finalRound1 extends Application {
         coinImage = new Image(getClass().getResource("/Gold/coin.png").toExternalForm()); // Initialize the coinImage variable
         audio.play_music_zombie(root);
         //load monster image
-        /*Monster = new Image[4];
+        Monster = new Image[4];
         for (int i = 0; i < Monster.length; i++) {
             // FileInputStream inputStream = new FileInputStream("C:\\Users\\HP\\Music\\run3\\run3-0" + i + ".png");
             Monster[i] = new Image(getClass().getResource("/monster1walk/monster1walk-" + i + ".png").toExternalForm());
@@ -147,7 +147,7 @@ public class finalRound1 extends Application {
         monsterView.setLayoutX(Screen.getPrimary().getVisualBounds().getWidth());
         // Get the last rectangle from the combined list of road segments
         monsterView.setLayoutY(MONSTER_Y);
-        root.getChildren().add(monsterView); */
+        root.getChildren().add(monsterView);
 
         // Create road segments
         Rectangle[] roadSegments = new Rectangle[4]; // Adjust the number of segments as needed
