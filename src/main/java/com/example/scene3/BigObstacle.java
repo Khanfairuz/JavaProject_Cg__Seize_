@@ -1,9 +1,6 @@
 package com.example.scene3;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.PauseTransition;
-import javafx.animation.Timeline;
-import javafx.animation.TranslateTransition;
+import javafx.animation.*;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -240,7 +237,7 @@ public class BigObstacle  {
         obstacleTransition3.play();
 
     }
-    public void checkBigObstacleCollisions(Pane root, ImageView heroView, boolean heroIsJump) {
+    public void checkBigObstacleCollisions(Pane root, ImageView heroView, boolean heroIsJump ) {
         // Calculate the bounds for the lower quarter of the hero's image
         double heroLowerY = heroView.getLayoutY() + Hero.HERO_HEIGHT * 0.90;
         double heroLowerHeight = Hero.HERO_HEIGHT * 0.10;
@@ -256,43 +253,50 @@ public class BigObstacle  {
                         obstacleTransition3.pause();
                         //obstacleTransition.stop();
                         HelloController.timer.stop();
-                        HelloController.isTimerRunning=false;
+                       HelloController.isTimerRunning=false;
+
 
                     BigobstacleTimeline.pause();
                         System.out.println("GAME OVER");
-//                        scoreNeg++;
-//                        if (scoreNeg == 3) {
-//                            HelloController.points--;
-//                            HelloController.pointsLabel.setText("Points: " + HelloController.points);
-//                            scoreNeg = 0;
-//                        }
-                   // }
 
-
-                   // collided = true;
                     Bigobstacles.remove(obstacle);
                     ShowCOll(root);
-                    //break;
-                    //heroView.setImage("/Run/");
-                    //System.out.println("KENO");
-                    // root.getChildren().remove(obstacle); // Remove the coin from the scene
-                    // obstacles.remove(obstacle); // Remove the coin from the list
-                    // Increment points and update points label
+
                 }
                 break;
             }
-       // }
-//        if(heroIsJump)
-//        {
-//            if(obstacleTransition.getStatus()== Animation.Status.PAUSED) {
-//                obstacleTransition.play();
-//                HelloController.timer.start();
-//            }
-//            if(obstacleTransition.getStatus()== Animation.Status.STOPPED)
-//
-//                obstacleTimeline.play();
-//            newImg.setVisible(false);
-//        }
+
+    }
+
+    public void checkBigObstacleCollisions1(Pane root, ImageView heroView, boolean heroIsJump ) {
+        // Calculate the bounds for the lower quarter of the hero's image
+        double heroLowerY = heroView.getLayoutY() + Hero.HERO_HEIGHT * 0.90;
+        double heroLowerHeight = Hero.HERO_HEIGHT * 0.10;
+
+        boolean collided = false;
+        for (ImageView obstacle : new ArrayList<>(Bigobstacles)) {
+            // Check if the lower quarter of the hero's image intersects with the coin
+            // if (!collided) {
+            if (obstacle.getBoundsInParent().intersects(heroView.getBoundsInParent())) {
+
+                obstacleTransition.pause();
+                obstacleTransition2.pause();
+                obstacleTransition3.pause();
+                //obstacleTransition.stop();
+                HelloController2.timer.stop();
+                HelloController2.isTimerRunning=false;
+
+
+                BigobstacleTimeline.pause();
+                System.out.println("GAME OVER");
+
+                Bigobstacles.remove(obstacle);
+                ShowCOll(root);
+
+            }
+            break;
+        }
+
     }
     public void ShowCOll(Pane root)
     {

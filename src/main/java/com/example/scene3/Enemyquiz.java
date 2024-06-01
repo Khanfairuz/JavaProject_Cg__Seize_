@@ -55,7 +55,7 @@ public class Enemyquiz {
         quizImage = new Image(getClass().getResource("/Gold/QUIZ.gif").toExternalForm());
     }
 
-    public static int Cnt=0;
+    public  int Cnt=0;
 
     public void generateEnemy() {
 

@@ -1,9 +1,5 @@
 package com.example.scene3;
 import javafx.animation.AnimationTimer;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.animation.TranslateTransition;
-import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -15,17 +11,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
-public class HelloController  {
+public class HelloController2  {
     public static final int SCENE_WIDTH = 800;
     private static final int SCENE_HEIGHT = 600;
     private static final int SCROLL_SPEED = 4;
@@ -37,7 +30,7 @@ public class HelloController  {
     boolean isBigObstacleGen=false;
     public static boolean isTimerRunning=true;
 
-    public static Pane root=new Pane();
+
     private int frameCount = 0;
     public static int points = 0;
     private int bonusPoints = 0;
@@ -48,19 +41,19 @@ public class HelloController  {
     private javafx.scene.text.Text damagePointsLabel;
 
     private Image coinImage;
-    private Hero hero=new Hero(root);
+
     public static Obstacle obstacles = new Obstacle(20,20);
     public static Coin coin=new Coin();
     public static Mid mid=new Mid();
     public Enemyquiz quiz;
     public static QuizObstacle quizObstacle=new QuizObstacle();
     public static AnimationTimer timer;
-    public  static AnimationTimer timer1;
+    public  static  AnimationTimer  timer1;
     public static BigObstacle bigObstacle=new BigObstacle(60, 20);
 
     private  int frameCountM=0;
-    HelloController2 hc2=new HelloController2();
-
+     public  static    Pane root1 =new Pane();
+    private Hero hero=new Hero(root1);
     private  static  final int  MONSTER_HEIGHT=250;
     private static final int HERO_Y = ROAD_Y - HERO_HEIGHT; // Adjust Y position as needed
     private  static  final  int MONSTER_Y=ROAD_Y-MONSTER_HEIGHT;
@@ -92,18 +85,23 @@ public class HelloController  {
     public static Monster monster=new Monster();
 
 
-    public void start_new(Stage primaryStage) throws FileNotFoundException {
+
+    public void start_new_2(Stage primaryStage ,int points , int bonusPoints , int damagePoints) throws FileNotFoundException {
+
         // Load background image
-        ImageView backgroundView1 = new ImageView("alien.jpg");
-        ImageView backgroundView2 = new ImageView("alien.jpg");
+        this.bonusPoints=bonusPoints;
+        this.points=points;
+        this.damagePoints=damagePoints;
+        ImageView backgroundView1 = new ImageView("alien1.jpeg");
+        ImageView backgroundView2 = new ImageView("alien1.jpeg");
 
         backgroundView1.setLayoutX(0);
         backgroundView2.setLayoutX(backgroundView1.getImage().getWidth());
 
         // Create a Pane to hold everything
-        root.getChildren().addAll(backgroundView1, backgroundView2);
+        root1.getChildren().addAll(backgroundView1, backgroundView2);
         //audio
-        audio.play_music_normal(root);
+        audio.play_music_normal(root1);
 
         // FileInputStream coinFileStream = new FileInputStream("C:\\Users\\HP\\Music\\coin.png");
         coinImage = new Image(getClass().getResource("/Gold/coin.png").toExternalForm()); // Initialize the coinImage variable
@@ -124,30 +122,30 @@ public class HelloController  {
             roadSegments[i] = new Rectangle(SCENE_WIDTH, ROAD_HEIGHT, Color.BLUEVIOLET);
             roadSegments[i].setLayoutY(ROAD_Y);
             roadSegments[i].setLayoutX(i * SCENE_WIDTH);
-            root.getChildren().add(roadSegments[i]);
+            root1.getChildren().add(roadSegments[i]);
 
             parallelRoadSegments1[i] = new Rectangle(SCENE_WIDTH, ROAD_HEIGHT, Color.BLUEVIOLET);
             parallelRoadSegments1[i].setLayoutY(ROAD_Y - ROAD_HEIGHT - 20);
             parallelRoadSegments1[i].setLayoutX(i * SCENE_WIDTH);
-            root.getChildren().add(parallelRoadSegments1[i]);
+            root1.getChildren().add(parallelRoadSegments1[i]);
 
             parallelRoadSegments2[i] = new Rectangle(SCENE_WIDTH, ROAD_HEIGHT, Color.BLUEVIOLET);
             parallelRoadSegments2[i].setLayoutY(ROAD_Y + ROAD_HEIGHT + 20);
             parallelRoadSegments2[i].setLayoutX(i * SCENE_WIDTH);
-            root.getChildren().add(parallelRoadSegments2[i]);
+            root1.getChildren().add(parallelRoadSegments2[i]);
         }
 
         List<Rectangle> roadSegmentList = new ArrayList<>(Arrays.asList(roadSegments));
         List<Rectangle> parallelRoadSegmentList1 = new ArrayList<>(Arrays.asList(parallelRoadSegments1));
         List<Rectangle> parallelRoadSegmentList2 = new ArrayList<>(Arrays.asList(parallelRoadSegments2));
         Random random = new Random();
-        coin.generateCoins(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
-        quiz=new Enemyquiz(root, hero, bonusPoints);
+        coin.generateCoins(root1, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
+        quiz=new Enemyquiz(root1, hero, bonusPoints);
         quiz.generateEnemy();
         //generateCoins(roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random, coinImage);
         // obstacles.generateCoins(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
 
-        root.getChildren().add(hero.heroView);
+        root1.getChildren().add(hero.heroView);
         //hero.heroView.toFront();
         //startTime = System.nanoTime();
 
@@ -182,7 +180,7 @@ public class HelloController  {
                 }
 
                 // Update monster position
-               // monster.monsterView.setLayoutX(monster.monsterView.getLayoutX() - MONSTER_SCROLL_SPEED);
+                // monster.monsterView.setLayoutX(monster.monsterView.getLayoutX() - MONSTER_SCROLL_SPEED);
 
                 // Animate hero
                 frameCount++;
@@ -198,46 +196,47 @@ public class HelloController  {
 
                 // Check for coin collisions
                 // checkCoinCollisions();
-                coin.checkCoinCollisions(root, hero.heroView);
+                coin.checkCoinCollisions1(root1, hero.heroView);
                 quiz.checkEnemyCollisions(hero.isDownKeyPressed, bonusPointsLabel);
                 if (coin.isCoinFinished && quiz.isEnemyFinished) {
-                    obstacles.generateCoins(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
+                    System.out.println("@@@@@@@@@@@@@@@@@@");
+                    obstacles.generateCoins(root1, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
                     coin.isCoinFinished = false;
                     isObstacleGen = true;
                 }
-                obstacles.checkObstacleCollisions(root, hero.heroView, hero.isJumping);
+                obstacles.checkObstacleCollisions(root1, hero.heroView, hero.isJumping);
                 if (obstacles.isObstacleFinished) {
-                    bigObstacle.generateBigCoins(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
+                    bigObstacle.generateBigCoins(root1, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
                     //mid.generateMid(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
                     obstacles.isObstacleFinished = false;
                     isBigObstacleGen = true;
                 }
-                bigObstacle.checkBigObstacleCollisions(root, hero.heroView, hero.isJumping );
+                bigObstacle.checkBigObstacleCollisions1(root1, hero.heroView, hero.isJumping);
 
                 //if(!isTimerRunning) {return;}
                 if (bigObstacle.isBigObstacleFinished && isTimerRunning) {
                     System.out.println("Why");
-                    mid.generateMid(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
+                    mid.generateMid(root1, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
                     bigObstacle.isBigObstacleFinished = false;
                 }
 
-                mid.checkCoinCollisions(root, hero.heroView);
+                mid.checkCoinCollisions(root1, hero.heroView);
                 if (mid.isMidFinished && isTimerRunning) {
                     System.out.println("fairuz");
-                    quizObstacle.generateObstacles(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
+                    quizObstacle.generateObstacles(root1, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
                     //coin.generateCoins(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
                     mid.isMidFinished = false;
                     quizObstacle.isQuizObstacleFinished=false;
                 }
-                quizObstacle.checkObstacleCollisions(root, hero.heroView, damagePointsLabel);
+                quizObstacle.checkObstacleCollisions(root1, hero.heroView, damagePointsLabel);
                 //coin.checkCoinCollisions(root, hero.heroView);
 
                 if (quizObstacle.isQuizObstacleFinished) {
                     System.out.println("finished");
                     if (oneTimeGenerate) {
                         audio.stopMusic_normal();
-                        audio.play_music_zombie(root);
-                        monster.generateMonster(root,1);
+                        audio.play_music_zombie(root1);
+                        monster.generateMonster(root1,2);
                         quizObstacle.isQuizObstacleFinished = false;
                         checkQues();
                         oneTimeGenerate = false;
@@ -263,7 +262,7 @@ public class HelloController  {
                             //
                             for (int i = 0; i < monster.Monster.length; i++) {
                                 // FileInputStream inputStream = new FileInputStream("C:\\Users\\HP\\Music\\run3\\run3-0" + i + ".png");
-                                monster.Monster[i] = new Image(getClass().getResource("/monster1kill/monster1kill-" + i + ".png").toExternalForm());
+                                monster.Monster[i] = new Image(getClass().getResource("/monster2kill/monster2kill-" + i + ".png").toExternalForm());
 
                             }
                             frameCountM = 0;
@@ -274,7 +273,7 @@ public class HelloController  {
                             //
                             for (int i = 0; i < monster.Monster.length; i++) {
                                 // FileInputStream inputStream = new FileInputStream("C:\\Users\\HP\\Music\\run3\\run3-0" + i + ".png");
-                                monster.Monster[i] = new Image(getClass().getResource("/monster1killhero/monster1killhero-" + i + ".png").toExternalForm());
+                                monster.Monster[i] = new Image(getClass().getResource("/monster2killhero/monster2killhero-" + i + ".png").toExternalForm());
 
                             }
                             frameCountM = 0;
@@ -294,33 +293,6 @@ public class HelloController  {
 
 
                     }
-                    if(elapsedTimeSeconds_check>12.7&& elapsedTimeSeconds_check<13)
-                    {
-                        try {
-                            timer.stop();
-                            timer1.stop();
-                            audio.stopMusic_zombie();
-
-                            try {
-                                // Extract numeric part from bonusPointsLabel
-                                String bonusText = bonusPointsLabel.getText().replaceAll("[^0-9]", "");
-                                bonusPoints = Integer.parseInt(bonusText);
-
-                                // Extract numeric part from damagePointsLabel
-                                String damageText = damagePointsLabel.getText().replaceAll("[^0-9]", "");
-                                damagePoints = Integer.parseInt(damageText);
-
-                                // Proceed with the rest of your logic
-                            } catch (NumberFormatException e) {
-                                System.err.println("Error converting label text to integer: " + e.getMessage());
-                                e.printStackTrace();
-                            }
-                            //points
-                            hc2.start_new_2( primaryStage  , points , bonusPoints , damagePoints);
-                        } catch (FileNotFoundException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
                     //quizObstacle.generateObstacles(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
 
                     // }
@@ -333,7 +305,7 @@ public class HelloController  {
         timer.start();
 
         // Set up keyboard input handling
-        Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
+        Scene scene = new Scene(root1, SCENE_WIDTH, SCENE_HEIGHT);
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.LEFT) {
 
@@ -364,7 +336,7 @@ public class HelloController  {
 //                {
 //                    obstacles.checkObstacleCollisions( root, hero.heroView, (!hero.isJumping));
 //                }
-               // hero.jump(root);
+                // hero.jump(root);
                 hero.quizjump();
                 //hero.moveY((int)hero.heroVelocity.getY());
             }
@@ -397,7 +369,7 @@ public class HelloController  {
         pointsLabel.setStyle("-fx-font-size: 55px; -fx-text-fill: white;");
         pointsLabel.setLayoutX(20);
         pointsLabel.setLayoutY(50);
-        root.getChildren().add(pointsLabel);
+        root1.getChildren().add(pointsLabel);
 
         //mrim
         // Add this code in the start method after initializing the points label
@@ -406,14 +378,14 @@ public class HelloController  {
         bonusPointsLabel.setStyle("-fx-font-size: 55px; -fx-text-fill: white;");
         bonusPointsLabel.setLayoutX(20);
         bonusPointsLabel.setLayoutY(120);
-        root.getChildren().add(bonusPointsLabel);
+        root1.getChildren().add(bonusPointsLabel);
         // Add this code in the start method after initializing the points label
         damagePointsLabel = new javafx.scene.text.Text("Damage Points: " + damagePoints);
         damagePointsLabel.setFill(Color.WHITE);
         damagePointsLabel.setStyle("-fx-font-size: 55px; -fx-text-fill: white;");
         damagePointsLabel.setLayoutX(SCENE_WIDTH );
         damagePointsLabel.setLayoutY(50);
-        root.getChildren().add(damagePointsLabel);
+        root1.getChildren().add(damagePointsLabel);
 
 
 
@@ -434,9 +406,9 @@ public class HelloController  {
 
 
         // Set the width and height of the root pane based on text dimensions
-        root.setPrefWidth(questionLabel.getLayoutBounds().getWidth());
-        root.setPrefHeight(questionLabel.getLayoutBounds().getHeight());
-        root.getChildren().add(questionLabel);
+        root1.setPrefWidth(questionLabel.getLayoutBounds().getWidth());
+        root1.setPrefHeight(questionLabel.getLayoutBounds().getHeight());
+        root1.getChildren().add(questionLabel);
         // checkBox
         // Create an HBox to hold the checkboxes
         VBox checkBoxes = new VBox();
@@ -460,7 +432,7 @@ public class HelloController  {
         checkBoxes.getChildren().addAll(checkBoxA, checkBoxB, checkBoxC, checkBoxD);
 
         // Add the HBox to the root pane
-        root.getChildren().add(checkBoxes);
+        root1.getChildren().add(checkBoxes);
 
         checkBoxA.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
@@ -508,9 +480,9 @@ public class HelloController  {
             public void handle(long now) {
                 long elapsedTimeNano = now - startTime;
                 double elapsedTimeMillis = elapsedTimeNano / 1_000_000_000.0;
-                 elapsedTimeSeconds_check=elapsedTimeMillis;
+                elapsedTimeSeconds_check=elapsedTimeMillis;
                 // Print elapsed time
-                System.out.printf("Elapsed Time: %.1f milliseconds\n", elapsedTimeMillis);
+                System.out.printf("Elapsed Time 2nd : %.1f milliseconds\n", elapsedTimeMillis);
 
                 // Example condition: print message between 10.5 and 11 seconds
                 if (elapsedTimeMillis >7200 && elapsedTimeMillis <7300) {
@@ -526,7 +498,7 @@ public class HelloController  {
     public  void connect_database()
     {
         dc = new database_connection();
-        dc.connection("objectorientedprogramming" ,HelloController.this);
+        dc.connection2("algorithms" ,HelloController2.this);
         System.out.println("Correct ANS :"+correctAns);
 
 
@@ -614,5 +586,8 @@ public class HelloController  {
 
 
 }
+
+
+
 
 

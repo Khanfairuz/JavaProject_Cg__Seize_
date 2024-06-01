@@ -59,7 +59,8 @@ public class Mid extends Pane {
                     mid.setFitHeight(MID_HEIGHT);
 
                     // Add the coin to the root and coins list
-                    HelloController.root.getChildren().add(mid);
+                    //change korsi
+                    root.getChildren().add(mid);
                     //coin.setVisible(true);
                     mids.add(mid);
 
