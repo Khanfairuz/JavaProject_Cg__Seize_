@@ -92,8 +92,8 @@ public class HelloController2  {
         this.bonusPoints=bonusPoints;
         this.points=points;
         this.damagePoints=damagePoints;
-        ImageView backgroundView1 = new ImageView("alien1.jpeg");
-        ImageView backgroundView2 = new ImageView("alien1.jpeg");
+        ImageView backgroundView1 = new ImageView("alien1.png");
+        ImageView backgroundView2 = new ImageView("alien1.png");
 
         backgroundView1.setLayoutX(0);
         backgroundView2.setLayoutX(backgroundView1.getImage().getWidth());

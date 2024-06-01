@@ -298,6 +298,36 @@ public class BigObstacle  {
         }
 
     }
+    public void checkBigObstacleCollisions2(Pane root, ImageView heroView, boolean heroIsJump ) {
+        // Calculate the bounds for the lower quarter of the hero's image
+        double heroLowerY = heroView.getLayoutY() + Hero.HERO_HEIGHT * 0.90;
+        double heroLowerHeight = Hero.HERO_HEIGHT * 0.10;
+
+        boolean collided = false;
+        for (ImageView obstacle : new ArrayList<>(Bigobstacles)) {
+            // Check if the lower quarter of the hero's image intersects with the coin
+            // if (!collided) {
+            if (obstacle.getBoundsInParent().intersects(heroView.getBoundsInParent())) {
+
+                obstacleTransition.pause();
+                obstacleTransition2.pause();
+                obstacleTransition3.pause();
+                //obstacleTransition.stop();
+                HelloController2.timer.stop();
+                HelloController2.isTimerRunning=false;
+
+
+                BigobstacleTimeline.pause();
+                System.out.println("GAME OVER");
+
+                Bigobstacles.remove(obstacle);
+                ShowCOll(root);
+
+            }
+            break;
+        }
+
+    }
     public void ShowCOll(Pane root)
     {
         Label collDone=new Label();
