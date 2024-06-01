@@ -51,6 +51,7 @@ public class HelloController  {
     private Hero hero=new Hero(root);
     public static Obstacle obstacles = new Obstacle(20,20);
     public static Coin coin=new Coin();
+    public static Coin coinAfterMId=new Coin();
     public static Mid mid=new Mid();
     public Enemyquiz quiz;
     public static QuizObstacle quizObstacle=new QuizObstacle();
@@ -106,16 +107,9 @@ public class HelloController  {
         audio.play_music_normal(root);
 
         // FileInputStream coinFileStream = new FileInputStream("C:\\Users\\HP\\Music\\coin.png");
-        coinImage = new Image(getClass().getResource("/Gold/coin.png").toExternalForm()); // Initialize the coinImage variable
-
         //monster add starts
 
 
-        Image[] heroAttackImages = new Image[4];
-        for (int i = 0; i < heroAttackImages.length; i++) {
-            //FileInputStream inputStream = new FileInputStream("/sword/adventurer-attack1-0" + (i + 1) + ".png");
-            heroAttackImages[i] = new Image(getClass().getResource("/sword/adventurer-attack1-0" + (i + 1) + ".png").toExternalForm());
-        }
         // Create road segments
         Rectangle[] roadSegments = new Rectangle[4];
         Rectangle[] parallelRoadSegments1 = new Rectangle[4];
@@ -226,10 +220,13 @@ public class HelloController  {
                     System.out.println("fairuz");
                     quizObstacle.generateObstacles(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
                     //coin.generateCoins(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
+                    coinAfterMId.generateCoins(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
                     mid.isMidFinished = false;
                     quizObstacle.isQuizObstacleFinished=false;
+                    //quizObstacle.isQuizObstacleFinished=false;
                 }
                 quizObstacle.checkObstacleCollisions(root, hero.heroView, damagePointsLabel);
+                coinAfterMId.checkCoinCollisions(root, hero.heroView);
                 //coin.checkCoinCollisions(root, hero.heroView);
 
                 if (quizObstacle.isQuizObstacleFinished) {

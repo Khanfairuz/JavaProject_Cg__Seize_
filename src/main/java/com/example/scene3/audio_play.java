@@ -18,6 +18,7 @@ public class audio_play {
         // String mediaFilePath = "C:\\Users\\Nufsat\\Downloads\\flow-211881.mp3"; // Update this path to your media file
          String mediaFilePath="E:\\java pic\\hero_run.mp3";
 
+         String mediaFilePath="D:\\Sofftawer\\Codes\\Classwork\\2-2\\Visual Programming\\Project\\JavaProject_Cg__Seize_\\src\\main\\resources";
          try {
              // Convert the file path to URI format
              File mediaFile = new File(mediaFilePath);

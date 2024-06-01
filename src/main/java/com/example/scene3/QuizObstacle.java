@@ -43,44 +43,9 @@ public class QuizObstacle {
     private static final int ROAD_Y = SCENE_HEIGHT - ROAD_HEIGHT;
     private static final int HERO_WIDTH = 200; // Adjust width as needed
     private static final int HERO_HEIGHT = 200; // Adjust height as needed
-    private static final int HERO_Y = ROAD_Y - HERO_HEIGHT; // Adjust Y position as needed
-    private static final int HERO_ANIMATION_INTERVAL = 10; // Interval between hero image changes in frames
-    private static final int COIN_WIDTH = 50; // Adjust the width of the coin as needed
-    private static final int COIN_HEIGHT = 50;
-    private static final int ENEMY_WIDTH = 100; // Adjust width as needed
-    private static final int ENEMY_HEIGHT = 100;
-    private static final int QUIZ_WIDTH = 200; // Adjust these dimensions as needed
-    private static final int QUIZ_HEIGHT = 200;
-    private Pane root;
-    private ImageView heroView;
-    private Image[] heroImages;
-    private int currentHeroImageIndex = 0;
-    private int frameCount = 0;
-    private List<ImageView> coins = new ArrayList<>();
-    private List<ImageView> quizzes = new ArrayList<>();
-    private int points = 0;
-    private javafx.scene.text.Text pointsLabel;
-    // Define a separate label for bonus points
-    private javafx.scene.text.Text bonusPointsLabel;
-
-    private Random random = new Random(); // Declare the random variable as a class-level field
-    private Image coinImage;
-    private boolean isJumping = false;
-
-    private Image enemyImage;
-    private Image quizImage;
-    private boolean isAttacking = false; // Flag to track if the hero is attacking
-    // Define the enemies list and bonus points
-    private List<ImageView> enemies = new ArrayList<>();
-    private static final int BONUS_POINTS = 50; // Define the bonus points value
-    // Modify the checkCoinCollisions method to update bonus points separately
-    private int bonusPoints = 0;
     private int damagePoints = 0; // Initialize damage points
-    private boolean isDownKeyPressed = false; // Declare isDownKeyPressed at the class level
-    private Image obstacleImage; // Image for obstacle (if using images)
-    private List<Obstacles> obstacles = new ArrayList<>();
 
-    private javafx.scene.text.Text damagePointsLabel;
+    private List<Obstacles> obstacles = new ArrayList<>();
     private static final int DAMAGE_VALUE = 10;
     public boolean isQuizObstacleFinished=false;
     private int cnt=0;
@@ -100,9 +65,7 @@ public class QuizObstacle {
                     int minWidth = 30;
                     int maxWidth = 100;
                     double width = Math.random() * (maxWidth - minWidth) + minWidth;
-                    //Color randomColor = Color.rgb(random.nextInt(256), random.nextInt(256), random.nextInt(256));
-                    //Obstacles obstacle = new Obstacles(width, 50, randomColor, 10); // Adjust other parameters as needed
-                    //root.getChildren().add(obstacle.getShape());
+
                     Obstacles obstacle = new Obstacles(width,width, 60, Color.rgb(random.nextInt(256), random.nextInt(256), random.nextInt(256)), 40);
                     double offsetY = segment.getHeight() - 50; // Adjust as needed
                     root.getChildren().add(obstacle.getShape());
@@ -152,12 +115,9 @@ public class QuizObstacle {
 
             // Calculate the bounds for the specific part of the hero's body you want to consider
             double heroPartX = heroView.getLayoutX(); // Adjust as needed
-            double heroPartY = heroLowerY; // Adjust as needed
-            double heroPartWidth = HERO_WIDTH; // Adjust as needed
-            double heroPartHeight = heroLowerHeight; // Adjust as needed
 
             // Check if the specific part of the hero's body intersects with the obstacle
-            if (obstacleBounds.intersects(heroPartX, heroPartY, heroPartWidth, heroPartHeight)) {
+            if (obstacleBounds.intersects(heroPartX, heroLowerY, HERO_WIDTH, heroLowerHeight)) {
                 // Collision detected between hero and obstacle
                 // Remove the obstacle from the scene and the list
                 root.getChildren().remove(obstacle.getShape());

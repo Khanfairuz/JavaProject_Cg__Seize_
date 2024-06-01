@@ -17,9 +17,7 @@ public class Coin extends Pane{
     private static final int COIN_WIDTH = 50;
     private static final int COIN_HEIGHT = 50;
     private List<ImageView> coins = new ArrayList<>();
-    private Random random = new Random();
     private Image coinImage;
-   // private ImageView coinImageView;
     private Timeline coinTimeline;
     public boolean isCoinFinished=false;
     private int cnt=0;
@@ -115,8 +113,6 @@ public class Coin extends Pane{
 
         // Start the coin transition
         coinTransition.play();
-        Duration k=coinTransition.getDuration();
-        Duration tocheck=new Duration(20);
 
     }
 

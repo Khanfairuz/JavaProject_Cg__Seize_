@@ -44,27 +44,14 @@ public class BigObstacle  {
 
     }
 
-    public ImageView getImageView() {
-        return BigobstacleImage;
-    }
 
-    //    public double getLayoutX() {
-//        return layoutX;
-//    }
-//
-//    public double getLayoutY() {
-//        return layoutY;
-//    }
     public void generateBigCoins(Pane root, List<Rectangle> roadSegments, List<Rectangle> parallelRoadSegments1, List<Rectangle> parallelRoadSegments2, Random random) {
         // Create a timeline to continuously generate coins
 
         BigobstacleTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(3), event -> { // Decrease the duration to generate coins more frequently
                     // Randomly select a road segment
-                    Rectangle segment;
-//                    Rectangle segment1=new Rectangle();
-//                    Rectangle segment2=new Rectangle();
-//                    Rectangle segment3=new Rectangle();
+
 
                     Rectangle segment1 = roadSegments.get(random.nextInt(roadSegments.size()));
                     Rectangle segment2 = parallelRoadSegments1.get(random.nextInt(parallelRoadSegments1.size()));
