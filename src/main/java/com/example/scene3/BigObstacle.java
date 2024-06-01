@@ -29,8 +29,8 @@ public class BigObstacle  {
     public boolean isBigObstacleFinished=false;
     private int cnt=0;
 
-    public BigObstacle(double layoutX, double layoutY) {
-        image = new Image(getClass().getResource("/Obstacle/BigOBS.png").toExternalForm());
+    public BigObstacle(double layoutX, double layoutY, String obsname) {
+        image = new Image(getClass().getResource("/Obstacle/"+obsname+".png").toExternalForm());
         this.BigobstacleImage = new ImageView(image);
         BigobstacleImage.setFitWidth(obstacle_width); // Adjust width as needed
         BigobstacleImage.setFitHeight(obstacle_height); // Adjust height as needed
@@ -257,7 +257,7 @@ public class BigObstacle  {
                 }
                 //break;
             }
-        
+
     }
 
     public void checkBigObstacleCollisions1(Pane root, ImageView heroView, boolean heroIsJump ) {
@@ -286,7 +286,7 @@ public class BigObstacle  {
                 ShowCOll(root);
 
             }
-            break;
+            //break;
         }
 
     }
@@ -305,8 +305,8 @@ public class BigObstacle  {
                 obstacleTransition2.pause();
                 obstacleTransition3.pause();
                 //obstacleTransition.stop();
-                HelloController2.timer.stop();
-                HelloController2.isTimerRunning=false;
+                HelloController3.timer.stop();
+                HelloController3.isTimerRunning=false;
 
 
                 BigobstacleTimeline.pause();
@@ -316,7 +316,7 @@ public class BigObstacle  {
                 ShowCOll(root);
 
             }
-            break;
+            //break;
         }
 
 

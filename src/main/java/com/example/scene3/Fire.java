@@ -1,8 +1,9 @@
 package com.example.scene3;
 
-import com.example.scene3.HelloController;
-import com.example.scene3.Hero;
-import javafx.animation.*;
+import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
+import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -14,8 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Mid extends Pane {
-    private static final int MID_WIDTH = 150; // Adjust the width of the coin as needed
+public class Fire extends Pane{
+    private static final int MID_WIDTH = 50; // Adjust the width of the coin as needed
     private static final int MID_HEIGHT = MID_WIDTH; // Adjust the height of the coin as needed
     private List<ImageView> mids = new ArrayList<>();
     public static int points = 0;
@@ -30,9 +31,9 @@ public class Mid extends Pane {
     private TranslateTransition midTransition;
     private Label midWin=new Label();
 
-    public Mid()
+    public Fire()
     {
-        this.midImage = new Image(getClass().getResource("/Gold/MID.png").toExternalForm()); // Initialize the coinImage variable
+        this.midImage = new Image(getClass().getResource("/Fire/fire1.png").toExternalForm()); // Initialize the coinImage variable
         mid=new ImageView(midImage);
     }
     public void generateMid(Pane root, List<Rectangle> roadSegments, List<Rectangle> parallelRoadSegments1, List<Rectangle> parallelRoadSegments2, Random random) {
@@ -118,99 +119,16 @@ public class Mid extends Pane {
 
     }
 
-    /*public void checkCoinCollisions1(Pane root, ImageView heroView) {
-        // Calculate the bounds for the lower quarter of the hero's image
-        double heroLowerY = heroView.getLayoutY() + Hero.HERO_HEIGHT * 0.90;
-        double heroLowerHeight = Hero.HERO_HEIGHT * 0.10;
-        double heroLowerX = heroView.getLayoutX();
-        double heroWidth = Hero.HERO_WIDTH;
+    /*
 
-        if (!HelloController.isTimerRunning) {
-            System.out.println("ASHSO?");
-            midTimeline.stop();
-            //midTransition.stop();
-        }
-
-        for (ImageView mid : new ArrayList<>(mids)) {
-            if (!collided) {
-                // Calculate the bounds for the lower quarter of the coin's image
-                double midLowerY = mid.getLayoutY() + mid.getFitHeight() * 0.90;
-                double midLowerHeight = mid.getFitHeight() * 0.10;
-                double midLowerX = mid.getLayoutX()-255-195;
-                double midWidth = mid.getFitWidth()-20;
-
-                System.out.println("Hero Lower Part: X=" + heroLowerX + ", Y=" + heroLowerY + ", Width=" + heroWidth + ", Height=" + heroLowerHeight);
-                System.out.println("Mid Lower Part: X=" + midLowerX + ", Y=" + midLowerY + ", Width=" + midWidth + ", Height=" + midLowerHeight);
-
-                // Create rectangles representing the lower parts of both hero and coin
-                javafx.scene.shape.Rectangle heroLowerPart = new javafx.scene.shape.Rectangle(heroLowerX, heroLowerY, heroWidth, heroLowerHeight);
-                javafx.scene.shape.Rectangle midLowerPart = new javafx.scene.shape.Rectangle(midLowerX, midLowerY, midWidth, midLowerHeight);
-
-                // Check if the lower quarter of the hero's image intersects with the lower quarter of the coin's image
-                if (heroLowerPart.intersects(midLowerPart.getBoundsInLocal())) {
-                    // Collision detected between the lower parts of hero and coin
-                    root.getChildren().remove(mid); // Remove the coin from the scene
-                    midTransition.stop();
-                    mids.remove(mid); // Remove the coin from the list
-                    // Increment points and update points label
-                    System.out.println("MID DONE");
-                    ShowMidWin(root);
-                    HelloController.points += 75;
-                    HelloController.pointsLabel.setText("Points: " + HelloController.points);
-                    collided = true;
-                }
-            }
-        }
-    }
-
-    public void checkCoinCollisions2(Pane root, ImageView heroView) {
-        // Calculate the bounds for the lower quarter of the hero's image
-        double heroLowerY = heroView.getLayoutY() + Hero.HERO_HEIGHT * 0.90;
-        double heroLowerHeight = Hero.HERO_HEIGHT * 0.10;
-        double heroLowerX = heroView.getLayoutX();
-        double heroWidth = Hero.HERO_WIDTH;
-
-        if (!HelloController.isTimerRunning) {
-            System.out.println("ASHSO?");
-            midTimeline.stop();
-            //midTransition.stop();
-        }
-
-        for (ImageView mid : new ArrayList<>(mids)) {
-            if (!collided) {
-                // Calculate the bounds for the lower quarter of the coin's image
-                double midLowerY = mid.getLayoutY() + mid.getFitHeight() * 0.90;
-                double midLowerHeight = mid.getFitHeight() * 0.10;
-                double midLowerX = mid.getLayoutX();
-                double midWidth = mid.getFitWidth();
-
-                // Check if the lower quarter of the hero's image intersects with the lower quarter of the coin's image
-                if (midLowerX < heroLowerX + heroWidth &&
-                        midLowerX + midWidth > heroLowerX &&
-                        midLowerY < heroLowerY + heroLowerHeight &&
-                        midLowerY + midLowerHeight > heroLowerY) {
-
-                    // Collision detected between the lower parts of hero and coin
-                    root.getChildren().remove(mid); // Remove the coin from the scene
-                    midTransition.stop();
-                    mids.remove(mid); // Remove the coin from the list
-                    // Increment points and update points label
-                    System.out.println("MID DONE");
-                    ShowMidWin(root);
-                    HelloController.points += 75;
-                    HelloController.pointsLabel.setText("Points: " + HelloController.points);
-                    collided = true;
-                }
-            }
-        }
-    }
+     */
 
 
     public void checkCoinCollisions(Pane root, ImageView heroView) {
         // Calculate the bounds for the lower quarter of the hero's image
         double heroLowerY = heroView.getLayoutY() + Hero.HERO_HEIGHT * 0.90;
         double heroLowerHeight = Hero.HERO_HEIGHT * 0.10;
-        if(!HelloController.isTimerRunning)
+        if(!HelloController3.isTimerRunning)
         {
             System.out.println("ASHSO?");
             midTimeline.stop();
@@ -222,27 +140,39 @@ public class Mid extends Pane {
                 // Check if the lower quarter of the hero's image intersects with the coin
                 if (mid.getBoundsInParent().intersects(heroView.getLayoutX(), heroLowerY, Hero.HERO_WIDTH, heroLowerHeight)) {
                     // Collision detected between hero and coin
+
+                    HelloController3.timer.stop();
+                    HelloController3.isTimerRunning=false;
+                    System.out.println("Inside fire: "+HelloController3.isTimerRunning);
+                    QuizObstacle.obstacleTimeline.stop();
+                    midTimeline.pause();
+                    System.out.println("GAME OVER");
+
+                    //mids.remove(mid);
+                    //ShowCOll(root);
+
+
                     root.getChildren().remove(mid); // Remove the coin from the scene
                     midTransition.stop();
                     mids.remove(mid); // Remove the coin from the list
                     // Increment points and update points label
-                    System.out.println("MID DONE");
+                    System.out.println("fire DONE");
                     ShowMidWin(root);
-                    HelloController.points += 75;
-                    HelloController.pointsLabel.setText("Points: " + HelloController.points);
+                   // HelloController.points += 75;
+                    //HelloController.pointsLabel.setText("Points: " + HelloController.points);
                     collided = true;
 
                 }
 
             }
         }
-    }*/
-    public void checkCoinCollisions(Pane root, ImageView heroView, List<Rectangle> roadSegments, List<Rectangle> parallelRoadSegments1, List<Rectangle> parallelRoadSegments2, boolean isTimerRunning) {
+    }
+    public void checkCoinCollisionsNOT(Pane root, ImageView heroView, List<Rectangle> roadSegments, List<Rectangle> parallelRoadSegments1, List<Rectangle> parallelRoadSegments2) {
         // Calculate the bounds for the lower quarter of the hero's image
         double heroLowerY = heroView.getLayoutY() + Hero.HERO_HEIGHT * 0.90;
         double heroLowerHeight = Hero.HERO_HEIGHT * 0.10;
 
-        if (!isTimerRunning) {
+        if (!HelloController.isTimerRunning) {
             System.out.println("Timer stopped");
             midTimeline.stop();
         }
@@ -270,7 +200,7 @@ public class Mid extends Pane {
                         collided = true;
                     }
                 } else {
-                   // System.out.println("Hero and mid are not on the same segment");
+                    // System.out.println("Hero and mid are not on the same segment");
                 }
             }
         }
@@ -338,7 +268,7 @@ public class Mid extends Pane {
 
     public void ShowMidWin(Pane root)
     {
-        midWin.setText("MID COMPLETE!!");
+        midWin.setText("GAME OVER!!");
         midWin.setLayoutX(500);
         midWin.setLayoutY(300);
         midWin.setStyle("-fx-background-color: brown; -fx-border-color:#424242; -fx-font-size: 40; -fx-size: 120 400; -fx-border-style: dashed solid dashed solid;");
@@ -346,12 +276,11 @@ public class Mid extends Pane {
 
 
         System.out.println("HOISE?");
-        PauseTransition pauseMid=new PauseTransition(Duration.seconds(3));
+        PauseTransition pauseMid=new PauseTransition(Duration.seconds(5));
         pauseMid.setOnFinished(e->root.getChildren().remove(midWin));
 
         root.getChildren().add(midWin);
         pauseMid.play();
     }
-
 
 }

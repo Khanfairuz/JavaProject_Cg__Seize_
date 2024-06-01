@@ -62,6 +62,10 @@ public class startPage extends Application {
 
         // Call the start_new method with the stage parameter
         hc.start_new(st);
+        HelloController3 hc3 = new HelloController3();
+
+        // Call the start_new method with the stage parameter
+        //hc3.start_new_3(st, 0, 0, 0);
     }
 
 

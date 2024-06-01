@@ -21,7 +21,7 @@ import java.util.Arrays;
 public class HelloController3  {
     public static final int SCENE_WIDTH = 800;
     private static final int SCENE_HEIGHT = 600;
-    private static final int SCROLL_SPEED = 4;
+    private static final int SCROLL_SPEED = 8;
     private static final int ROAD_HEIGHT = 40;
     public static final int ROAD_Y = SCENE_HEIGHT - ROAD_HEIGHT-30;
     private static final int HERO_HEIGHT = 200; // heror height
@@ -42,14 +42,15 @@ public class HelloController3  {
 
     private Image coinImage;
 
-    public static Obstacle obstacles = new Obstacle(20,20);
+    public static Obstacle obstacles = new Obstacle(20,20, "newobs");
     public static Coin coin=new Coin();
+    public static Coin coinAfterMId=new Coin();
     public static Mid mid=new Mid();
     public Enemyquiz quiz;
     public static QuizObstacle quizObstacle=new QuizObstacle();
     public static AnimationTimer timer;
     public  static  AnimationTimer  timer1;
-    public static BigObstacle bigObstacle=new BigObstacle(60, 20);
+    public static BigObstacle bigObstacle=new BigObstacle(60, 20, "BigObs3");
 
     private  int frameCountM=0;
     public  static    Pane root2 =new Pane();
@@ -83,7 +84,7 @@ public class HelloController3  {
     ////PLay music
     public  audio_play audio=new audio_play();
     public static Monster monster=new Monster();
-
+    public Fire fire=new Fire();
 
 
     public void start_new_3(Stage primaryStage ,int points , int bonusPoints , int damagePoints) throws FileNotFoundException {
@@ -119,7 +120,7 @@ public class HelloController3  {
         Rectangle[] parallelRoadSegments1 = new Rectangle[4];
         Rectangle[] parallelRoadSegments2 = new Rectangle[4];
         for (int i = 0; i < roadSegments.length; i++) {
-            roadSegments[i] = new Rectangle(SCENE_WIDTH, ROAD_HEIGHT, Color.BLUEVIOLET);
+            roadSegments[i] = new Rectangle(SCENE_WIDTH, ROAD_HEIGHT, Color.GOLD);
             roadSegments[i].setLayoutY(ROAD_Y);
             roadSegments[i].setLayoutX(i * SCENE_WIDTH);
             root2.getChildren().add(roadSegments[i]);
@@ -220,15 +221,20 @@ public class HelloController3  {
                     bigObstacle.isBigObstacleFinished = false;
                 }
 
-                mid.checkCoinCollisions(root2, hero.heroView,roadSegmentList,parallelRoadSegmentList1,parallelRoadSegmentList2);
+                mid.checkCoinCollisions(root2, hero.heroView,roadSegmentList,parallelRoadSegmentList1,parallelRoadSegmentList2, isTimerRunning);
                 if (mid.isMidFinished && isTimerRunning) {
                     System.out.println("fairuz");
                     quizObstacle.generateObstacles(root2, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
                     //coin.generateCoins(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
+                    coinAfterMId.generateCoins(root2, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
+                    fire.generateMid(root2, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
                     mid.isMidFinished = false;
                     quizObstacle.isQuizObstacleFinished=false;
                 }
-                quizObstacle.checkObstacleCollisions(root2, hero.heroView, damagePointsLabel);
+                quizObstacle.checkObstacleCollisions(root2, hero.heroView, damagePointsLabel, isTimerRunning);
+                coinAfterMId.checkCoinCollisions2(root2, hero.heroView);
+                fire.checkCoinCollisions(root2, hero.heroView);
+                System.out.println(isTimerRunning);
                 //coin.checkCoinCollisions(root, hero.heroView);
 
                 if (quizObstacle.isQuizObstacleFinished) {

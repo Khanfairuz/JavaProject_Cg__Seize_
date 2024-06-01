@@ -21,7 +21,7 @@ import java.util.Arrays;
 public class HelloController2  {
     public static final int SCENE_WIDTH = 800;
     private static final int SCENE_HEIGHT = 600;
-    private static final int SCROLL_SPEED = 4;
+    private static final int SCROLL_SPEED = 8;
     private static final int ROAD_HEIGHT = 40;
     public static final int ROAD_Y = SCENE_HEIGHT - ROAD_HEIGHT-30;
     private static final int HERO_HEIGHT = 200; // heror height
@@ -42,14 +42,15 @@ public class HelloController2  {
 
     private Image coinImage;
 
-    public static Obstacle obstacles = new Obstacle(20,20);
+    public static Obstacle obstacles = new Obstacle(20,20, "newobs");
     public static Coin coin=new Coin();
+    public static Coin coinAfterMId=new Coin();
     public static Mid mid=new Mid();
     public Enemyquiz quiz;
     public static QuizObstacle quizObstacle=new QuizObstacle();
     public static AnimationTimer timer;
     public  static  AnimationTimer  timer1;
-    public static BigObstacle bigObstacle=new BigObstacle(60, 20);
+    public static BigObstacle bigObstacle=new BigObstacle(60, 20, "BigObs2");
 
     private  int frameCountM=0;
      public  static    Pane root1 =new Pane();
@@ -120,17 +121,17 @@ public class HelloController2  {
         Rectangle[] parallelRoadSegments1 = new Rectangle[4];
         Rectangle[] parallelRoadSegments2 = new Rectangle[4];
         for (int i = 0; i < roadSegments.length; i++) {
-            roadSegments[i] = new Rectangle(SCENE_WIDTH, ROAD_HEIGHT, Color.BLUEVIOLET);
+            roadSegments[i] = new Rectangle(SCENE_WIDTH, ROAD_HEIGHT, Color.DARKRED);
             roadSegments[i].setLayoutY(ROAD_Y);
             roadSegments[i].setLayoutX(i * SCENE_WIDTH);
             root1.getChildren().add(roadSegments[i]);
 
-            parallelRoadSegments1[i] = new Rectangle(SCENE_WIDTH, ROAD_HEIGHT, Color.BLUEVIOLET);
+            parallelRoadSegments1[i] = new Rectangle(SCENE_WIDTH, ROAD_HEIGHT, Color.DARKRED);
             parallelRoadSegments1[i].setLayoutY(ROAD_Y - ROAD_HEIGHT - 20);
             parallelRoadSegments1[i].setLayoutX(i * SCENE_WIDTH);
             root1.getChildren().add(parallelRoadSegments1[i]);
 
-            parallelRoadSegments2[i] = new Rectangle(SCENE_WIDTH, ROAD_HEIGHT, Color.BLUEVIOLET);
+            parallelRoadSegments2[i] = new Rectangle(SCENE_WIDTH, ROAD_HEIGHT, Color.DARKRED);
             parallelRoadSegments2[i].setLayoutY(ROAD_Y + ROAD_HEIGHT + 20);
             parallelRoadSegments2[i].setLayoutX(i * SCENE_WIDTH);
             root1.getChildren().add(parallelRoadSegments2[i]);
@@ -221,15 +222,17 @@ public class HelloController2  {
                     bigObstacle.isBigObstacleFinished = false;
                 }
 
-                mid.checkCoinCollisions(root1, hero.heroView,roadSegmentList,parallelRoadSegmentList1,parallelRoadSegmentList2);
+                mid.checkCoinCollisions(root1, hero.heroView,roadSegmentList,parallelRoadSegmentList1,parallelRoadSegmentList2, isTimerRunning);
                 if (mid.isMidFinished && isTimerRunning) {
                     System.out.println("fairuz");
                     quizObstacle.generateObstacles(root1, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
                     //coin.generateCoins(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
+                    coinAfterMId.generateCoins(root1, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
                     mid.isMidFinished = false;
                     quizObstacle.isQuizObstacleFinished=false;
                 }
-                quizObstacle.checkObstacleCollisions(root1, hero.heroView, damagePointsLabel);
+                quizObstacle.checkObstacleCollisions(root1, hero.heroView, damagePointsLabel, isTimerRunning);
+                coinAfterMId.checkCoinCollisions1(root1, hero.heroView);
                 //coin.checkCoinCollisions(root, hero.heroView);
 
                 if (quizObstacle.isQuizObstacleFinished) {

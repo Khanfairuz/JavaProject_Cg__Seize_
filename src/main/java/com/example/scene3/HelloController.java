@@ -51,7 +51,7 @@ public class HelloController  {
     private Image coinImage;
 
     private Hero hero=new Hero(root);
-    public static Obstacle obstacles = new Obstacle(20,20);
+    public static Obstacle obstacles = new Obstacle(20,20, "obstacle");
     public static Coin coin=new Coin();
     public static Coin coinAfterMId=new Coin();
     public static Mid mid=new Mid();
@@ -59,7 +59,7 @@ public class HelloController  {
     public static QuizObstacle quizObstacle=new QuizObstacle();
     public static AnimationTimer timer;
     public  static AnimationTimer timer1;
-    public static BigObstacle bigObstacle=new BigObstacle(60, 20);
+    public static BigObstacle bigObstacle=new BigObstacle(60, 20, "BigOBS");
 
     private  int frameCountM=0;
     HelloController2 hc2=new HelloController2();
@@ -222,7 +222,7 @@ public class HelloController  {
                     bigObstacle.isBigObstacleFinished = false;
                 }
 
-                mid.checkCoinCollisions(root, hero.heroView, roadSegmentList, parallelRoadSegmentList1,parallelRoadSegmentList2);
+                mid.checkCoinCollisions(root, hero.heroView, roadSegmentList, parallelRoadSegmentList1,parallelRoadSegmentList2, isTimerRunning);
                 if (mid.isMidFinished && isTimerRunning) {
                     System.out.println("fairuz");
                     quizObstacle.generateObstacles(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
@@ -230,7 +230,7 @@ public class HelloController  {
                     mid.isMidFinished = false;
                     //quizObstacle.isQuizObstacleFinished=false;
                 }
-                quizObstacle.checkObstacleCollisions(root, hero.heroView, damagePointsLabel);
+                quizObstacle.checkObstacleCollisions(root, hero.heroView, damagePointsLabel, isTimerRunning);
                 coinAfterMId.checkCoinCollisions(root, hero.heroView);
                 //coin.checkCoinCollisions(root, hero.heroView);
 
