@@ -253,7 +253,7 @@ public class Mid extends Pane {
                 Rectangle midSegment = getMidSegment(mid, roadSegments, parallelRoadSegments1, parallelRoadSegments2);
 
                 if (heroSegment != null && midSegment != null && heroSegment.equals(midSegment)) {
-                    System.out.println("Hero and mid are on the same segment");
+                    //System.out.println("Hero and mid are on the same segment");
 
                     // Check if the lower quarter of the hero's image intersects with the coin
                     if (mid.getBoundsInParent().intersects(heroView.getLayoutX(), heroLowerY, Hero.HERO_WIDTH, heroLowerHeight)) {
@@ -269,7 +269,7 @@ public class Mid extends Pane {
                         collided = true;
                     }
                 } else {
-                    System.out.println("Hero and mid are not on the same segment");
+                   // System.out.println("Hero and mid are not on the same segment");
                 }
             }
         }
@@ -330,7 +330,7 @@ public class Mid extends Pane {
     // Helper method to check if a Y coordinate is within a segment
     private boolean isWithinSegment(double y, Rectangle segment) {
         boolean result = y >= segment.getLayoutY() && y <= (segment.getLayoutY() + segment.getHeight());
-        System.out.println("Checking segment: " + segment + " with Y: " + y + " - Result: " + result);
+        //System.out.println("Checking segment: " + segment + " with Y: " + y + " - Result: " + result);
         return result;
     }
 

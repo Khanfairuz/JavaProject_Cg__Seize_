@@ -87,7 +87,7 @@ public class QuizObstacle {
     public Timeline obstacleTimeline;
     public void generateObstacles(Pane root, List<Rectangle> roadSegments, List<Rectangle> parallelRoadSegments1, List<Rectangle> parallelRoadSegments2, Random random) {
         obstacleTimeline = new Timeline(
-                new KeyFrame(Duration.seconds(6), event -> {
+                new KeyFrame(Duration.seconds(3), event -> {
                     Rectangle segment;
                     int randomIndex = random.nextInt(roadSegments.size() + parallelRoadSegments1.size() + parallelRoadSegments2.size());
                     if (randomIndex < roadSegments.size()) {
@@ -121,7 +121,7 @@ public class QuizObstacle {
     // Move obstacles across the screen
     // Move obstacles across the screen with the specified offsetY
     private void moveObstacle(Pane root, Obstacles obstacle, Rectangle segment, double offsetY) {
-        TranslateTransition obstacleTransition = new TranslateTransition(Duration.seconds(3), obstacle.getShape());
+        TranslateTransition obstacleTransition = new TranslateTransition(Duration.seconds(5), obstacle.getShape());
         obstacleTransition.setFromX(SCENE_WIDTH);
         obstacleTransition.setToX(-obstacle.getShape().getBoundsInLocal().getWidth());
         // Adjust the Y-coordinate to position the obstacle lower on the Y-axis
@@ -129,7 +129,7 @@ public class QuizObstacle {
         obstacleTransition.setToY(segment.getLayoutY() + offsetY);
         cnt++;
 
-        if(cnt==2)
+        if(cnt==8)
         {
             System.out.println("quizobs ");
             obstacleTransition.stop();

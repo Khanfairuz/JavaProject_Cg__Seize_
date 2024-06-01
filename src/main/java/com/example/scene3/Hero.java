@@ -82,7 +82,7 @@ public class Hero extends Pane {
 
         jumpAnimation.setOnFinished(event -> {
             isJumping = false;
-            jumpToGround(root); // Move the character back to the ground after the jump
+           // jumpToGround(root); // Move the character back to the ground after the jump
         });
 
         jumpAnimation.play();
@@ -95,8 +95,9 @@ public class Hero extends Pane {
             if(obstacle==null)
                 jumpToGroundAnimation.setByY(0);
             else
-                jumpToGroundAnimation.setToY(obstacle.getTranslateY()-240); // Move the character in the Y axis
-            // Adjust the X coordinate to move the character a bit forward
+                //jumpToGroundAnimation.setToY(obstacle.getTranslateY()-400); // Move the character in the Y axis
+                jumpToGroundAnimation.setToY(400);
+                // Adjust the X coordinate to move the character a bit forward
             jumpToGroundAnimation.setToX(heroView.getTranslateX() + 70); // Adjust 50 as needed
 
             if(heroView.getTranslateX()+200>HelloController.SCENE_WIDTH)
@@ -225,7 +226,7 @@ public class Hero extends Pane {
                 System.out.println("null collide");
             }
             else
-                jumpToGroundAnimation.setToY(obstacle.getTranslateY()-50); // Move the character in the Y axis
+                jumpToGroundAnimation.setToY(obstacle.getTranslateY()-60); // Move the character in the Y axis
 
             jumpToGroundAnimation.setToX(heroView.getTranslateX() + 70); // Adjust 50 as needed
 
