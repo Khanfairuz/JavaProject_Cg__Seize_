@@ -9,6 +9,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
+
 <AnchorPane fx:id="ac" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.scene3.startPage">
     <children>
         <ImageView fx:id="img" fitHeight="900.0" fitWidth="986.0" pickOnBounds="true" preserveRatio="true">

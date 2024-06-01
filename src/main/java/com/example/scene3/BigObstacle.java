@@ -104,6 +104,7 @@ public class BigObstacle  {
                     Bigobstacles.add(obs1);
                     Bigobstacles.add(obs2);
                     Bigobstacles.add(obs3);
+                    System.out.println(Bigobstacles.size()+" size of bigobstac;e");
                     // Move the coin
                     //moveObstacle(root, obs, segment);
                     moveObstacle(root, obs1, segment1);
@@ -246,8 +247,12 @@ public class BigObstacle  {
         for (ImageView obstacle : new ArrayList<>(Bigobstacles)) {
             // Check if the lower quarter of the hero's image intersects with the coin
            // if (!collided) {
+            double obstacleY = obstacle.getLayoutY() + obstacle_height * 0.450;
+            double obsLowerHeight = obstacle_height * 0.50;
+           // System.out.println("Big obstacle "+obstacle.getLayoutY());
                 if (obstacle.getBoundsInParent().intersects(heroView.getBoundsInParent())) {
-
+           // if (heroView.getBoundsInParent().intersects(obstacle.getLayoutX(), obstacleY, obstacle_width, obsLowerHeight)) {
+                System.out.println("bigggggggggg collides");
                         obstacleTransition.pause();
                         obstacleTransition2.pause();
                         obstacleTransition3.pause();
@@ -263,7 +268,7 @@ public class BigObstacle  {
                     ShowCOll(root);
 
                 }
-                break;
+                //break;
             }
 
     }
