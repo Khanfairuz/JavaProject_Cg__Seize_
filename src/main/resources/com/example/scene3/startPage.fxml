@@ -10,51 +10,30 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="ac" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.scene3.startPage">
-    <children>
-        <ImageView fx:id="img" fitHeight="900.0" fitWidth="986.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@../../../start/startPage.png" />
-            </image>
-        </ImageView>
-        <AnchorPane>
+
+        <AnchorPane fx:id="ac" prefHeight="900.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.scene3.startPage">
             <children>
-                <AnchorPane>
-                    <children>
-                        <ImageView fx:id="startImage" layoutX="220.0" layoutY="310.0" fitHeight="500.0" fitWidth="450.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#click">
-                            <image>
-                                <Image url="/play_button.gif" />
-                            </image>
-                        </ImageView>
-                    </children>
-                </AnchorPane>
+                <ImageView fx:id="img" fitHeight="900.0" fitWidth="986.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../start/startPage.png" />
+                    </image>
+                </ImageView>
+                <ImageView fx:id="startImage" layoutX="220.0" layoutY="310.0" fitHeight="500.0" fitWidth="450.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#click">
+                    <image>
+                        <Image url="/play_button.gif" />
+                    </image>
+                </ImageView>
+                <ImageView fx:id="exitImage" layoutX="320.0" layoutY="560.0" fitHeight="250.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#exitApplication">
+                    <image>
+                        <Image url="/Exit.gif" />
+                    </image>
+                </ImageView>
+                <ImageView fx:id="about" layoutX="20.0" layoutY="90.0" fitHeight="300.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#showInfo">
+                    <image>
+                        <Image url="/ABOUIT.gif" />
+                    </image>
+                </ImageView>
             </children>
         </AnchorPane>
-        <AnchorPane>
-            <children>
-                <AnchorPane>
-                    <children>
-                        <ImageView fx:id="exitImage" layoutX="320.0" layoutY="560.0" fitHeight="250.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#exitApplication">
-                            <image>
-                                <Image url="/Exit.gif" />
-                            </image>
-                        </ImageView>
-                    </children>
-                </AnchorPane>
-            </children>
-        </AnchorPane>
-        <AnchorPane>
-            <children>
-                <AnchorPane>
-                    <children>
-                        <ImageView fx:id="about" layoutX="20.0" layoutY="90.0" fitHeight="300.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#showInfo">
-                            <image>
-                                <Image url="/ABOUIT.gif" />
-                            </image>
-                        </ImageView>
-                    </children>
-                </AnchorPane>
-            </children>
-        </AnchorPane>
-    </children>
-</AnchorPane>
+
+

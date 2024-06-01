@@ -8,6 +8,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
@@ -61,6 +63,7 @@ public class startPage extends Application {
         // Call the start_new method with the stage parameter
         hc.start_new(st);
     }
+
 
     @FXML
     public void exitApplication(MouseEvent event) {
