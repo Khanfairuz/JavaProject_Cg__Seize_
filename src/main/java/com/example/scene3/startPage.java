@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
@@ -53,7 +54,7 @@ public class startPage extends Application {
     }
 
     @FXML
-    public void click(ActionEvent e)throws  FileNotFoundException {
+    public void click(MouseEvent event)throws  FileNotFoundException {
         // Create an instance of FinalRoundTry
         HelloController hc = new HelloController();
 
@@ -62,11 +63,11 @@ public class startPage extends Application {
     }
 
     @FXML
-    public void exitApplication(ActionEvent event) {
+    public void exitApplication(MouseEvent event) {
         Platform.exit();
     }
     @FXML
-    private void showInfo(ActionEvent event) {
+    private void showInfo(MouseEvent event) {
         // Create a custom label with the game info
         Label gameInfo = new Label(
                 "Use the Up key to jump, Down key to attack  "
