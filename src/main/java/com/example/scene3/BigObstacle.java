@@ -257,7 +257,7 @@ public class BigObstacle  {
                 }
                 //break;
             }
-
+        
     }
 
     public void checkBigObstacleCollisions1(Pane root, ImageView heroView, boolean heroIsJump ) {
@@ -318,6 +318,7 @@ public class BigObstacle  {
             }
             break;
         }
+
 
     }
     public void ShowCOll(Pane root)

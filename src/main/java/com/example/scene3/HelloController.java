@@ -47,7 +47,9 @@ public class HelloController  {
     private javafx.scene.text.Text bonusPointsLabel;
     private javafx.scene.text.Text damagePointsLabel;
 
+
     private Image coinImage;
+
     private Hero hero=new Hero(root);
     public static Obstacle obstacles = new Obstacle(20,20);
     public static Coin coin=new Coin();
@@ -110,6 +112,11 @@ public class HelloController  {
         //monster add starts
 
 
+//        Image[] heroAttackImages = new Image[4];
+//        for (int i = 0; i < heroAttackImages.length; i++) {
+//            //FileInputStream inputStream = new FileInputStream("/sword/adventurer-attack1-0" + (i + 1) + ".png");
+//            heroAttackImages[i] = new Image(getClass().getResource("/sword/adventurer-attack1-0" + (i + 1) + ".png").toExternalForm());
+//        }
         // Create road segments
         Rectangle[] roadSegments = new Rectangle[4];
         Rectangle[] parallelRoadSegments1 = new Rectangle[4];
@@ -219,10 +226,8 @@ public class HelloController  {
                 if (mid.isMidFinished && isTimerRunning) {
                     System.out.println("fairuz");
                     quizObstacle.generateObstacles(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
-                    //coin.generateCoins(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
                     coinAfterMId.generateCoins(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
                     mid.isMidFinished = false;
-                    quizObstacle.isQuizObstacleFinished=false;
                     //quizObstacle.isQuizObstacleFinished=false;
                 }
                 quizObstacle.checkObstacleCollisions(root, hero.heroView, damagePointsLabel);
