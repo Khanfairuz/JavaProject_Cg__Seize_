@@ -74,7 +74,7 @@ public class HelloController  {
     //////////////////////////////////
     public  boolean track_zombie_kill=false;
     public  boolean track_hero_kill=true;
-    //private database_connection dc;
+    private database_connection dc;
     ////////////////////
     private  String question;
     private  String optionA;
@@ -391,7 +391,7 @@ public class HelloController  {
 //            }
 //        });
 
-        //connect_database();
+        connect_database();
         pointsLabel = new javafx.scene.text.Text("Points: " + points);
         pointsLabel.setFill(Color.WHITE);
         pointsLabel.setStyle("-fx-font-size: 55px; -fx-text-fill: white;");
@@ -423,6 +423,14 @@ public class HelloController  {
         primaryStage.setTitle("Scrolling Background with Continuous Road and Animated Hero");
         primaryStage.show();
         primaryStage.setFullScreen(true);
+    }
+    public  void connect_database()
+    {
+        dc = new database_connection();
+        dc.connection("objectorientedprogramming" ,HelloController.this);
+        System.out.println("Correct ANS :"+correctAns);
+
+
     }
     public void checkQues()
     {

@@ -33,7 +33,7 @@ public class HelloController2  {
 
     private int frameCount = 0;
     public static int points = 0;
-    private int bonusPoints = 0;
+    public  int bonusPoints = 0;
     private int damagePoints = 0; // Initialize damage points
     public static javafx.scene.text.Text pointsLabel;
     // Define a separate label for bonus points
@@ -83,6 +83,7 @@ public class HelloController2  {
     ////PLay music
     public  audio_play audio=new audio_play();
     public static Monster monster=new Monster();
+    HelloController3 hc3=new HelloController3();
 
 
 
@@ -92,8 +93,8 @@ public class HelloController2  {
         this.bonusPoints=bonusPoints;
         this.points=points;
         this.damagePoints=damagePoints;
-        ImageView backgroundView1 = new ImageView("alien1.png");
-        ImageView backgroundView2 = new ImageView("alien1.png");
+        ImageView backgroundView1 = new ImageView("Back2.png");
+        ImageView backgroundView2 = new ImageView("Back2.png");
 
         backgroundView1.setLayoutX(0);
         backgroundView2.setLayoutX(backgroundView1.getImage().getWidth());
@@ -220,7 +221,7 @@ public class HelloController2  {
                     bigObstacle.isBigObstacleFinished = false;
                 }
 
-                mid.checkCoinCollisions(root1, hero.heroView);
+                mid.checkCoinCollisions(root1, hero.heroView,roadSegmentList,parallelRoadSegmentList1,parallelRoadSegmentList2);
                 if (mid.isMidFinished && isTimerRunning) {
                     System.out.println("fairuz");
                     quizObstacle.generateObstacles(root1, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
@@ -292,6 +293,37 @@ public class HelloController2  {
                         }
 
 
+                    }
+                    if(elapsedTimeSeconds_check>12.7&& elapsedTimeSeconds_check<13)
+                    {
+                        try {
+                            timer.stop();
+                            timer1.stop();
+                            audio.stopMusic_zombie();
+                            // Wrapping points in an array to avoid final/effectively final issue
+                            final int[] bonusPointsWrapper = new int[1];
+                            final int[] damagePointsWrapper = new int[1];
+
+                            try {
+                                // Extract numeric part from bonusPointsLabel
+                                String bonusText = bonusPointsLabel.getText().replaceAll("[^0-9]", "");
+                                bonusPointsWrapper[0] = Integer.parseInt(bonusText);
+
+                                // Extract numeric part from damagePointsLabel
+                                String damageText = damagePointsLabel.getText().replaceAll("[^0-9]", "");
+                                damagePointsWrapper[0] = Integer.parseInt(damageText);
+
+                                // Proceed with the rest of your logic
+                            } catch (NumberFormatException e) {
+                                System.err.println("Error converting label text to integer: " + e.getMessage());
+                                e.printStackTrace();
+                            }
+
+                            // Use the wrapper values
+                            hc3.start_new_3(primaryStage, points, bonusPointsWrapper[0], damagePointsWrapper[0]);
+                        } catch (FileNotFoundException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                     //quizObstacle.generateObstacles(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
 
