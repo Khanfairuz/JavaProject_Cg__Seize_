@@ -72,7 +72,7 @@ public class HelloController  {
     //////////////////////////////////
     public  boolean track_zombie_kill=false;
     public  boolean track_hero_kill=true;
-    private database_connection dc;
+    //private database_connection dc;
     ////////////////////
     private  String question;
     private  String optionA;
@@ -219,7 +219,7 @@ public class HelloController  {
                     bigObstacle.isBigObstacleFinished = false;
                 }
 
-                mid.checkCoinCollisions(root, hero.heroView);
+                mid.checkCoinCollisions(root, hero.heroView, roadSegmentList, parallelRoadSegmentList1,parallelRoadSegmentList2);
                 if (mid.isMidFinished && isTimerRunning) {
                     System.out.println("fairuz");
                     quizObstacle.generateObstacles(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
@@ -362,7 +362,7 @@ public class HelloController  {
 //            }
 //        });
 
-        connect_database();
+        //connect_database();
         pointsLabel = new javafx.scene.text.Text("Points: " + points);
         pointsLabel.setFill(Color.WHITE);
         pointsLabel.setStyle("-fx-font-size: 55px; -fx-text-fill: white;");
@@ -494,14 +494,14 @@ public class HelloController  {
         timer.start();
     }
 
-    public  void connect_database()
+    /*public  void connect_database()
     {
         dc = new database_connection();
         dc.connection("objectorientedprogramming" ,HelloController.this);
         System.out.println("Correct ANS :"+correctAns);
 
 
-    }
+    }*/
     //databse......
     public void setQuestion(String question) {
         this.question = question;
