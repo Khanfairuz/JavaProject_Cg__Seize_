@@ -20,15 +20,15 @@ public class Monster {
     private  static  final  int MONSTER_SCROLL_SPEED=2;
     private static final int ROAD_HEIGHT = 40;
     private static final int ROAD_Y = SCENE_HEIGHT - ROAD_HEIGHT;
-    private static final int HERO_WIDTH = 200; // Adjust width as needed
-    private static final int HERO_HEIGHT = 200; // Adjust height as needed
+
+
 
     private  static  final int  MONSTER_WIDTH=250;
     private  static  final int  MONSTER_HEIGHT=250;
-    private static final int HERO_Y = ROAD_Y - HERO_HEIGHT; // Adjust Y position as needed
+
     private  static  final  int MONSTER_Y=ROAD_Y-MONSTER_HEIGHT;
 
-    private  static int MONSTER_ANIMATION_INTERVAL=10;
+    private  static int MONSTER_ANIMATION_INTERVAL=15;
 
 
 
@@ -54,12 +54,14 @@ public class Monster {
 
 
 
-    public void generateMonster(Pane root)
+    public void generateMonster(Pane root ,int lvl)
     {
         Monster = new Image[4];
+
+        String image_path="/monster"+lvl+"walk/monster"+lvl+"walk-";
         for (int i = 0; i < Monster.length; i++) {
-            // FileInputStream inputStream = new FileInputStream("C:\\Users\\HP\\Music\\run3\\run3-0" + i + ".png");
-            Monster[i] = new Image(getClass().getResource("/monster1walk/monster1walk-" + i + ".png").toExternalForm());
+
+            Monster[i] = new Image(getClass().getResource(image_path+ i + ".png").toExternalForm());
         }
         // Create ImageView for hero and set initial position
         monsterView = new ImageView(Monster[0]);

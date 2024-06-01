@@ -46,7 +46,7 @@ public class HelloController  {
     // Define a separate label for bonus points
     private javafx.scene.text.Text bonusPointsLabel;
     private javafx.scene.text.Text damagePointsLabel;
-    private Random random = new Random();
+
     private Image coinImage;
     private Hero hero=new Hero(root);
     public static Obstacle obstacles = new Obstacle(20,20);
@@ -55,9 +55,11 @@ public class HelloController  {
     public Enemyquiz quiz;
     public static QuizObstacle quizObstacle=new QuizObstacle();
     public static AnimationTimer timer;
+    public  static AnimationTimer timer1;
     public static BigObstacle bigObstacle=new BigObstacle(60, 20);
 
     private  int frameCountM=0;
+    HelloController2 hc2=new HelloController2();
 
     private  static  final int  MONSTER_HEIGHT=250;
     private static final int HERO_Y = ROAD_Y - HERO_HEIGHT; // Adjust Y position as needed
@@ -72,7 +74,7 @@ public class HelloController  {
     //////////////////////////////////
     public  boolean track_zombie_kill=false;
     public  boolean track_hero_kill=true;
-    //private database_connection dc;
+    private database_connection dc;
     ////////////////////
     private  String question;
     private  String optionA;
@@ -210,7 +212,7 @@ public class HelloController  {
                     obstacles.isObstacleFinished = false;
                     isBigObstacleGen = true;
                 }
-                bigObstacle.checkBigObstacleCollisions(root, hero.heroView, hero.isJumping);
+                bigObstacle.checkBigObstacleCollisions(root, hero.heroView, hero.isJumping );
 
                 //if(!isTimerRunning) {return;}
                 if (bigObstacle.isBigObstacleFinished && isTimerRunning) {
@@ -235,7 +237,7 @@ public class HelloController  {
                     if (oneTimeGenerate) {
                         audio.stopMusic_normal();
                         audio.play_music_zombie(root);
-                        monster.generateMonster(root);
+                        monster.generateMonster(root,1);
                         quizObstacle.isQuizObstacleFinished = false;
                         checkQues();
                         oneTimeGenerate = false;
@@ -291,6 +293,33 @@ public class HelloController  {
                         }
 
 
+                    }
+                    if(elapsedTimeSeconds_check>12.7&& elapsedTimeSeconds_check<13)
+                    {
+                        try {
+                            timer.stop();
+                            timer1.stop();
+                            audio.stopMusic_zombie();
+
+                            try {
+                                // Extract numeric part from bonusPointsLabel
+                                String bonusText = bonusPointsLabel.getText().replaceAll("[^0-9]", "");
+                                bonusPoints = Integer.parseInt(bonusText);
+
+                                // Extract numeric part from damagePointsLabel
+                                String damageText = damagePointsLabel.getText().replaceAll("[^0-9]", "");
+                                damagePoints = Integer.parseInt(damageText);
+
+                                // Proceed with the rest of your logic
+                            } catch (NumberFormatException e) {
+                                System.err.println("Error converting label text to integer: " + e.getMessage());
+                                e.printStackTrace();
+                            }
+                            //points
+                            hc2.start_new_2( primaryStage  , points , bonusPoints , damagePoints);
+                        } catch (FileNotFoundException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                     //quizObstacle.generateObstacles(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
 
@@ -362,7 +391,7 @@ public class HelloController  {
 //            }
 //        });
 
-        //connect_database();
+        connect_database();
         pointsLabel = new javafx.scene.text.Text("Points: " + points);
         pointsLabel.setFill(Color.WHITE);
         pointsLabel.setStyle("-fx-font-size: 55px; -fx-text-fill: white;");
@@ -394,6 +423,14 @@ public class HelloController  {
         primaryStage.setTitle("Scrolling Background with Continuous Road and Animated Hero");
         primaryStage.show();
         primaryStage.setFullScreen(true);
+    }
+    public  void connect_database()
+    {
+        dc = new database_connection();
+        dc.connection("objectorientedprogramming" ,HelloController.this);
+        System.out.println("Correct ANS :"+correctAns);
+
+
     }
     public void checkQues()
     {
@@ -474,7 +511,7 @@ public class HelloController  {
     public void startTimer() {
         startTime = System.nanoTime();
 
-        timer = new AnimationTimer() {
+        timer1 = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 long elapsedTimeNano = now - startTime;
@@ -491,7 +528,7 @@ public class HelloController  {
             }
         };
 
-        timer.start();
+        timer1.start();
     }
 
     /*public  void connect_database()

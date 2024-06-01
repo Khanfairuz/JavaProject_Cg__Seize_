@@ -16,7 +16,8 @@ public class audio_play {
 
 
         // String mediaFilePath = "C:\\Users\\Nufsat\\Downloads\\flow-211881.mp3"; // Update this path to your media file
-         String mediaFilePath="E:\\java pic\\Temple Run 1 - Full Soundtrack_crop.mp3";
+         String mediaFilePath="E:\\java pic\\hero_run.mp3";
+
          try {
              // Convert the file path to URI format
              File mediaFile = new File(mediaFilePath);
@@ -74,7 +75,7 @@ public class audio_play {
             mediaPlayer_normal.stop();
         }
     }
-    private void stopMusic_zombie() {
+    void stopMusic_zombie() {
         if (mediaPlayer_zombie!= null) {
             mediaPlayer_zombie.stop();
         }

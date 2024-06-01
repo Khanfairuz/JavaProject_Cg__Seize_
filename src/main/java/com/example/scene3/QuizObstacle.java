@@ -83,7 +83,7 @@ public class QuizObstacle {
     private javafx.scene.text.Text damagePointsLabel;
     private static final int DAMAGE_VALUE = 10;
     public boolean isQuizObstacleFinished=false;
-    private static int cnt=0;
+    private int cnt=0;
     public Timeline obstacleTimeline;
     public void generateObstacles(Pane root, List<Rectangle> roadSegments, List<Rectangle> parallelRoadSegments1, List<Rectangle> parallelRoadSegments2, Random random) {
         obstacleTimeline = new Timeline(

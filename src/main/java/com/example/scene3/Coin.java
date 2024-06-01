@@ -54,7 +54,8 @@ public class Coin extends Pane{
                     coin.setFitHeight(COIN_HEIGHT);
 
                     // Add the coin to the root and coins list
-                    HelloController.root.getChildren().add(coin);
+                    //change korsi
+                    root.getChildren().add(coin);
                     //coin.setVisible(true);
                     coins.add(coin);
                     System.out.println("inside of coin gen");
@@ -136,6 +137,46 @@ public class Coin extends Pane{
                 // Increment points and update points label
                 HelloController.points++;
                 HelloController.pointsLabel.setText("Points: " + HelloController.points);
+            }
+        }
+    }
+    public void checkCoinCollisions1(Pane root, ImageView heroView) {
+        // Calculate the bounds for the lower quarter of the hero's image
+        double heroLowerY = heroView.getLayoutY() + Hero.HERO_HEIGHT * 0.90;
+        double heroLowerHeight = Hero.HERO_HEIGHT * 0.10;
+
+        for (ImageView coin : new ArrayList<>(coins)) {
+            // double coinLowerY = coin.getLayoutY() + COIN_HEIGHT * 0.90;
+            // double coinLowerHeight = COIN_HEIGHT * 0.10;
+            // Check if the lower quarter of the hero's image intersects with the coin
+            if ((coin.getBoundsInParent() ).intersects(heroView.getLayoutX(), heroLowerY, Hero.HERO_WIDTH, heroLowerHeight)) {
+                // Collision detected between hero and coin
+                root.getChildren().remove(coin); // Remove the coin from the scene
+                coins.remove(coin); // Remove the coin from the list
+                // Increment points and update points label
+                HelloController2.points++;
+                HelloController2.pointsLabel.setText("Points: " + HelloController2.points);
+            }
+        }
+    }
+
+    //3rd class
+    public void checkCoinCollisions2(Pane root, ImageView heroView) {
+        // Calculate the bounds for the lower quarter of the hero's image
+        double heroLowerY = heroView.getLayoutY() + Hero.HERO_HEIGHT * 0.90;
+        double heroLowerHeight = Hero.HERO_HEIGHT * 0.10;
+
+        for (ImageView coin : new ArrayList<>(coins)) {
+            // double coinLowerY = coin.getLayoutY() + COIN_HEIGHT * 0.90;
+            // double coinLowerHeight = COIN_HEIGHT * 0.10;
+            // Check if the lower quarter of the hero's image intersects with the coin
+            if ((coin.getBoundsInParent() ).intersects(heroView.getLayoutX(), heroLowerY, Hero.HERO_WIDTH, heroLowerHeight)) {
+                // Collision detected between hero and coin
+                root.getChildren().remove(coin); // Remove the coin from the scene
+                coins.remove(coin); // Remove the coin from the list
+                // Increment points and update points label
+                HelloController2.points++;
+                HelloController2.pointsLabel.setText("Points: " + HelloController2.points);
             }
         }
     }
