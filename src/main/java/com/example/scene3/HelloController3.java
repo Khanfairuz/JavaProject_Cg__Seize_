@@ -85,10 +85,15 @@ public class HelloController3  {
     public  audio_play audio=new audio_play();
     public static Monster monster=new Monster();
     public Fire fire=new Fire();
+    // Wrapping points in an array to avoid final/effectively final issue
+    final int[] bonusPointsWrapper = new int[1];
+    final int[] damagePointsWrapper = new int[1];
+    private HeroLose hr=new HeroLose();
+    private  Stage primaryStage;
 
 
     public void start_new_3(Stage primaryStage ,int points , int bonusPoints , int damagePoints) throws FileNotFoundException {
-
+        this.primaryStage=primaryStage;
         // Load background image
         this.bonusPoints=bonusPoints;
         this.points=points;
@@ -212,7 +217,7 @@ public class HelloController3  {
                     obstacles.isObstacleFinished = false;
                     isBigObstacleGen = true;
                 }
-                bigObstacle.checkBigObstacleCollisions2(root2, hero.heroView, hero.isJumping);
+                bigObstacle.checkBigObstacleCollisions2(root2, hero.heroView, hero.isJumping , HelloController3.this);
 
                 //if(!isTimerRunning) {return;}
                 if (bigObstacle.isBigObstacleFinished && isTimerRunning) {
@@ -401,6 +406,33 @@ public class HelloController3  {
         primaryStage.setTitle("Scrolling Background with Continuous Road and Animated Hero");
         primaryStage.show();
         primaryStage.setFullScreen(true);
+    }
+    void  call_hero_lose()
+    {
+        //if clash , then game over and new page will be loaded
+
+
+        calculate_data();
+        hr.hero_lose_start(primaryStage , points , bonusPoints , damagePoints);
+
+
+    }
+    private  void calculate_data()
+    {
+        try {
+            // Extract numeric part from bonusPointsLabel
+            String bonusText = bonusPointsLabel.getText().replaceAll("[^0-9]", "");
+            bonusPointsWrapper[0] = Integer.parseInt(bonusText);
+
+            // Extract numeric part from damagePointsLabel
+            String damageText = damagePointsLabel.getText().replaceAll("[^0-9]", "");
+            damagePointsWrapper[0] = Integer.parseInt(damageText);
+
+            // Proceed with the rest of your logic
+        } catch (NumberFormatException e) {
+            System.err.println("Error converting label text to integer: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
     public void checkQues()
     {
