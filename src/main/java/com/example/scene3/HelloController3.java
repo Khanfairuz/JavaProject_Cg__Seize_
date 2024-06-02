@@ -89,6 +89,8 @@ public class HelloController3  {
     final int[] bonusPointsWrapper = new int[1];
     final int[] damagePointsWrapper = new int[1];
     private HeroLose hr=new HeroLose();
+
+    private  HeroWin hrW=new HeroWin();
     private  Stage primaryStage;
 
 
@@ -304,6 +306,19 @@ public class HelloController3  {
 
 
                     }
+
+                    //new page load
+                    if(elapsedTimeSeconds_check>12.7&& elapsedTimeSeconds_check<13)
+                    {
+
+                            timer.stop();
+                            timer1.stop();
+
+                            audio.stopMusic_zombie();
+                            call_hero_win();
+
+                            // Use the wrapper values
+                    }
                     //quizObstacle.generateObstacles(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
 
                     // }
@@ -415,6 +430,13 @@ public class HelloController3  {
         calculate_data();
         hr.hero_lose_start(primaryStage , points , bonusPoints , damagePoints);
 
+
+    }
+
+    void call_hero_win()
+    {
+        calculate_data();
+        hrW.hero_win_start(primaryStage, points , bonusPoints , damagePoints);
 
     }
     private  void calculate_data()
