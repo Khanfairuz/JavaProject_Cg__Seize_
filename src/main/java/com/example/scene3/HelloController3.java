@@ -128,17 +128,17 @@ public class HelloController3  {
         Rectangle[] parallelRoadSegments1 = new Rectangle[4];
         Rectangle[] parallelRoadSegments2 = new Rectangle[4];
         for (int i = 0; i < roadSegments.length; i++) {
-            roadSegments[i] = new Rectangle(SCENE_WIDTH, ROAD_HEIGHT, Color.GOLD);
+            roadSegments[i] = new Rectangle(SCENE_WIDTH, ROAD_HEIGHT, Color.INDIANRED);
             roadSegments[i].setLayoutY(ROAD_Y);
             roadSegments[i].setLayoutX(i * SCENE_WIDTH);
             root2.getChildren().add(roadSegments[i]);
 
-            parallelRoadSegments1[i] = new Rectangle(SCENE_WIDTH, ROAD_HEIGHT, Color.BLUEVIOLET);
+            parallelRoadSegments1[i] = new Rectangle(SCENE_WIDTH, ROAD_HEIGHT, Color.INDIANRED);
             parallelRoadSegments1[i].setLayoutY(ROAD_Y - ROAD_HEIGHT - 20);
             parallelRoadSegments1[i].setLayoutX(i * SCENE_WIDTH);
             root2.getChildren().add(parallelRoadSegments1[i]);
 
-            parallelRoadSegments2[i] = new Rectangle(SCENE_WIDTH, ROAD_HEIGHT, Color.BLUEVIOLET);
+            parallelRoadSegments2[i] = new Rectangle(SCENE_WIDTH, ROAD_HEIGHT, Color.INDIANRED);
             parallelRoadSegments2[i].setLayoutY(ROAD_Y + ROAD_HEIGHT + 20);
             parallelRoadSegments2[i].setLayoutX(i * SCENE_WIDTH);
             root2.getChildren().add(parallelRoadSegments2[i]);
@@ -232,14 +232,14 @@ public class HelloController3  {
                 mid.checkCoinCollisions3(root2, hero.heroView,roadSegmentList,parallelRoadSegmentList1,parallelRoadSegmentList2, isTimerRunning);
                 if (mid.isMidFinished && isTimerRunning) {
                     System.out.println("fairuz");
-                    quizObstacle.generateObstacles(root2, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
+                    quizObstacle.LogogenerateObstacles(root2, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
                     //coin.generateCoins(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
                     coinAfterMId.generateCoins(root2, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
                     fire.generateMid(root2, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
                     mid.isMidFinished = false;
                     quizObstacle.isQuizObstacleFinished=false;
                 }
-                quizObstacle.checkObstacleCollisions(root2, hero.heroView, damagePointsLabel, isTimerRunning);
+                quizObstacle.LogocheckObstacleCollisions(root2, hero.heroView, damagePointsLabel, isTimerRunning);
                 coinAfterMId.checkCoinCollisions2(root2, hero.heroView);
                 fire.checkCoinCollisions(root2, hero.heroView , HelloController3.this);
                 System.out.println(isTimerRunning);

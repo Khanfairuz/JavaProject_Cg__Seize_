@@ -68,7 +68,7 @@ public class HeroWin {
 
         maxscore = new TextField();
         maxscore.setLayoutX(165.0);
-        maxscore.setLayoutY(190.0);
+        maxscore.setLayoutY(187.0);
 
 
 
