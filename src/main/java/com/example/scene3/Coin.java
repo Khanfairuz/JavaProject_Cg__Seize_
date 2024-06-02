@@ -131,7 +131,7 @@ public class Coin extends Pane{
                 root.getChildren().remove(coin); // Remove the coin from the scene
                 coins.remove(coin); // Remove the coin from the list
                 // Increment points and update points label
-                HelloController.points++;
+                HelloController.points+=2;
                 HelloController.pointsLabel.setText("Points: " + HelloController.points);
             }
         }
@@ -150,7 +150,7 @@ public class Coin extends Pane{
                 root.getChildren().remove(coin); // Remove the coin from the scene
                 coins.remove(coin); // Remove the coin from the list
                 // Increment points and update points label
-                HelloController2.points++;
+                HelloController2.points+=2;
                 //System.out.println(HelloController2.points);
                 HelloController2.pointsLabel.setText("Points: " + HelloController2.points);
             }
@@ -172,7 +172,7 @@ public class Coin extends Pane{
                 root.getChildren().remove(coin); // Remove the coin from the scene
                 coins.remove(coin); // Remove the coin from the list
                 // Increment points and update points label
-                HelloController3.points++;
+                HelloController3.points+=2;
                 HelloController3.pointsLabel.setText("Points: " + HelloController3.points);
             }
         }
