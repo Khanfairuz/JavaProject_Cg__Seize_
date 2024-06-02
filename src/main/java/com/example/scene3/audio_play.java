@@ -67,7 +67,7 @@ public class audio_play {
              // Play the media
              mediaPlayer_zombie.play();
              // Loop the media
-             mediaPlayer_zombie.setOnEndOfMedia(() ->  mediaPlayer_zombie.seek(javafx.util.Duration.ZERO));
+            // mediaPlayer_zombie.setOnEndOfMedia(() ->  mediaPlayer_zombie.seek(javafx.util.Duration.ZERO));
          } catch (Exception e) {
              e.printStackTrace();
              System.err.println("Error: " + e.getMessage());
