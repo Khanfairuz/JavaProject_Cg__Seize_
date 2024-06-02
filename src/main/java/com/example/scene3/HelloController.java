@@ -62,7 +62,7 @@ public class HelloController  {
     public  static AnimationTimer timer1;
     public Timeline Level;
     public boolean heroMOns=false;
-    public static BigObstacle bigObstacle=new BigObstacle(60, 20, "back2-ob");
+    public static BigObstacle bigObstacle=new BigObstacle(60, 20, "BigOBS");
 
     private  int frameCountM=0;
     HelloController2 hc2=new HelloController2();
