@@ -78,6 +78,7 @@ public class Hero extends Pane {
     {
         TranslateTransition backToGround=new TranslateTransition(Duration.seconds(0.1), heroView);
         backToGround.setToY(0);
+        heroView.setLayoutY(HERO_Y);
         backToGround.play();
         backToGround.setOnFinished(e->{
             System.out.println("On ground");

@@ -94,10 +94,11 @@ public class HelloController3  {
     private  Stage primaryStage;
 
 
-    public void start_new_3(Stage primaryStage ,int points , int bonusPoints , int damagePoints) throws FileNotFoundException {
+    public void start_new_3(Stage primaryStage ,int points , int bonusPointsF , int damagePoints) throws FileNotFoundException {
         this.primaryStage=primaryStage;
         // Load background image
-        this.bonusPoints=bonusPoints;
+        this.bonusPoints=bonusPointsF+10;
+        System.out.println("3rd level e bp: "+this.bonusPoints);
         this.points=points;
         System.out.println("3rd level ::::::::::::::::::::" + points);
         this.damagePoints=damagePoints;
@@ -149,6 +150,7 @@ public class HelloController3  {
         List<Rectangle> parallelRoadSegmentList2 = new ArrayList<>(Arrays.asList(parallelRoadSegments2));
         Random random = new Random();
         coin.generateCoins(root2, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
+        System.out.println("quiz gen er age: "+bonusPoints);
         quiz=new Enemyquiz(root2, hero, bonusPoints, "BIRD3", 120);
         quiz.generateEnemy();
         //generateCoins(roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random, coinImage);
@@ -207,20 +209,23 @@ public class HelloController3  {
                 // checkCoinCollisions();
                 coin.checkCoinCollisions2(root2, hero.heroView);
                 quiz.checkEnemyCollisions(hero.isDownKeyPressed, bonusPointsLabel);
-                if (coin.isCoinFinished && quiz.isEnemyFinished) {
+                if (coin.isCoinFinished ) {
                     System.out.println("@@@@@@@@@@@@@@@@@@");
                     obstacles.generateCoins(root2, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
                     coin.isCoinFinished = false;
                     isObstacleGen = true;
                 }
-                obstacles.checkObstacleCollisions(root2, hero.heroView, hero.isJumping);
+                obstacles.checkObstacleCollisions3(root2, hero.heroView, hero.isJumping);
                 if (obstacles.isObstacleFinished) {
                     bigObstacle.generateBigCoins(root2, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
                     //mid.generateMid(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
                     obstacles.isObstacleFinished = false;
                     isBigObstacleGen = true;
                 }
-                bigObstacle.checkBigObstacleCollisions2(root2, hero.heroView, hero.isJumping , HelloController3.this);
+                String bonusText = bonusPointsLabel.getText().replaceAll("[^0-9]", "");
+                int bonusPoints2 = Integer.parseInt(bonusText);
+                //System.out.println("In 3rd level for ^^^^^^^^: "+bonusPoints2);
+                bigObstacle.checkBigObstacleCollisions2(root2, hero.heroView, hero.isJumping , HelloController3.this, bonusPoints2);
 
                 //if(!isTimerRunning) {return;}
                 if (bigObstacle.isBigObstacleFinished && isTimerRunning) {
@@ -242,7 +247,7 @@ public class HelloController3  {
                 quizObstacle.LogocheckObstacleCollisions(root2, hero.heroView, damagePointsLabel, isTimerRunning);
                 coinAfterMId.checkCoinCollisions2(root2, hero.heroView);
                 fire.checkCoinCollisions(root2, hero.heroView , HelloController3.this);
-                System.out.println(isTimerRunning);
+                //System.out.println(isTimerRunning);
                 //coin.checkCoinCollisions(root, hero.heroView);
 
                 if (quizObstacle.isQuizObstacleFinished) {
@@ -405,7 +410,8 @@ public class HelloController3  {
 
         //mrim
         // Add this code in the start method after initializing the points label
-        bonusPointsLabel = new javafx.scene.text.Text("Bonus Points: 0");
+        System.out.println("Label er age :"+bonusPoints);
+        bonusPointsLabel = new javafx.scene.text.Text("Bonus Points: " +bonusPoints);
         bonusPointsLabel.setFill(Color.WHITE);
         bonusPointsLabel.setStyle("-fx-font-size: 55px; -fx-text-fill: white;");
         bonusPointsLabel.setLayoutX(20);

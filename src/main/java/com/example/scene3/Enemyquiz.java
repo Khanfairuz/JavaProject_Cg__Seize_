@@ -66,7 +66,7 @@ public class Enemyquiz {
 
         // Create a timeline to continuously generate enemies
         enemyTimeline = new Timeline(
-                new KeyFrame(Duration.seconds(1), event -> { // Adjust the duration as needed
+                new KeyFrame(Duration.seconds(2), event -> { // Adjust the duration as needed
                     // Randomly select a Y position above all road segments with an offset
                     double enemyY = random.nextDouble() * maxY;
 
@@ -138,7 +138,7 @@ public class Enemyquiz {
             // Iterate through each enemy
 
             for (ImageView enemy : new ArrayList<>(enemies)) {
-                System.out.println("inside of check collision enemy");
+                //System.out.println("inside of check collision enemy");
                 // Check if the lower quarter of the hero's image intersects with the enemy
                 if (enemy.getBoundsInParent().intersects(heroView.getBoundsInParent())){//.getLayoutX(), heroLowerY, HERO_WIDTH, heroLowerHeight)) {
                     // Collision detected between hero and enemy
@@ -153,16 +153,5 @@ public class Enemyquiz {
         }
     }
 
-    private void addQuizToRoads(Image quizImage, List<Rectangle> roadSegments) {
-        for (Rectangle segment : roadSegments) {
-            ImageView quiz = new ImageView(quizImage);
-            quiz.setFitWidth(QUIZ_WIDTH);
-            quiz.setFitHeight(QUIZ_HEIGHT);
-            quiz.setLayoutX(segment.getLayoutX() + segment.getWidth() / 2 - QUIZ_WIDTH / 2);
-            quiz.setLayoutY(segment.getLayoutY() + segment.getHeight() / 2 - QUIZ_HEIGHT / 2);
-            root.getChildren().add(quiz);
-            quizzes.add(quiz);
-        }
-    }
 }
 //eefe

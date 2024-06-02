@@ -41,17 +41,7 @@ public class Obstacle extends Pane {
 
     }
 
-    public ImageView getImageView() {
-        return obstacleImage;
-    }
 
-    //    public double getLayoutX() {
-//        return layoutX;
-//    }
-//
-//    public double getLayoutY() {
-//        return layoutY;
-//    }
     public void generateCoins(Pane root, List<Rectangle> roadSegments, List<Rectangle> parallelRoadSegments1, List<Rectangle> parallelRoadSegments2, Random random) {
         // Create a timeline to continuously generate coins
 
@@ -112,7 +102,7 @@ public class Obstacle extends Pane {
         obstacleTransition.setFromX(HelloController.SCENE_WIDTH);
         obstacleTransition.setToX(-distance);
 
-        if(cnt==3)
+        if(cnt==8)
         {
             System.out.println("???"+cnt);
             obstacleTransition.stop();
@@ -146,22 +136,6 @@ public class Obstacle extends Pane {
                 if (obstacle.getBoundsInParent().intersects(heroView.getLayoutX(), heroLowerY, Hero.HERO_WIDTH, heroLowerHeight)) {
                     // Collision detected between hero and coin
                     if (heroIsJump == false) {
-                        // obstacle.setX(heroView.getLayoutX());
-
-
-//                        newImg.setX(heroView.getLayoutX()+150);
-//                        newImg.setY(obstacle.getLayoutY());
-//                        newImg.setFitWidth(obstacle_width); // Adjust width as needed
-//                        newImg.setFitHeight(obstacle_height); // Adjust height as needed
-//
-//
-//                        obstacle.setVisible(false);
-//                        root.getChildren().add(newImg);
-//
-//                        obstacleTransition.pause();
-//                        //obstacleTransition.stop();
-//                        HelloController.timer.stop();
-//                        obstacleTimeline.pause();
                         scoreNeg++;
                         if (scoreNeg == 3) {
                             HelloController.points--;
@@ -173,27 +147,76 @@ public class Obstacle extends Pane {
 
                     collided = true;
                     obstacles.remove(obstacle);
-                    //break;
-                    //heroView.setImage("/Run/");
-                    //System.out.println("KENO");
-                    // root.getChildren().remove(obstacle); // Remove the coin from the scene
-                    // obstacles.remove(obstacle); // Remove the coin from the list
-                    // Increment points and update points label
+
                 }
                 break;
             }
         }
-//        if(heroIsJump)
-//        {
-//            if(obstacleTransition.getStatus()== Animation.Status.PAUSED) {
-//                obstacleTransition.play();
-//                HelloController.timer.start();
-//            }
-//            if(obstacleTransition.getStatus()== Animation.Status.STOPPED)
 //
-//                obstacleTimeline.play();
-//            newImg.setVisible(false);
-//        }
+    }
+    //hc2
+    public void checkObstacleCollisions2(Pane root, ImageView heroView, boolean heroIsJump) {
+        // Calculate the bounds for the lower quarter of the hero's image
+        double heroLowerY = heroView.getLayoutY() + Hero.HERO_HEIGHT * 0.90;
+        double heroLowerHeight = Hero.HERO_HEIGHT * 0.10;
+
+        boolean collided = false;
+        //System.out.println("choto obstacle");
+        for (ImageView obstacle : new ArrayList<>(obstacles)) {
+            // Check if the lower quarter of the hero's image intersects with the coin
+            if (!collided) {
+                if (obstacle.getBoundsInParent().intersects(heroView.getLayoutX(), heroLowerY, Hero.HERO_WIDTH, heroLowerHeight)) {
+                    // Collision detected between hero and coin
+                    if (heroIsJump == false) {
+                        scoreNeg++;
+                        if (scoreNeg == 3) {
+                            HelloController2.points--;
+                            HelloController2.pointsLabel.setText("Points: " + HelloController2.points);
+                            scoreNeg = 0;
+                        }
+                    }
+
+
+                    collided = true;
+                    obstacles.remove(obstacle);
+
+                }
+                break;
+            }
+        }
+//
+    }
+    //hc3
+    public void checkObstacleCollisions3(Pane root, ImageView heroView, boolean heroIsJump) {
+        // Calculate the bounds for the lower quarter of the hero's image
+        double heroLowerY = heroView.getLayoutY() + Hero.HERO_HEIGHT * 0.90;
+        double heroLowerHeight = Hero.HERO_HEIGHT * 0.10;
+
+        boolean collided = false;
+        //System.out.println("choto obstacle");
+        for (ImageView obstacle : new ArrayList<>(obstacles)) {
+            // Check if the lower quarter of the hero's image intersects with the coin
+            if (!collided) {
+                if (obstacle.getBoundsInParent().intersects(heroView.getLayoutX(), heroLowerY, Hero.HERO_WIDTH, heroLowerHeight)) {
+                    // Collision detected between hero and coin
+                    if (heroIsJump == false) {
+                        scoreNeg++;
+                        if (scoreNeg == 3) {
+                            HelloController3.points--;
+                            HelloController3.pointsLabel.setText("Points: " + HelloController3.points);
+                            scoreNeg = 0;
+                        }
+                    }
+
+
+                    collided = true;
+                    obstacles.remove(obstacle);
+
+                }
+                break;
+            }
+        }
+//
     }
 
     public static ImageView collisionY(Pane root, ImageView heroView) {

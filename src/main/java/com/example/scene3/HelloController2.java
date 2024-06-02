@@ -103,6 +103,7 @@ public class HelloController2  {
         this.primaryStage=primaryStage;
         // Load background image
         this.bonusPoints=bonusPoints;
+        System.out.println("Levle 2 te bp: "+this.bonusPoints);
         this.points=points;
         this.damagePoints=damagePoints;
         //E:\JavaProject_Cg__Seize_\src\main\resources\Back2 .png
@@ -213,13 +214,13 @@ public class HelloController2  {
                 // checkCoinCollisions();
                 coin.checkCoinCollisions1(root1, hero.heroView);
                 quiz.checkEnemyCollisions(hero.isDownKeyPressed, bonusPointsLabel);
-                if (coin.isCoinFinished && quiz.isEnemyFinished) {
+                if (coin.isCoinFinished ) {
                     System.out.println("@@@@@@@@@@@@@@@@@@");
                     obstacles.generateCoins(root1, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
                     coin.isCoinFinished = false;
                     isObstacleGen = true;
                 }
-                obstacles.checkObstacleCollisions(root1, hero.heroView, hero.isJumping);
+                obstacles.checkObstacleCollisions2(root1, hero.heroView, hero.isJumping);
                 if (obstacles.isObstacleFinished) {
                     bigObstacle.generateBigCoins(root1, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
                     //mid.generateMid(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
@@ -427,7 +428,7 @@ public class HelloController2  {
 
         //mrim
         // Add this code in the start method after initializing the points label
-        bonusPointsLabel = new javafx.scene.text.Text("Bonus Points: 0");
+        bonusPointsLabel = new javafx.scene.text.Text("Bonus Points: "+bonusPoints);
         bonusPointsLabel.setFill(Color.WHITE);
         bonusPointsLabel.setStyle("-fx-font-size: 55px; -fx-text-fill: white;");
         bonusPointsLabel.setLayoutX(20);
@@ -467,6 +468,7 @@ public class HelloController2  {
             // Extract numeric part from bonusPointsLabel
             String bonusText = bonusPointsLabel.getText().replaceAll("[^0-9]", "");
             bonusPointsWrapper[0] = Integer.parseInt(bonusText);
+            bonusPoints+=Integer.parseInt(bonusText);
 
             // Extract numeric part from damagePointsLabel
             String damageText = damagePointsLabel.getText().replaceAll("[^0-9]", "");

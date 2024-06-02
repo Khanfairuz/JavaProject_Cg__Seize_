@@ -120,7 +120,7 @@ public class HeroLose {
         initializeAnimation();
 
         // Set the values
-        int total = points + bonusPoints + damagePoints;
+        int total = points + (int)(damagePoints*.02);
         total_point.setText(String.valueOf(total));
 
         cgpar = cgpaC.calculate_cgpa(points, bonusPoints, damagePoints);

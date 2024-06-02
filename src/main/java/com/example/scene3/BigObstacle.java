@@ -361,7 +361,7 @@ public class BigObstacle  {
         }
 
     }
-    public void checkBigObstacleCollisions2(Pane root, ImageView heroView, boolean heroIsJump , HelloController3 hc ) {
+    public void checkBigObstacleCollisions2(Pane root, ImageView heroView, boolean heroIsJump , HelloController3 hc, int bonusPoints ) {
         // Calculate the bounds for the lower quarter of the hero's image
         double heroLowerY = heroView.getLayoutY() + Hero.HERO_HEIGHT * 0.90;
         double heroLowerHeight = Hero.HERO_HEIGHT * 0.10;
@@ -371,38 +371,71 @@ public class BigObstacle  {
             // Check if the lower quarter of the hero's image intersects with the coin
             // if (!collided) {
             if (obstacle.getBoundsInParent().intersects(heroView.getBoundsInParent())) {
+                if (bonusPoints >= 12) {
+                    // Display "Life retrieved" message
+                    Label lifeRetrievedLabel = new Label("Life retrieved as bonus point>15");
+                    //lifeRetrievedLabel.setFont(new Font(25));
+                    lifeRetrievedLabel.setStyle("-fx-background-color: #a67b5b; -fx-border-color: black; -fx-font-size: 25; -fx-text-fill: black; -fx-size: 40 1500; -fx-border-style: dashed solid dashed solid;");
 
-                obstacleTransition.pause();
-                obstacleTransition2.pause();
-                obstacleTransition3.pause();
-                //obstacleTransition.stop();
-                HelloController3.timer.stop();
-                HelloController3.isTimerRunning=false;
+                    root.getChildren().add(lifeRetrievedLabel);
+
+                    // Center the label on the screen
+                    lifeRetrievedLabel.setLayoutX(((root.getWidth() - lifeRetrievedLabel.getWidth()) / 2)-120);
+                    lifeRetrievedLabel.setLayoutY(((root.getHeight() - lifeRetrievedLabel.getHeight()) / 2)-120);
+
+                    // Create a Timeline to remove the label after 2 seconds
+                    Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
+                        root.getChildren().remove(lifeRetrievedLabel);
+                    }));
+                    timeline.setCycleCount(1);
+                    timeline.play();
+
+                    break;
+                }
+
+                else if (bonusPoints<12) {
+                    obstacleTransition.pause();
+                    obstacleTransition2.pause();
+                    obstacleTransition3.pause();
+                    //obstacleTransition.stop();
+                    HelloController3.timer.stop();
+                    HelloController3.isTimerRunning = false;
 
 
-                BigobstacleTimeline.pause();
-                System.out.println("GAME OVER");
+                    BigobstacleTimeline.pause();
+                    System.out.println("GAME OVER");
 
-                Bigobstacles.remove(obstacle);
-                ShowCOll(root);
-                // Create the button
-                Button button = new Button("Next");
+                    Bigobstacles.remove(obstacle);
+                    ShowCOll(root);
+                    // Create the button
+                    Button button = new Button("Next");
 
-                // Set button size if needed
-                button.setPrefSize(100, 50);
-                button.setFont(new Font(25));
+                    // Set button size if needed
+                    button.setPrefSize(100, 50);
+                    button.setFont(new Font(25));
 
-                // Set button action using a lambda function
-                button.setOnAction(e -> {
-                    // Your lambda function code here
-                    hc.call_hero_lose();
-                });
-                // Manually trigger the layout listeners to position the button initially
-                button.setLayoutX(root.getWidth() - button.getPrefWidth() - 10);
-                button.setLayoutY(10);
-                // Add the button to the pane
-                root.getChildren().add(button);
+                    // Set button action using a lambda function
+                    button.setOnAction(e -> {
+                        // Your lambda function code here
+                        hc.call_hero_lose();
+                    });
+                    // Manually trigger the layout listeners to position the button initially
+                    button.setLayoutX(root.getWidth() - button.getPrefWidth() - 10);
+                    button.setLayoutY(10);
+                    // Add the button to the pane
+                    root.getChildren().add(button);
+                }
+               /* else
+                {
+                        Timeline Level = new Timeline(
+                                new KeyFrame(Duration.seconds(3`), actionEvent -> {
+                                    ShowLifeline(root);
+                                })
+                        );
+                        Level.play();
 
+
+                }*/
 
             }
             //break;
@@ -426,6 +459,23 @@ public class BigObstacle  {
 
         root.getChildren().add(collDone);
        // pauseMid.play();
+    }
+    public void ShowLifeline(Pane root)
+    {
+        Label collDone=new Label();
+        collDone.setText("Life renewed for bonus points");
+        collDone.setLayoutX(300);
+        collDone.setLayoutY(200);
+        collDone.setStyle("-fx-background-color: black; -fx-border-color:#424242; -fx-font-size: 100; -fx-text-fill: red; -fx-size: 60 200; -fx-border-style: dashed solid dashed solid;");
+
+
+
+        System.out.println("HOISE?");
+        // PauseTransition pauseMid=new PauseTransition(Duration.seconds());
+        // pauseMid.setOnFinished(e->root.getChildren().remove(collDone));
+
+        root.getChildren().add(collDone);
+        // pauseMid.play();
     }
     public static ImageView collisionY(Pane root, ImageView heroView) {
         // Calculate the bounds for the lower quarter of the hero's image

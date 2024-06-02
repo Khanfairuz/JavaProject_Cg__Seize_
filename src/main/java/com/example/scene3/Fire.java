@@ -146,9 +146,11 @@ public class Fire extends Pane{
                     HelloController3.timer.stop();
                     HelloController3.isTimerRunning=false;
                     System.out.println("Inside fire: "+HelloController3.isTimerRunning);
-                    QuizObstacle.obstacleTimeline.stop();
-                    midTimeline.pause();
                     System.out.println("GAME OVER");
+                    QuizObstacle.obstacleTimelineLogo.stop();
+
+                    midTimeline.pause();
+
 
                     //mids.remove(mid);
                     //ShowCOll(root);

@@ -207,7 +207,8 @@ public class HelloController  {
                 // checkCoinCollisions();
                 coin.checkCoinCollisions(root, hero.heroView);
                 quiz.checkEnemyCollisions(hero.isDownKeyPressed, bonusPointsLabel);
-                if (coin.isCoinFinished && quiz.isEnemyFinished) {
+                //System.out.println("BONUSPOINT: "+bonusPoints);
+                if (coin.isCoinFinished ) {
                     obstacles.generateCoins(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
                     coin.isCoinFinished = false;
                     isObstacleGen = true;
@@ -328,7 +329,7 @@ public class HelloController  {
                             timer1.stop();
 
                            
-                            ShowCOll();
+                            //ShowCOll();
 
 
                             calculate_data();
@@ -460,6 +461,7 @@ public class HelloController  {
             // Extract numeric part from bonusPointsLabel
             String bonusText = bonusPointsLabel.getText().replaceAll("[^0-9]", "");
             bonusPoints = Integer.parseInt(bonusText);
+            System.out.println("BONUSPOINT: "+bonusPoints);
             if(thirdlevel==true && track_zombie_kill)
             {
                  HelloController.points+=100;

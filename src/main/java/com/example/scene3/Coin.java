@@ -64,7 +64,7 @@ public class Coin extends Pane{
 
                 })
         );
-        Duration pauseDuration = Duration.seconds(3); // Adjust the pause duration as needed
+        Duration pauseDuration = Duration.seconds(1); // Adjust the pause duration as needed
         coinTimeline.setDelay(pauseDuration);
         coinTimeline.setCycleCount(Timeline.INDEFINITE);
         coinTimeline.play();
@@ -77,7 +77,7 @@ public class Coin extends Pane{
 
     private void moveCoin(Pane root, ImageView coin, Rectangle segment) {
         cnt++;
-        TranslateTransition coinTransition = new TranslateTransition(Duration.seconds(5), coin);
+        TranslateTransition coinTransition = new TranslateTransition(Duration.seconds(4), coin);
 
         // Set the X position of the coin to be outside the scene on the right side
         coin.setLayoutX(HelloController.SCENE_WIDTH);
@@ -94,7 +94,7 @@ public class Coin extends Pane{
         coinTransition.setToX(-distance);
        // root.getChildren().add(coin);
 
-        if(cnt==3)//20)
+        if(cnt==20)
         {
             System.out.println("coin "+cnt);
             coinTransition.stop();
@@ -151,7 +151,7 @@ public class Coin extends Pane{
                 coins.remove(coin); // Remove the coin from the list
                 // Increment points and update points label
                 HelloController2.points++;
-                System.out.println(HelloController2.points);
+                //System.out.println(HelloController2.points);
                 HelloController2.pointsLabel.setText("Points: " + HelloController2.points);
             }
         }
