@@ -29,6 +29,8 @@ public class BigObstacle  {
     public boolean isBigObstacleFinished=false;
     private int cnt=0;
 
+
+
     public BigObstacle(double layoutX, double layoutY, String obsname) {
         image = new Image(getClass().getResource("/Obstacle/"+obsname+".png").toExternalForm());
         this.BigobstacleImage = new ImageView(image);
@@ -225,7 +227,7 @@ public class BigObstacle  {
         obstacleTransition3.play();
 
     }
-    public void checkBigObstacleCollisions(Pane root, ImageView heroView, boolean heroIsJump ) {
+    public void checkBigObstacleCollisions(Pane root, ImageView heroView, boolean heroIsJump,HelloController hc ) {
         // Calculate the bounds for the lower quarter of the hero's image
         double heroLowerY = heroView.getLayoutY() + Hero.HERO_HEIGHT * 0.90;
         double heroLowerHeight = Hero.HERO_HEIGHT * 0.10;
@@ -245,14 +247,20 @@ public class BigObstacle  {
                         obstacleTransition3.pause();
                         //obstacleTransition.stop();
                         HelloController.timer.stop();
-                       HelloController.isTimerRunning=false;
+                        HelloController.isTimerRunning=false;
 
 
                     BigobstacleTimeline.pause();
                         System.out.println("GAME OVER");
 
+
+
                     Bigobstacles.remove(obstacle);
                     ShowCOll(root);
+                    hc.call_hero_lose();
+
+                    //
+
 
                 }
                 //break;
@@ -260,7 +268,7 @@ public class BigObstacle  {
 
     }
 
-    public void checkBigObstacleCollisions1(Pane root, ImageView heroView, boolean heroIsJump ) {
+    public void checkBigObstacleCollisions1(Pane root, ImageView heroView, boolean heroIsJump , HelloController2 hc) {
         // Calculate the bounds for the lower quarter of the hero's image
         double heroLowerY = heroView.getLayoutY() + Hero.HERO_HEIGHT * 0.90;
         double heroLowerHeight = Hero.HERO_HEIGHT * 0.10;
@@ -282,15 +290,18 @@ public class BigObstacle  {
                 BigobstacleTimeline.pause();
                 System.out.println("GAME OVER");
 
+
                 Bigobstacles.remove(obstacle);
                 ShowCOll(root);
+                hc.call_hero_lose();
+
 
             }
             //break;
         }
 
     }
-    public void checkBigObstacleCollisions2(Pane root, ImageView heroView, boolean heroIsJump ) {
+    public void checkBigObstacleCollisions2(Pane root, ImageView heroView, boolean heroIsJump , HelloController3 hc ) {
         // Calculate the bounds for the lower quarter of the hero's image
         double heroLowerY = heroView.getLayoutY() + Hero.HERO_HEIGHT * 0.90;
         double heroLowerHeight = Hero.HERO_HEIGHT * 0.10;
@@ -314,6 +325,8 @@ public class BigObstacle  {
 
                 Bigobstacles.remove(obstacle);
                 ShowCOll(root);
+                hc.call_hero_lose();
+
 
             }
             //break;

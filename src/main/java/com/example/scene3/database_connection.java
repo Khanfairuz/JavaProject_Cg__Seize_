@@ -146,4 +146,54 @@ public class database_connection {
       e.printStackTrace();
     }
   }
+  public double getMaxScore() {
+    String sql = "SELECT maxs FROM maxscore WHERE id = ?";
+    String url = "jdbc:postgresql://localhost:5432/question_and_answer_2";
+    String username = "postgres";
+    String password = "1234";
+
+    try (Connection connection = DriverManager.getConnection(url, username, password);
+         PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+      preparedStatement.setInt(1, 1); // Set the id to 1
+
+      try (ResultSet rs = preparedStatement.executeQuery()) {
+        if (rs.next()) {
+          return rs.getDouble("maxs");
+        } else {
+          System.out.println("No record found with id = 1.");
+          return -1; // Indicate that no record was found
+        }
+      }
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return -1; // Indicate that an error occurred
+    }
+  }
+  public void updateMaxScore(double newMaxScore) {
+    String sql = "UPDATE maxscore SET maxs = ? WHERE id = ?";
+    String url = "jdbc:postgresql://localhost:5432/question_and_answer_2";
+    String username = "postgres";
+    String password = "1234";
+
+    try (Connection connection = DriverManager.getConnection(url, username, password);
+         PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+      preparedStatement.setDouble(1, newMaxScore); // Set the new max score
+      preparedStatement.setInt(2, 1); // Set the id to 1
+
+      int rowsAffected = preparedStatement.executeUpdate();
+      if (rowsAffected > 0) {
+        System.out.println("Max score updated successfully.");
+      } else {
+        System.out.println("No record found with id = 1.");
+      }
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+
 }
