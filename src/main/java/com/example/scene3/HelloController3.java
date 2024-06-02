@@ -238,7 +238,7 @@ public class HelloController3  {
                 }
                 quizObstacle.checkObstacleCollisions(root2, hero.heroView, damagePointsLabel, isTimerRunning);
                 coinAfterMId.checkCoinCollisions2(root2, hero.heroView);
-                fire.checkCoinCollisions(root2, hero.heroView);
+                fire.checkCoinCollisions(root2, hero.heroView , HelloController3.this);
                 System.out.println(isTimerRunning);
                 //coin.checkCoinCollisions(root, hero.heroView);
 

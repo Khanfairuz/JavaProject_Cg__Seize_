@@ -101,7 +101,7 @@ public class HelloController2  {
         this.damagePoints=damagePoints;
         //E:\JavaProject_Cg__Seize_\src\main\resources\Back2 .png
         // Load background image
-        ImageView backgroundView1 = new ImageView("Back2 .png");
+        ImageView backgroundView1 = new ImageView("Back2.png");
         ImageView backgroundView2 = new ImageView("Back2.png");
 
         backgroundView1.setLayoutX(0);
