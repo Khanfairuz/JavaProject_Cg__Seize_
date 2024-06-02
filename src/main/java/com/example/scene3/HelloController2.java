@@ -434,7 +434,7 @@ public class HelloController2  {
         bonusPointsLabel.setLayoutY(120);
         root1.getChildren().add(bonusPointsLabel);
         // Add this code in the start method after initializing the points label
-        damagePointsLabel = new javafx.scene.text.Text("Damage Points: " + damagePoints);
+        damagePointsLabel = new javafx.scene.text.Text("Damage Points: 0") ;
         damagePointsLabel.setFill(Color.WHITE);
         damagePointsLabel.setStyle("-fx-font-size: 55px; -fx-text-fill: white;");
         damagePointsLabel.setLayoutX(SCENE_WIDTH );
@@ -471,6 +471,10 @@ public class HelloController2  {
             // Extract numeric part from damagePointsLabel
             String damageText = damagePointsLabel.getText().replaceAll("[^0-9]", "");
             damagePointsWrapper[0] = Integer.parseInt(damageText);
+            if(thirdlevel==true && track_zombie_kill)
+            {
+                points+=100;
+            }
 
             // Proceed with the rest of your logic
         } catch (NumberFormatException e) {

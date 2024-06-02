@@ -322,11 +322,14 @@ public class HelloController  {
                     }
                     if(elapsedTimeSeconds_check>12.7&& elapsedTimeSeconds_check<13)
                     {
+                        audio.stopMusic_zombie();
                         try {
                             timer.stop();
                             timer1.stop();
-                            audio.stopMusic_zombie();
+
+                           
                             ShowCOll();
+
 
                             calculate_data();
                             //points
@@ -457,10 +460,16 @@ public class HelloController  {
             // Extract numeric part from bonusPointsLabel
             String bonusText = bonusPointsLabel.getText().replaceAll("[^0-9]", "");
             bonusPoints = Integer.parseInt(bonusText);
+            if(thirdlevel==true && track_zombie_kill)
+            {
+                 HelloController.points+=100;
+            }
+
 
             // Extract numeric part from damagePointsLabel
             String damageText = damagePointsLabel.getText().replaceAll("[^0-9]", "");
             damagePoints = Integer.parseInt(damageText);
+
 
             // Proceed with the rest of your logic
         } catch (NumberFormatException e) {

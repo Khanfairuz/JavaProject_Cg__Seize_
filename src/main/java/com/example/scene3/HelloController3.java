@@ -89,6 +89,8 @@ public class HelloController3  {
     final int[] bonusPointsWrapper = new int[1];
     final int[] damagePointsWrapper = new int[1];
     private HeroLose hr=new HeroLose();
+
+    private  HeroWin hrW=new HeroWin();
     private  Stage primaryStage;
 
 
@@ -239,7 +241,7 @@ public class HelloController3  {
                 }
                 quizObstacle.checkObstacleCollisions(root2, hero.heroView, damagePointsLabel, isTimerRunning);
                 coinAfterMId.checkCoinCollisions2(root2, hero.heroView);
-                fire.checkCoinCollisions(root2, hero.heroView);
+                fire.checkCoinCollisions(root2, hero.heroView , HelloController3.this);
                 System.out.println(isTimerRunning);
                 //coin.checkCoinCollisions(root, hero.heroView);
 
@@ -279,7 +281,7 @@ public class HelloController3  {
                             //
                             for (int i = 0; i < monster.Monster.length; i++) {
                                 // FileInputStream inputStream = new FileInputStream("C:\\Users\\HP\\Music\\run3\\run3-0" + i + ".png");
-                                monster.Monster[i] = new Image(getClass().getResource("/monster2kill/monster2kill-" + i + ".png").toExternalForm());
+                                monster.Monster[i] = new Image(getClass().getResource("/monster3kill/monster3kill-" + i + ".png").toExternalForm());
 
                             }
                             frameCountM = 0;
@@ -290,7 +292,7 @@ public class HelloController3  {
                             //
                             for (int i = 0; i < monster.Monster.length; i++) {
                                 // FileInputStream inputStream = new FileInputStream("C:\\Users\\HP\\Music\\run3\\run3-0" + i + ".png");
-                                monster.Monster[i] = new Image(getClass().getResource("/monster2killhero/monster2killhero-" + i + ".png").toExternalForm());
+                                monster.Monster[i] = new Image(getClass().getResource("/monster3killhero/monster3killhero-" + i + ".png").toExternalForm());
 
                             }
                             frameCountM = 0;
@@ -309,6 +311,19 @@ public class HelloController3  {
                         }
 
 
+                    }
+
+                    //new page load
+                    if(elapsedTimeSeconds_check>12.7&& elapsedTimeSeconds_check<13)
+                    {
+
+                            timer.stop();
+                            timer1.stop();
+
+                            audio.stopMusic_zombie();
+                            call_hero_win();
+
+                            // Use the wrapper values
                     }
                     //quizObstacle.generateObstacles(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
 
@@ -397,7 +412,7 @@ public class HelloController3  {
         bonusPointsLabel.setLayoutY(120);
         root2.getChildren().add(bonusPointsLabel);
         // Add this code in the start method after initializing the points label
-        damagePointsLabel = new javafx.scene.text.Text("Damage Points: " + damagePoints);
+        damagePointsLabel = new javafx.scene.text.Text("Damage Points: 0");
         damagePointsLabel.setFill(Color.WHITE);
         damagePointsLabel.setStyle("-fx-font-size: 55px; -fx-text-fill: white;");
         damagePointsLabel.setLayoutX(SCENE_WIDTH );
@@ -423,6 +438,13 @@ public class HelloController3  {
 
 
     }
+
+    void call_hero_win()
+    {
+        calculate_data();
+        hrW.hero_win_start(primaryStage, points , bonusPoints , damagePoints);
+
+    }
     private  void calculate_data()
     {
         try {
@@ -433,6 +455,10 @@ public class HelloController3  {
             // Extract numeric part from damagePointsLabel
             String damageText = damagePointsLabel.getText().replaceAll("[^0-9]", "");
             damagePointsWrapper[0] = Integer.parseInt(damageText);
+            if(thirdlevel==true && track_zombie_kill)
+            {
+                points+=100;
+            }
 
             // Proceed with the rest of your logic
         } catch (NumberFormatException e) {
