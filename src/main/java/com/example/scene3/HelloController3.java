@@ -42,7 +42,7 @@ public class HelloController3  {
 
     private Image coinImage;
 
-    public static Obstacle obstacles = new Obstacle(20,20, "newobs");
+    public static Obstacle obstacles = new Obstacle(20,20, "purpleObs");
     public static Coin coin=new Coin();
     public static Coin coinAfterMId=new Coin();
     public static Mid mid=new Mid();

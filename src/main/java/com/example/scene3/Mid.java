@@ -279,7 +279,7 @@ public class Mid extends Pane {
     // Helper method to find the road segment the hero is on
     private Rectangle getHeroSegment(ImageView heroView, List<Rectangle> roadSegments, List<Rectangle> parallelRoadSegments1, List<Rectangle> parallelRoadSegments2) {
         double heroY = heroView.getLayoutY() + Hero.HERO_HEIGHT / 2;
-        System.out.println("Hero Y: " + heroY);
+       // System.out.println("Hero Y: " + heroY);
 
         for (Rectangle segment : roadSegments) {
             if (isWithinSegment(heroY, segment)) {
@@ -305,7 +305,7 @@ public class Mid extends Pane {
     // Helper method to find the road segment the mid coin is on
     private Rectangle getMidSegment(ImageView mid, List<Rectangle> roadSegments, List<Rectangle> parallelRoadSegments1, List<Rectangle> parallelRoadSegments2) {
         double midY = mid.getLayoutY() + MID_HEIGHT / 2;
-        System.out.println("Mid Y: " + midY);
+        //System.out.println("Mid Y: " + midY);
 
         for (Rectangle segment : roadSegments) {
             if (isWithinSegment(midY, segment)) {
