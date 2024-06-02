@@ -50,7 +50,7 @@ public class HelloController3  {
     public static QuizObstacle quizObstacle=new QuizObstacle();
     public static AnimationTimer timer;
     public  static  AnimationTimer  timer1;
-    public static BigObstacle bigObstacle=new BigObstacle(60, 20, "BigObs3");
+    public static BigObstacle bigObstacle=new BigObstacle(60, 20, "back2-ob");//, 60, 1000);
 
     private  int frameCountM=0;
     public  static    Pane root2 =new Pane();
@@ -97,6 +97,7 @@ public class HelloController3  {
         // Load background image
         this.bonusPoints=bonusPoints;
         this.points=points;
+        System.out.println("3rd level ::::::::::::::::::::" + points);
         this.damagePoints=damagePoints;
         ImageView backgroundView1 = new ImageView("Back3.png");
         ImageView backgroundView2 = new ImageView("Back3.png");
@@ -146,7 +147,7 @@ public class HelloController3  {
         List<Rectangle> parallelRoadSegmentList2 = new ArrayList<>(Arrays.asList(parallelRoadSegments2));
         Random random = new Random();
         coin.generateCoins(root2, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
-        quiz=new Enemyquiz(root2, hero, bonusPoints);
+        quiz=new Enemyquiz(root2, hero, bonusPoints, "BIRD3", 120);
         quiz.generateEnemy();
         //generateCoins(roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random, coinImage);
         // obstacles.generateCoins(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
@@ -226,7 +227,7 @@ public class HelloController3  {
                     bigObstacle.isBigObstacleFinished = false;
                 }
 
-                mid.checkCoinCollisions(root2, hero.heroView,roadSegmentList,parallelRoadSegmentList1,parallelRoadSegmentList2, isTimerRunning);
+                mid.checkCoinCollisions3(root2, hero.heroView,roadSegmentList,parallelRoadSegmentList1,parallelRoadSegmentList2, isTimerRunning);
                 if (mid.isMidFinished && isTimerRunning) {
                     System.out.println("fairuz");
                     quizObstacle.generateObstacles(root2, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
@@ -248,6 +249,9 @@ public class HelloController3  {
                         audio.stopMusic_normal();
                         audio.play_music_zombie(root2);
                         monster.generateMonster(root2,3);
+                        hero.heroView.setLayoutX(SCENE_WIDTH - Hero.HERO_WIDTH - 400);
+
+
                         quizObstacle.isQuizObstacleFinished = false;
                         checkQues();
                         oneTimeGenerate = false;
@@ -267,8 +271,10 @@ public class HelloController3  {
                     // Update the label with the elapsed time
                     // System.out.println("Elapsed Time: %.1f seconds "+elapsedTimeSeconds);
                     //time pore chenge kora jabe
-                    if (elapsedTimeSeconds_check > 7.5 && elapsedTimeSeconds_check< 7.7 && oneKill == false) {
-                        oneKill = true;
+                    //if (elapsedTimeSeconds_check > 7.5 && elapsedTimeSeconds_check< 7.7 && oneKill == false) {
+                    if(hero.heroView.getBoundsInParent().intersects(monster.monsterView.getBoundsInParent()) && oneKill == false){
+
+                            oneKill = true;
                         if (track_zombie_kill == true) {
                             //
                             for (int i = 0; i < monster.Monster.length; i++) {

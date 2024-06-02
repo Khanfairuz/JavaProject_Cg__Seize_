@@ -42,7 +42,7 @@ public class Enemyquiz {
 
     Random random=new Random();
 
-    public Enemyquiz(Pane root, Hero hero, int bonusPoints) {
+    public Enemyquiz(Pane root, Hero hero, int bonusPoints, String EnemyName, int height) {
         this.root = root;
         this.isDownKeyPressed = hero.isDownKeyPressed;
         this.isJumping = hero.isJumping;
@@ -50,9 +50,10 @@ public class Enemyquiz {
         this.HERO_HEIGHT = hero.HERO_HEIGHT;
         this.HERO_WIDTH = hero.HERO_WIDTH;
         this.bonusPoints = bonusPoints;
+        this.ENEMY_HEIGHT=height;
 
-        enemyImage = new Image(getClass().getResource("/Enemy/wow.png").toExternalForm());
-        quizImage = new Image(getClass().getResource("/Gold/QUIZ.gif").toExternalForm());
+        enemyImage = new Image(getClass().getResource("/Enemy/"+EnemyName+".png").toExternalForm());
+        //quizImage = new Image(getClass().getResource("/Gold/QUIZ.gif").toExternalForm());
     }
 
     public  int Cnt=0;
@@ -109,7 +110,7 @@ public class Enemyquiz {
         enemyTransition.setFromX(SCENE_WIDTH);
         enemyTransition.setToX(-distance);
 
-        if(Cnt==1)
+        if(Cnt==10)
         {
             //System.out.println("???"+cnt);
             enemyTransition.stop();

@@ -275,6 +275,85 @@ public class Mid extends Pane {
             }
         }
     }
+    //level 2 mid update
+    public void checkCoinCollisions2(Pane root, ImageView heroView, List<Rectangle> roadSegments, List<Rectangle> parallelRoadSegments1, List<Rectangle> parallelRoadSegments2, boolean isTimerRunning) {
+        // Calculate the bounds for the lower quarter of the hero's image
+        double heroLowerY = heroView.getLayoutY() + Hero.HERO_HEIGHT * 0.90;
+        double heroLowerHeight = Hero.HERO_HEIGHT * 0.10;
+
+        if (!isTimerRunning) {
+            System.out.println("Timer stopped");
+            midTimeline.stop();
+        }
+
+        for (ImageView mid : new ArrayList<>(mids)) {
+            if (!collided) {
+                // Check if the mid coin and hero are on the same road segment
+                Rectangle heroSegment = getHeroSegment(heroView, roadSegments, parallelRoadSegments1, parallelRoadSegments2);
+                Rectangle midSegment = getMidSegment(mid, roadSegments, parallelRoadSegments1, parallelRoadSegments2);
+
+                if (heroSegment != null && midSegment != null && heroSegment.equals(midSegment)) {
+                    //System.out.println("Hero and mid are on the same segment");
+
+                    // Check if the lower quarter of the hero's image intersects with the coin
+                    if (mid.getBoundsInParent().intersects(heroView.getLayoutX(), heroLowerY, Hero.HERO_WIDTH, heroLowerHeight)) {
+                        System.out.println("Collision detected");
+                        // Collision detected between hero and coin
+                        root.getChildren().remove(mid); // Remove the coin from the scene
+                        midTransition.stop();
+                        mids.remove(mid); // Remove the coin from the list
+                        // Increment points and update points label
+                        ShowMidWin(root);
+                        HelloController2.points += 75;
+                        System.out.println(HelloController2.points);
+                        HelloController2.pointsLabel.setText("Points: " + HelloController2.points);
+                        collided = true;
+                    }
+                } else {
+                    // System.out.println("Hero and mid are not on the same segment");
+                }
+            }
+        }
+    }
+    //level 3 mid collision
+    public void checkCoinCollisions3(Pane root, ImageView heroView, List<Rectangle> roadSegments, List<Rectangle> parallelRoadSegments1, List<Rectangle> parallelRoadSegments2, boolean isTimerRunning) {
+        // Calculate the bounds for the lower quarter of the hero's image
+        double heroLowerY = heroView.getLayoutY() + Hero.HERO_HEIGHT * 0.90;
+        double heroLowerHeight = Hero.HERO_HEIGHT * 0.10;
+
+        if (!isTimerRunning) {
+            System.out.println("Timer stopped");
+            midTimeline.stop();
+        }
+
+        for (ImageView mid : new ArrayList<>(mids)) {
+            if (!collided) {
+                // Check if the mid coin and hero are on the same road segment
+                Rectangle heroSegment = getHeroSegment(heroView, roadSegments, parallelRoadSegments1, parallelRoadSegments2);
+                Rectangle midSegment = getMidSegment(mid, roadSegments, parallelRoadSegments1, parallelRoadSegments2);
+
+                if (heroSegment != null && midSegment != null && heroSegment.equals(midSegment)) {
+                    //System.out.println("Hero and mid are on the same segment");
+
+                    // Check if the lower quarter of the hero's image intersects with the coin
+                    if (mid.getBoundsInParent().intersects(heroView.getLayoutX(), heroLowerY, Hero.HERO_WIDTH, heroLowerHeight)) {
+                        System.out.println("Collision detected");
+                        // Collision detected between hero and coin
+                        root.getChildren().remove(mid); // Remove the coin from the scene
+                        midTransition.stop();
+                        mids.remove(mid); // Remove the coin from the list
+                        // Increment points and update points label
+                        ShowMidWin(root);
+                        HelloController3.points += 75;
+                        HelloController3.pointsLabel.setText("Points: " + HelloController3.points);
+                        collided = true;
+                    }
+                } else {
+                    // System.out.println("Hero and mid are not on the same segment");
+                }
+            }
+        }
+    }
 
     // Helper method to find the road segment the hero is on
     private Rectangle getHeroSegment(ImageView heroView, List<Rectangle> roadSegments, List<Rectangle> parallelRoadSegments1, List<Rectangle> parallelRoadSegments2) {

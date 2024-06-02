@@ -1,9 +1,12 @@
 package com.example.scene3;
 import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -12,6 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -19,6 +23,7 @@ import java.util.Random;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 public class HelloController2  {
+    int i=1;
     public static final int SCENE_WIDTH = 800;
     private static final int SCENE_HEIGHT = 600;
     private static final int SCROLL_SPEED = 8;
@@ -50,6 +55,7 @@ public class HelloController2  {
     public static QuizObstacle quizObstacle=new QuizObstacle();
     public static AnimationTimer timer;
     public  static  AnimationTimer  timer1;
+    public Timeline Level;
     public static BigObstacle bigObstacle=new BigObstacle(60, 20, "BigObs2");
 
     private  int frameCountM=0;
@@ -90,7 +96,7 @@ public class HelloController2  {
     final int[] damagePointsWrapper = new int[1];
     private HeroLose hr=new HeroLose();
     private  Stage primaryStage;
-
+    public boolean heroMOns=false;
 
 
     public void start_new_2(Stage primaryStage ,int points , int bonusPoints , int damagePoints) throws FileNotFoundException {
@@ -101,7 +107,7 @@ public class HelloController2  {
         this.damagePoints=damagePoints;
         //E:\JavaProject_Cg__Seize_\src\main\resources\Back2 .png
         // Load background image
-        ImageView backgroundView1 = new ImageView("Back2 .png");
+        ImageView backgroundView1 = new ImageView("Back2.png");
         ImageView backgroundView2 = new ImageView("Back2.png");
 
         backgroundView1.setLayoutX(0);
@@ -149,7 +155,7 @@ public class HelloController2  {
         List<Rectangle> parallelRoadSegmentList2 = new ArrayList<>(Arrays.asList(parallelRoadSegments2));
         Random random = new Random();
         coin.generateCoins(root1, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
-        quiz=new Enemyquiz(root1, hero, bonusPoints);
+        quiz=new Enemyquiz(root1, hero, bonusPoints, "BIRD2", 150);
         quiz.generateEnemy();
         //generateCoins(roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random, coinImage);
         // obstacles.generateCoins(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
@@ -223,13 +229,17 @@ public class HelloController2  {
                 bigObstacle.checkBigObstacleCollisions1(root1, hero.heroView, hero.isJumping , HelloController2.this);
 
                 //if(!isTimerRunning) {return;}
-                if (bigObstacle.isBigObstacleFinished && isTimerRunning) {
-                    System.out.println("Why");
-                    mid.generateMid(root1, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
-                    bigObstacle.isBigObstacleFinished = false;
+               if (bigObstacle.isBigObstacleFinished && isTimerRunning) {
+
+                //if (i==1 && isTimerRunning) {
+
+                        System.out.println("Why");
+                        mid.generateMid(root1, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
+                        bigObstacle.isBigObstacleFinished = false;
+                       // i--;
                 }
 
-                mid.checkCoinCollisions(root1, hero.heroView,roadSegmentList,parallelRoadSegmentList1,parallelRoadSegmentList2, isTimerRunning);
+                mid.checkCoinCollisions2(root1, hero.heroView,roadSegmentList,parallelRoadSegmentList1,parallelRoadSegmentList2, isTimerRunning);
                 if (mid.isMidFinished && isTimerRunning) {
                     System.out.println("fairuz");
                     quizObstacle.generateObstacles(root1, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
@@ -240,14 +250,18 @@ public class HelloController2  {
                 }
                 quizObstacle.checkObstacleCollisions(root1, hero.heroView, damagePointsLabel, isTimerRunning);
                 coinAfterMId.checkCoinCollisions1(root1, hero.heroView);
+               // System.out.println("HC2 te: "+HelloController2.points);
                 //coin.checkCoinCollisions(root, hero.heroView);
 
                 if (quizObstacle.isQuizObstacleFinished) {
-                    System.out.println("finished");
+                    System.out.println("finished" + points);
                     if (oneTimeGenerate) {
                         audio.stopMusic_normal();
                         audio.play_music_zombie(root1);
                         monster.generateMonster(root1,2);
+                        hero.heroView.setLayoutX(SCENE_WIDTH - Hero.HERO_WIDTH - 400);
+
+
                         quizObstacle.isQuizObstacleFinished = false;
                         checkQues();
                         oneTimeGenerate = false;
@@ -267,8 +281,10 @@ public class HelloController2  {
                     // Update the label with the elapsed time
                     // System.out.println("Elapsed Time: %.1f seconds "+elapsedTimeSeconds);
                     //time pore chenge kora jabe
-                    if (elapsedTimeSeconds_check > 7.5 && elapsedTimeSeconds_check< 7.7 && oneKill == false) {
+                    if(hero.heroView.getBoundsInParent().intersects(monster.monsterView.getBoundsInParent()) && oneKill == false){
+                        // if (elapsedTimeSeconds_check > 7.5 && elapsedTimeSeconds_check< 7.7 && oneKill == false) {
                         oneKill = true;
+                        heroMOns=true;
                         if (track_zombie_kill == true) {
                             //
                             for (int i = 0; i < monster.Monster.length; i++) {
@@ -304,16 +320,29 @@ public class HelloController2  {
 
 
                     }
+                    if(heroMOns) {
+                        Level = new Timeline(
+                                new KeyFrame(Duration.seconds(4), actionEvent -> {
+                                    ShowCOll();
+                                })
+                        );
+                        Level.play();
+                        heroMOns=false;
+                    }
+
                     if(elapsedTimeSeconds_check>12.7&& elapsedTimeSeconds_check<13)
                     {
+                        ShowCOll();
                         try {
                             timer.stop();
                             timer1.stop();
                             audio.stopMusic_zombie();
                             calculate_data();
 
+                           // ShowCOll();
                             // Use the wrapper values
-                            hc3.start_new_3(primaryStage, points, bonusPointsWrapper[0], damagePointsWrapper[0]);
+                            System.out.println("In 2nd level to pass:///////"+points);
+                            hc3.start_new_3(primaryStage, HelloController2.points, bonusPointsWrapper[0], damagePointsWrapper[0]);
                         } catch (FileNotFoundException e) {
                             throw new RuntimeException(e);
                         }
@@ -535,7 +564,7 @@ public class HelloController2  {
                 double elapsedTimeMillis = elapsedTimeNano / 1_000_000_000.0;
                 elapsedTimeSeconds_check=elapsedTimeMillis;
                 // Print elapsed time
-                System.out.printf("Elapsed Time 2nd : %.1f milliseconds\n", elapsedTimeMillis);
+               // System.out.printf("Elapsed Time 2nd : %.1f milliseconds\n", elapsedTimeMillis);
 
                 // Example condition: print message between 10.5 and 11 seconds
                 if (elapsedTimeMillis >7200 && elapsedTimeMillis <7300) {
@@ -635,7 +664,23 @@ public class HelloController2  {
         }
         System.out.println("Checked D");
     }
+    public void ShowCOll()
+    {
+        Label collDone=new Label();
+        collDone.setText("Moving to Level-3!!");
+        collDone.setLayoutX(310);
+        collDone.setLayoutY(200);
+        collDone.setStyle("-fx-background-color: black; -fx-border-color:#424242; -fx-font-size: 70; -fx-text-fill: yellow; -fx-size: 100 350; -fx-border-style: dashed solid dashed solid;");
 
+
+
+        System.out.println("HOISE?");
+        // PauseTransition pauseMid=new PauseTransition(Duration.seconds());
+        // pauseMid.setOnFinished(e->root.getChildren().remove(collDone));
+
+        root1.getChildren().add(collDone);
+        // pauseMid.play();
+    }
 
 
 }

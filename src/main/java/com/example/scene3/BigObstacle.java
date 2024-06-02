@@ -45,6 +45,22 @@ public class BigObstacle  {
 
 
     }
+    public BigObstacle(double layoutX, double layoutY, String obsname, int height, int width) {
+        image = new Image(getClass().getResource("/Obstacle/"+obsname+".png").toExternalForm());
+        this.BigobstacleImage = new ImageView(image);
+        BigobstacleImage.setFitWidth(obstacle_width); // Adjust width as needed
+        BigobstacleImage.setFitHeight(obstacle_height); // Adjust height as needed
+        this.layoutX = layoutX;
+        this.layoutY = layoutY;
+        BigobstacleImage.setLayoutX(layoutX);
+        BigobstacleImage.setLayoutY(layoutY);
+        obstacle_height=height;
+        obstacle_width=width;
+
+        newImg = new ImageView(image);
+
+
+    }
 
 
     public void generateBigCoins(Pane root, List<Rectangle> roadSegments, List<Rectangle> parallelRoadSegments1, List<Rectangle> parallelRoadSegments2, Random random) {

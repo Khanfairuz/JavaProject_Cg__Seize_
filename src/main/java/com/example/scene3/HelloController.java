@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -59,7 +60,9 @@ public class HelloController  {
     public static QuizObstacle quizObstacle=new QuizObstacle();
     public static AnimationTimer timer;
     public  static AnimationTimer timer1;
-    public static BigObstacle bigObstacle=new BigObstacle(60, 20, "BigOBS");
+    public Timeline Level;
+    public boolean heroMOns=false;
+    public static BigObstacle bigObstacle=new BigObstacle(60, 20, "back2-ob");
 
     private  int frameCountM=0;
     HelloController2 hc2=new HelloController2();
@@ -146,7 +149,7 @@ public class HelloController  {
         List<Rectangle> parallelRoadSegmentList2 = new ArrayList<>(Arrays.asList(parallelRoadSegments2));
         Random random = new Random();
         coin.generateCoins(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
-        quiz=new Enemyquiz(root, hero, bonusPoints);
+        quiz=new Enemyquiz(root, hero, bonusPoints, "wow", 100);
         quiz.generateEnemy();
         //generateCoins(roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random, coinImage);
         // obstacles.generateCoins(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
@@ -270,6 +273,7 @@ public class HelloController  {
                    // if (elapsedTimeSeconds_check > 7.5 && elapsedTimeSeconds_check< 7.7 && oneKill == false) {
                         System.out.println("Monster collides");
                         oneKill = true;
+                        heroMOns=true;
                         //track_zombie_kill = false;
                         if (track_zombie_kill == true) {
                             //
@@ -307,16 +311,26 @@ public class HelloController  {
 
 
                     }
+                    if(heroMOns) {
+                        Level = new Timeline(
+                                new KeyFrame(Duration.seconds(4), actionEvent -> {
+                                    ShowCOll();
+                                })
+                        );
+                        Level.play();
+                        heroMOns=false;
+                    }
                     if(elapsedTimeSeconds_check>12.7&& elapsedTimeSeconds_check<13)
                     {
                         try {
                             timer.stop();
                             timer1.stop();
                             audio.stopMusic_zombie();
+                            ShowCOll();
 
                             calculate_data();
                             //points
-                            hc2.start_new_2( primaryStage  , points , bonusPoints , damagePoints);
+                            hc2.start_new_2( primaryStage  , HelloController.points , bonusPoints , damagePoints);
                         } catch (FileNotFoundException e) {
                             throw new RuntimeException(e);
                         }
@@ -648,7 +662,23 @@ public class HelloController  {
         }
         System.out.println("Checked D");
     }
+    public void ShowCOll()
+    {
+        Label collDone=new Label();
+        collDone.setText("Moving to Level-2!!");
+        collDone.setLayoutX(310);
+        collDone.setLayoutY(200);
+        collDone.setStyle("-fx-background-color: black; -fx-border-color:#424242; -fx-font-size: 70; -fx-text-fill: yellow; -fx-size: 100 350; -fx-border-style: dashed solid dashed solid;");
 
+
+
+        System.out.println("HOISE?");
+        // PauseTransition pauseMid=new PauseTransition(Duration.seconds());
+        // pauseMid.setOnFinished(e->root.getChildren().remove(collDone));
+
+        root.getChildren().add(collDone);
+        // pauseMid.play();
+    }
 
 
 }
