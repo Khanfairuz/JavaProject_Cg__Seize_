@@ -4,11 +4,13 @@ import javafx.animation.KeyFrame;
 import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -124,7 +126,7 @@ public class Fire extends Pane{
      */
 
 
-    public void checkCoinCollisions(Pane root, ImageView heroView) {
+    public void checkCoinCollisions(Pane root, ImageView heroView ,HelloController3 hc) {
         // Calculate the bounds for the lower quarter of the hero's image
         double heroLowerY = heroView.getLayoutY() + Hero.HERO_HEIGHT * 0.90;
         double heroLowerHeight = Hero.HERO_HEIGHT * 0.10;
@@ -161,6 +163,23 @@ public class Fire extends Pane{
                    // HelloController.points += 75;
                     //HelloController.pointsLabel.setText("Points: " + HelloController.points);
                     collided = true;
+                    // Create the button
+                    Button button = new Button("Next");
+
+                    // Set button size if needed
+                    button.setPrefSize(100, 50);
+                    button.setFont(new Font(25));
+
+                    // Set button action using a lambda function
+                    button.setOnAction(e -> {
+                        // Your lambda function code here
+                        hc.call_hero_lose();
+                    });
+                    // Manually trigger the layout listeners to position the button initially
+                    button.setLayoutX(root.getWidth() - button.getPrefWidth() - 10);
+                    button.setLayoutY(10);
+                    // Add the button to the pane
+                    root.getChildren().add(button);
 
                 }
 

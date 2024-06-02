@@ -244,6 +244,9 @@ public class HelloController  {
                         audio.stopMusic_normal();
                         audio.play_music_zombie(root);
                         monster.generateMonster(root,1);
+                        hero.heroView.setLayoutX(SCENE_WIDTH - Hero.HERO_WIDTH - 400);
+
+                        //hero.heroView.setLayoutX();
                         quizObstacle.isQuizObstacleFinished = false;
                         checkQues();
                         oneTimeGenerate = false;
@@ -263,8 +266,11 @@ public class HelloController  {
                     // Update the label with the elapsed time
                     // System.out.println("Elapsed Time: %.1f seconds "+elapsedTimeSeconds);
                     //time pore chenge kora jabe
-                    if (elapsedTimeSeconds_check > 7.5 && elapsedTimeSeconds_check< 7.7 && oneKill == false) {
+                    if(hero.heroView.getBoundsInParent().intersects(monster.monsterView.getBoundsInParent()) && oneKill == false){
+                   // if (elapsedTimeSeconds_check > 7.5 && elapsedTimeSeconds_check< 7.7 && oneKill == false) {
+                        System.out.println("Monster collides");
                         oneKill = true;
+                        //track_zombie_kill = false;
                         if (track_zombie_kill == true) {
                             //
                             for (int i = 0; i < monster.Monster.length; i++) {
@@ -278,6 +284,7 @@ public class HelloController  {
                         } else {
                             flag_hero_gone = true;
                             //
+                            System.out.println("Monster morar kotha");
                             for (int i = 0; i < monster.Monster.length; i++) {
                                 // FileInputStream inputStream = new FileInputStream("C:\\Users\\HP\\Music\\run3\\run3-0" + i + ".png");
                                 monster.Monster[i] = new Image(getClass().getResource("/monster1killhero/monster1killhero-" + i + ".png").toExternalForm());
@@ -541,7 +548,7 @@ public class HelloController  {
                 double elapsedTimeMillis = elapsedTimeNano / 1_000_000_000.0;
                  elapsedTimeSeconds_check=elapsedTimeMillis;
                 // Print elapsed time
-                System.out.printf("Elapsed Time: %.1f milliseconds\n", elapsedTimeMillis);
+                //System.out.printf("Elapsed Time: %.1f milliseconds\n", elapsedTimeMillis);
 
                 // Example condition: print message between 10.5 and 11 seconds
                 if (elapsedTimeMillis >7200 && elapsedTimeMillis <7300) {

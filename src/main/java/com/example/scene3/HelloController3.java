@@ -42,7 +42,7 @@ public class HelloController3  {
 
     private Image coinImage;
 
-    public static Obstacle obstacles = new Obstacle(20,20, "newobs");
+    public static Obstacle obstacles = new Obstacle(20,20, "purpleObs");
     public static Coin coin=new Coin();
     public static Coin coinAfterMId=new Coin();
     public static Mid mid=new Mid();
@@ -89,6 +89,8 @@ public class HelloController3  {
     final int[] bonusPointsWrapper = new int[1];
     final int[] damagePointsWrapper = new int[1];
     private HeroLose hr=new HeroLose();
+
+    private  HeroWin hrW=new HeroWin();
     private  Stage primaryStage;
 
 
@@ -238,7 +240,7 @@ public class HelloController3  {
                 }
                 quizObstacle.checkObstacleCollisions(root2, hero.heroView, damagePointsLabel, isTimerRunning);
                 coinAfterMId.checkCoinCollisions2(root2, hero.heroView);
-                fire.checkCoinCollisions(root2, hero.heroView);
+                fire.checkCoinCollisions(root2, hero.heroView , HelloController3.this);
                 System.out.println(isTimerRunning);
                 //coin.checkCoinCollisions(root, hero.heroView);
 
@@ -303,6 +305,19 @@ public class HelloController3  {
                         }
 
 
+                    }
+
+                    //new page load
+                    if(elapsedTimeSeconds_check>12.7&& elapsedTimeSeconds_check<13)
+                    {
+
+                            timer.stop();
+                            timer1.stop();
+
+                            audio.stopMusic_zombie();
+                            call_hero_win();
+
+                            // Use the wrapper values
                     }
                     //quizObstacle.generateObstacles(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
 
@@ -415,6 +430,13 @@ public class HelloController3  {
         calculate_data();
         hr.hero_lose_start(primaryStage , points , bonusPoints , damagePoints);
 
+
+    }
+
+    void call_hero_win()
+    {
+        calculate_data();
+        hrW.hero_win_start(primaryStage, points , bonusPoints , damagePoints);
 
     }
     private  void calculate_data()

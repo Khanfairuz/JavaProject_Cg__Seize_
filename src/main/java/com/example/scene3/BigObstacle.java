@@ -1,11 +1,13 @@
 package com.example.scene3;
 
 import javafx.animation.*;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -28,6 +30,8 @@ public class BigObstacle  {
     public static ImageView newImg;
     public boolean isBigObstacleFinished=false;
     private int cnt=0;
+
+
 
 
 
@@ -242,6 +246,7 @@ public class BigObstacle  {
                 if (obstacle.getBoundsInParent().intersects(heroView.getBoundsInParent())) {
            // if (heroView.getBoundsInParent().intersects(obstacle.getLayoutX(), obstacleY, obstacle_width, obsLowerHeight)) {
                 System.out.println("bigggggggggg collides");
+
                         obstacleTransition.pause();
                         obstacleTransition2.pause();
                         obstacleTransition3.pause();
@@ -250,14 +255,37 @@ public class BigObstacle  {
                         HelloController.isTimerRunning=false;
 
 
-                    BigobstacleTimeline.pause();
+                         BigobstacleTimeline.pause();
                         System.out.println("GAME OVER");
 
 
 
                     Bigobstacles.remove(obstacle);
                     ShowCOll(root);
-                    hc.call_hero_lose();
+                    // Create the button
+                    Button button = new Button("Next");
+
+                    // Set button size if needed
+                    button.setPrefSize(100, 50);
+                    button.setFont(new Font(25));
+
+                    // Set button action using a lambda function
+                    button.setOnAction(e -> {
+                        // Your lambda function code here
+                        hc.call_hero_lose();
+                    });
+                    // Manually trigger the layout listeners to position the button initially
+                    button.setLayoutX(root.getWidth() - button.getPrefWidth() - 20);
+                    button.setLayoutY(10);
+                    // Add the button to the pane
+                    root.getChildren().add(button);
+
+
+
+
+
+
+
 
                     //
 
@@ -293,7 +321,23 @@ public class BigObstacle  {
 
                 Bigobstacles.remove(obstacle);
                 ShowCOll(root);
-                hc.call_hero_lose();
+                // Create the button
+                Button button = new Button("Next");
+
+                // Set button size if needed
+                button.setPrefSize(100, 50);
+                button.setFont(new Font(25));
+
+                // Set button action using a lambda function
+                button.setOnAction(e -> {
+                    // Your lambda function code here
+                    hc.call_hero_lose();
+                });
+                // Manually trigger the layout listeners to position the button initially
+                button.setLayoutX(root.getWidth() - button.getPrefWidth() - 10);
+                button.setLayoutY(10);
+                // Add the button to the pane
+                root.getChildren().add(button);
 
 
             }
@@ -325,7 +369,23 @@ public class BigObstacle  {
 
                 Bigobstacles.remove(obstacle);
                 ShowCOll(root);
-                hc.call_hero_lose();
+                // Create the button
+                Button button = new Button("Next");
+
+                // Set button size if needed
+                button.setPrefSize(100, 50);
+                button.setFont(new Font(25));
+
+                // Set button action using a lambda function
+                button.setOnAction(e -> {
+                    // Your lambda function code here
+                    hc.call_hero_lose();
+                });
+                // Manually trigger the layout listeners to position the button initially
+                button.setLayoutX(root.getWidth() - button.getPrefWidth() - 10);
+                button.setLayoutY(10);
+                // Add the button to the pane
+                root.getChildren().add(button);
 
 
             }
