@@ -171,8 +171,8 @@ public class Coin extends Pane{
                 root.getChildren().remove(coin); // Remove the coin from the scene
                 coins.remove(coin); // Remove the coin from the list
                 // Increment points and update points label
-                HelloController2.points++;
-                HelloController2.pointsLabel.setText("Points: " + HelloController2.points);
+                HelloController3.points++;
+                HelloController3.pointsLabel.setText("Points: " + HelloController2.points);
             }
         }
     }

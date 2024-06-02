@@ -49,7 +49,7 @@ public class QuizObstacle {
     private static final int DAMAGE_VALUE = 10;
     public boolean isQuizObstacleFinished=false;
     private int cnt=0;
-    public Timeline obstacleTimeline;
+    public static Timeline obstacleTimeline;
     public void generateObstacles(Pane root, List<Rectangle> roadSegments, List<Rectangle> parallelRoadSegments1, List<Rectangle> parallelRoadSegments2, Random random) {
         obstacleTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(3), event -> {
@@ -103,11 +103,20 @@ public class QuizObstacle {
         obstacleTransition.setOnFinished(event -> root.getChildren().remove(obstacle.getShape()));
         obstacleTransition.play();
     }
-    public void checkObstacleCollisions(Pane root, ImageView heroView,  javafx.scene.text.Text damagePointsLabel) {
+    public void checkObstacleCollisions(Pane root, ImageView heroView,  javafx.scene.text.Text damagePointsLabel, boolean isTimerRunning) {
         // Calculate the bounds for the lower quarter of the hero's image
         double heroLowerY = heroView.getLayoutY() + HERO_HEIGHT * 0.90;
         double heroLowerHeight = HERO_HEIGHT * 0.10;
 
+        if(!isTimerRunning && obstacleTimeline!=null)
+        {
+            System.out.println("Quiz obstacle timeline detected");
+            obstacleTimeline.stop();
+            for (Obstacles obstacle : new ArrayList<>(obstacles)) {
+                root.getChildren().remove(obstacle.getShape());
+                obstacles.remove(obstacle);
+            }
+        }
         // Iterate through each obstacle
         for (Obstacles obstacle : new ArrayList<>(obstacles)) {
             // Get the bounds of the obstacle

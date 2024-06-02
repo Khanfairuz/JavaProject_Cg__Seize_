@@ -47,7 +47,7 @@ public class Mid extends Pane {
                     if (randomIndex < roadSegments.size()) { // Select middle road
                         segment = roadSegments.get(randomIndex);
                     } else if (randomIndex < roadSegments.size() + parallelRoadSegments1.size()) { // Select upper parallel road
-                        segment = parallelRoadSegments1.get(randomIndex - roadSegments.size());
+                        segment = roadSegments.get(randomIndex- roadSegments.size());   ////parallelRoadSegments1.get(randomIndex - roadSegments.size());
                     } else { // Select lower parallel road
                         segment = parallelRoadSegments2.get(randomIndex - roadSegments.size() - parallelRoadSegments1.size());
                     }
@@ -237,12 +237,12 @@ public class Mid extends Pane {
             }
         }
     }*/
-    public void checkCoinCollisions(Pane root, ImageView heroView, List<Rectangle> roadSegments, List<Rectangle> parallelRoadSegments1, List<Rectangle> parallelRoadSegments2) {
+    public void checkCoinCollisions(Pane root, ImageView heroView, List<Rectangle> roadSegments, List<Rectangle> parallelRoadSegments1, List<Rectangle> parallelRoadSegments2, boolean isTimerRunning) {
         // Calculate the bounds for the lower quarter of the hero's image
         double heroLowerY = heroView.getLayoutY() + Hero.HERO_HEIGHT * 0.90;
         double heroLowerHeight = Hero.HERO_HEIGHT * 0.10;
 
-        if (!HelloController.isTimerRunning) {
+        if (!isTimerRunning) {
             System.out.println("Timer stopped");
             midTimeline.stop();
         }

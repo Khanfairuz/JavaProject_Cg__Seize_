@@ -51,7 +51,7 @@ public class HelloController  {
     private Image coinImage;
 
     private Hero hero=new Hero(root);
-    public static Obstacle obstacles = new Obstacle(20,20);
+    public static Obstacle obstacles = new Obstacle(20,20, "obstacle");
     public static Coin coin=new Coin();
     public static Coin coinAfterMId=new Coin();
     public static Mid mid=new Mid();
@@ -59,7 +59,7 @@ public class HelloController  {
     public static QuizObstacle quizObstacle=new QuizObstacle();
     public static AnimationTimer timer;
     public  static AnimationTimer timer1;
-    public static BigObstacle bigObstacle=new BigObstacle(60, 20);
+    public static BigObstacle bigObstacle=new BigObstacle(60, 20, "BigOBS");
 
     private  int frameCountM=0;
     HelloController2 hc2=new HelloController2();
@@ -93,9 +93,12 @@ public class HelloController  {
     ////PLay music
     public  audio_play audio=new audio_play();
     public static Monster monster=new Monster();
+    private HeroLose hr=new HeroLose();
+    private  Stage primaryStage;
 
 
     public void start_new(Stage primaryStage) throws FileNotFoundException {
+        this.primaryStage=primaryStage;
         // Load background image
         ImageView backgroundView1 = new ImageView("alien.jpg");
         ImageView backgroundView2 = new ImageView("alien.jpg");
@@ -213,7 +216,8 @@ public class HelloController  {
                     obstacles.isObstacleFinished = false;
                     isBigObstacleGen = true;
                 }
-                bigObstacle.checkBigObstacleCollisions(root, hero.heroView, hero.isJumping );
+                bigObstacle.checkBigObstacleCollisions(root, hero.heroView, hero.isJumping ,HelloController.this );
+
 
                 //if(!isTimerRunning) {return;}
                 if (bigObstacle.isBigObstacleFinished && isTimerRunning) {
@@ -222,7 +226,7 @@ public class HelloController  {
                     bigObstacle.isBigObstacleFinished = false;
                 }
 
-                mid.checkCoinCollisions(root, hero.heroView, roadSegmentList, parallelRoadSegmentList1,parallelRoadSegmentList2);
+                mid.checkCoinCollisions(root, hero.heroView, roadSegmentList, parallelRoadSegmentList1,parallelRoadSegmentList2, isTimerRunning);
                 if (mid.isMidFinished && isTimerRunning) {
                     System.out.println("fairuz");
                     quizObstacle.generateObstacles(root, roadSegmentList, parallelRoadSegmentList1, parallelRoadSegmentList2, random);
@@ -230,7 +234,7 @@ public class HelloController  {
                     mid.isMidFinished = false;
                     //quizObstacle.isQuizObstacleFinished=false;
                 }
-                quizObstacle.checkObstacleCollisions(root, hero.heroView, damagePointsLabel);
+                quizObstacle.checkObstacleCollisions(root, hero.heroView, damagePointsLabel, isTimerRunning);
                 coinAfterMId.checkCoinCollisions(root, hero.heroView);
                 //coin.checkCoinCollisions(root, hero.heroView);
 
@@ -303,20 +307,7 @@ public class HelloController  {
                             timer1.stop();
                             audio.stopMusic_zombie();
 
-                            try {
-                                // Extract numeric part from bonusPointsLabel
-                                String bonusText = bonusPointsLabel.getText().replaceAll("[^0-9]", "");
-                                bonusPoints = Integer.parseInt(bonusText);
-
-                                // Extract numeric part from damagePointsLabel
-                                String damageText = damagePointsLabel.getText().replaceAll("[^0-9]", "");
-                                damagePoints = Integer.parseInt(damageText);
-
-                                // Proceed with the rest of your logic
-                            } catch (NumberFormatException e) {
-                                System.err.println("Error converting label text to integer: " + e.getMessage());
-                                e.printStackTrace();
-                            }
+                            calculate_data();
                             //points
                             hc2.start_new_2( primaryStage  , points , bonusPoints , damagePoints);
                         } catch (FileNotFoundException e) {
@@ -425,6 +416,36 @@ public class HelloController  {
         primaryStage.setTitle("Scrolling Background with Continuous Road and Animated Hero");
         primaryStage.show();
         primaryStage.setFullScreen(true);
+    }
+
+    void  call_hero_lose()
+    {
+        //if clash , then game over and new page will be loaded
+
+            calculate_data();
+            System.out.println("CALL HEROO????");
+            hr.hero_lose_start(primaryStage , points , bonusPoints , damagePoints);
+
+
+    }
+    private  void calculate_data()
+    {
+
+        try {
+            System.out.println("CALCULATION");
+            // Extract numeric part from bonusPointsLabel
+            String bonusText = bonusPointsLabel.getText().replaceAll("[^0-9]", "");
+            bonusPoints = Integer.parseInt(bonusText);
+
+            // Extract numeric part from damagePointsLabel
+            String damageText = damagePointsLabel.getText().replaceAll("[^0-9]", "");
+            damagePoints = Integer.parseInt(damageText);
+
+            // Proceed with the rest of your logic
+        } catch (NumberFormatException e) {
+            System.err.println("Error converting label text to integer: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
     public  void connect_database()
     {

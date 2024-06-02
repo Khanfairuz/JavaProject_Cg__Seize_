@@ -26,8 +26,8 @@ public class Obstacle extends Pane {
     public boolean isObstacleFinished=false;
     private int cnt=0;
 
-    public Obstacle(double layoutX, double layoutY) {
-        image = new Image(getClass().getResource("/Obstacle/obstacle.png").toExternalForm());
+    public Obstacle(double layoutX, double layoutY, String obsname) {
+        image = new Image(getClass().getResource("/Obstacle/"+obsname+".png").toExternalForm());
         this.obstacleImage = new ImageView(image);
         obstacleImage.setFitWidth(obstacle_width); // Adjust width as needed
         obstacleImage.setFitHeight(obstacle_height); // Adjust height as needed

@@ -19,7 +19,7 @@ public class audio_play {
          //tring mediaFilePath="E:\\java pic\\hero_run.mp3";
 
 
-         String mediaFilePath="D:\\Sofftawer\\Codes\\Classwork\\2-2\\Visual Programming\\Project\\JavaProject_Cg__Seize_\\src\\main\\resources";
+         String mediaFilePath="E:\\java pic\\hero_run.mp3";
 
          try {
              // Convert the file path to URI format
