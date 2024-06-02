@@ -66,7 +66,7 @@ public class Enemyquiz {
 
         // Create a timeline to continuously generate enemies
         enemyTimeline = new Timeline(
-                new KeyFrame(Duration.seconds(2), event -> { // Adjust the duration as needed
+                new KeyFrame(Duration.seconds(1.5), event -> { // Adjust the duration as needed
                     // Randomly select a Y position above all road segments with an offset
                     double enemyY = random.nextDouble() * maxY;
 
