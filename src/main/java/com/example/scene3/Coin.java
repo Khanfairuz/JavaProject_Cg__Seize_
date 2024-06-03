@@ -94,7 +94,7 @@ public class Coin extends Pane{
         coinTransition.setToX(-distance);
        // root.getChildren().add(coin);
 
-        if(cnt==20)
+        if(cnt==25)
         {
             System.out.println("coin "+cnt);
             coinTransition.stop();
