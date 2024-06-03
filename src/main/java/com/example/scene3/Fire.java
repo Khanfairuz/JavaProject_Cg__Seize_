@@ -171,6 +171,8 @@ public class Fire extends Pane{
                     // Set button size if needed
                     button.setPrefSize(100, 50);
                     button.setFont(new Font(25));
+                    button.setStyle("-fx-background-color: indigo ;");
+
 
                     // Set button action using a lambda function
                     button.setOnAction(e -> {
