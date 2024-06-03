@@ -86,10 +86,16 @@ public class startPage extends Application {
     private void showInfo(MouseEvent event) {
         // Create a custom label with the game info
         Label gameInfo = new Label(
-                "Use the Up key to jump.\n" +
-                        "Down key to collect Quiz to obtain Bonus points.\n" +
-                        "Left key to move to the upper road segment.\n" +
-                        "Right key to move to the lower road segment.");
+                "Use 4 key to play the game. Keys are,up, down,left right.\n"+
+                        "  Use the Up key to jump.\n" +
+                        "  Down key to collect Quiz to obtain Bonus points.\n" +
+                        "  Left key to move to the upper road segment.\n" +
+                        "  Right key to move to the lower road segment.\n"+
+                        "  Each coin contains 2 points.\n"+
+                        "  Each quiz contain 1 bonus point\n"+
+                        "  In Level-3 if Bonus point>15, then if collide with big obstacle, life will retrive."
+
+                );
 
         // Set the font size and color
         gameInfo.setStyle("-fx-font-size: 18px; -fx-text-fill: navy;");
@@ -98,7 +104,7 @@ public class startPage extends Application {
         // Create a VBox to hold the label
         VBox content = new VBox(gameInfo);
         content.setPrefSize(800, Region.USE_COMPUTED_SIZE);
-        content.setStyle("-fx-background-color: lightblue;");
+        content.setStyle("-fx-background-color: aqua;");
 
         // Create an alert with information type
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -110,7 +116,7 @@ public class startPage extends Application {
         alert.initStyle(StageStyle.UNDECORATED);
 
         // Set the background color of the dialog pane
-        alert.getDialogPane().setStyle("-fx-background-color: lightblue;");
+        alert.getDialogPane().setStyle("-fx-background-color: aqua;");
 
         // Show the alert and wait for the user to close it
         alert.showAndWait();
