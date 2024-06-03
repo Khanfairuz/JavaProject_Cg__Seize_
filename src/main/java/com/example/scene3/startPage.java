@@ -66,7 +66,7 @@ public class startPage extends Application {
         HelloController hc = new HelloController();
 
         // Call the start_new method with the stage parameter
-        //hc.start_new(st);
+        hc.start_new(st);
        // HelloController hc3 = new HelloController3();
 
         // Call the start_new method with the stage parameter
@@ -77,7 +77,7 @@ public class startPage extends Application {
         //hc3.start_new_3(st, 0, 0, 0);
         HelloController2 hc2 = new HelloController2();
         // Call the start_new method with the stage parameter
-        hc2.start_new_2(st, 0, 0, 0);
+        //hc2.start_new_2(st, 0, 0, 0);
     }
 
 

@@ -248,7 +248,7 @@ public class HelloController  {
                         audio.stopMusic_normal();
                         audio.play_music_zombie(root);
                         monster.generateMonster(root,1);
-                        hero.heroView.setLayoutX(SCENE_WIDTH - Hero.HERO_WIDTH - 400);
+                        hero.heroView.setLayoutX(SCENE_WIDTH - Hero.HERO_WIDTH - 500);
 
                         //hero.heroView.setLayoutX();
                         quizObstacle.isQuizObstacleFinished = false;
