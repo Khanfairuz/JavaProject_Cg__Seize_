@@ -10,16 +10,17 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.scene.paint.Color;
 
 public class HeroLose {
     private   startPage st=new startPage();
 
-    private TextField total_point;
-    private TextField totalcgpa;
-    private TextField maxscore;
+    private Text totalcgpa;
+    private Text maxscore;
     private ImageView heroimageview;
     private  ImageView gifFail;
 
@@ -50,35 +51,38 @@ public class HeroLose {
         Text totalPointsText = new Text("Total Points");
         totalPointsText.setLayoutX(14.0);
         totalPointsText.setLayoutY(65.0);
-        totalPointsText.setFont(new Font(25.0));
+        totalPointsText.setFont(Font.font("System", FontWeight.BOLD, 25.0));
         totalPointsText.setFill(Color.WHITE);
 
-        total_point = new TextField();
-        total_point.setLayoutX(150.0);
-        total_point.setLayoutY(45.0);
-
+        Text total_point = new Text();
+        total_point.setLayoutX(158.0);
+        total_point.setLayoutY(65.0); // Adjusted to align with the label
+        total_point.setFont(Font.font("System", FontWeight.BOLD, 25.0));
+        total_point.setFill(Color.WHITE);
 
         Text totalCgpaText = new Text("Total Cgpa");
         totalCgpaText.setLayoutX(14.0);
         totalCgpaText.setLayoutY(150.0);
-        totalCgpaText.setFont(new Font(25.0));
+        totalCgpaText.setFont(Font.font("System", FontWeight.BOLD, 25.0));
         totalCgpaText.setFill(Color.WHITE);
 
-
-        totalcgpa = new TextField();
-        totalcgpa.setLayoutX(146.0);
-        totalcgpa.setLayoutY(133.0);
-
+        totalcgpa = new Text();
+        totalcgpa.setLayoutX(150.0);
+        totalcgpa.setLayoutY(150.0); // Adjusted to align with the label
+        totalcgpa.setFont(Font.font("System", FontWeight.BOLD, 25.0));
+        totalcgpa.setFill(Color.WHITE);
 
         Text maxScoreText = new Text("Max Score");
         maxScoreText.setLayoutX(580.0);
         maxScoreText.setLayoutY(65.0);
-        maxScoreText.setFont(new Font(25.0));
+        maxScoreText.setFont(Font.font("System", FontWeight.BOLD, 25.0));
         maxScoreText.setFill(Color.WHITE);
 
-        maxscore = new TextField();
-        maxscore.setLayoutX(700.0);
-        maxscore.setLayoutY(45.0);
+        maxscore = new Text();
+        maxscore.setLayoutX(710.0);
+        maxscore.setLayoutY(65.0); // Adjusted to align with the label
+        maxscore.setFont(Font.font("System", FontWeight.BOLD, 25.0));
+        maxscore.setFill(Color.WHITE);
 
 
         heroimageview = new ImageView();
@@ -97,6 +101,7 @@ public class HeroLose {
         exitButton.setPrefHeight(50.0);
         exitButton.setPrefWidth(107.0);
         exitButton.setFont(new Font(28.0));
+        exitButton.setStyle("-fx-background-color: violet; -fx-text-fill: navy;");
         exitButton.setOnAction(e -> exit());
 
 
@@ -115,7 +120,7 @@ public class HeroLose {
 
         // Show the stage
         stage.show();
-
+        centerStage(stage, scene);
         // Initialize animation
         initializeAnimation();
 
@@ -133,12 +138,7 @@ public class HeroLose {
         }
         maxscore.setText(String.valueOf(maxsr));
 
-        maxscore.setEditable(false);
-        totalcgpa.setEditable(false);
-        total_point.setEditable(false);
-        adjustTextFieldWidth(maxscore);
-        adjustTextFieldWidth(totalcgpa);
-        adjustTextFieldWidth(total_point);
+
     }
 
     private void initializeAnimation() {
@@ -164,21 +164,24 @@ public class HeroLose {
         };
         timer.start();
     }
+    private void centerStage(Stage stage, Scene scene) {
+        // Get the screen bounds
+        javafx.geometry.Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
 
-    private void adjustTextFieldWidth(TextField textField) {
-        // Set initial width based on the text content
-        textField.setPrefWidth(calculateTextWidth(textField));
+        // Calculate the center position
+        double x = (screenBounds.getWidth() - scene.getWidth()) / 2;
+        double y = (screenBounds.getHeight() - scene.getHeight()) / 2;
 
-        // Add listener to adjust width when text changes
-        textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            textField.setPrefWidth(calculateTextWidth(textField));
-        });
+        // Adjust y to keep some distance from the top and bottom of the screen
+        double verticalMargin = 50.0;
+        y = Math.max(verticalMargin, y);
+        y = Math.min(screenBounds.getHeight() - scene.getHeight() - verticalMargin, y);
+
+        // Set the stage position
+        stage.setX(x);
+        stage.setY(y);
     }
-    private double calculateTextWidth(TextField textField) {
-        Text tempText = new Text(textField.getText());
-        tempText.setFont(textField.getFont());
-        return tempText.getLayoutBounds().getWidth() + 40; // Add some padding
-    }
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }

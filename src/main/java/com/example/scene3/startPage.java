@@ -12,12 +12,17 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.StageStyle;
 
 import java.io.FileNotFoundException;
+
+import static javafx.scene.text.FontWeight.BOLD;
 
 
 public class startPage extends Application {
@@ -61,15 +66,15 @@ public class startPage extends Application {
         HelloController hc = new HelloController();
 
         // Call the start_new method with the stage parameter
-        //hc.start_new(st);
-        HelloController3 hc3 = new HelloController3();
+        hc.start_new(st);
+       // HelloController hc3 = new HelloController3();
 
         // Call the start_new method with the stage parameter
         //hc3.start_new_3(st, 0, 0, 0);
-        HelloController2 hc2 = new HelloController2();
+       // HelloController2 hc2 = new HelloController2();
 
         // Call the start_new method with the stage parameter
-        hc2.start_new_2(st, 0, 0, 0);
+        //hc2.start_new_2(st, 0, 0, 0);
     }
 
 
@@ -81,24 +86,31 @@ public class startPage extends Application {
     private void showInfo(MouseEvent event) {
         // Create a custom label with the game info
         Label gameInfo = new Label(
-                "Use the Up key to jump, Down key to attack  "
-                        + "Left key to move to the upper and Right key to move to the lower road. "
+                "Use the Up key to jump.\n" +
+                        "Down key to collect Quiz to obtain Bonus points.\n" +
+                        "Left key to move to the upper road segment.\n" +
+                        "Right key to move to the lower road segment.");
 
-        );
-
-        // Set the font size
-        gameInfo.setStyle("-fx-font-size: 16px;");
+        // Set the font size and color
+        gameInfo.setStyle("-fx-font-size: 18px; -fx-text-fill: navy;");
+        gameInfo.setFont(Font.font("System", FontWeight.BOLD, 18.0));
 
         // Create a VBox to hold the label
         VBox content = new VBox(gameInfo);
-        content.setPrefSize(900, Region.USE_COMPUTED_SIZE);
+        content.setPrefSize(800, Region.USE_COMPUTED_SIZE);
+        content.setStyle("-fx-background-color: lightblue;");
 
         // Create an alert with information type
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Key Movement");
         alert.setHeaderText(null);
-        alert.getDialogPane().setContent(content);  // Set the custom content
+        alert.getDialogPane().setContent(content); // Set the custom content
+
+        // Set the stage style to undecorated
         alert.initStyle(StageStyle.UNDECORATED);
+
+        // Set the background color of the dialog pane
+        alert.getDialogPane().setStyle("-fx-background-color: lightblue;");
 
         // Show the alert and wait for the user to close it
         alert.showAndWait();

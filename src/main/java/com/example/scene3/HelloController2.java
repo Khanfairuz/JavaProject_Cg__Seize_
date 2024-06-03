@@ -475,14 +475,20 @@ public class HelloController2  {
             damagePointsWrapper[0] = Integer.parseInt(damageText);
             if(thirdlevel==true && track_zombie_kill)
             {
-                points+=100;
+                HelloController2.points+=150;
             }
-
+            HelloController2.points= (int) (HelloController2.points-0.1*damagePoints);
             // Proceed with the rest of your logic
         } catch (NumberFormatException e) {
             System.err.println("Error converting label text to integer: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+    private boolean isCorrectAnswer(String selectedOption) {
+        // Implement the logic to check if the selected option is correct
+        // For example, compare with the correct answer string
+        System.out.println("Checkd "+selectedOption.equals(correctAns));
+        return selectedOption.equals(correctAns);
     }
     public void checkQues()
     {
@@ -524,39 +530,58 @@ public class HelloController2  {
 
         checkBoxA.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
-                // Invoke function when checkBoxA is selected
+                // Check if the answer is correct
+                if (isCorrectAnswer("A")) {
+                    checkBoxA.setStyle("-fx-font-family: Arial; -fx-font-size: 25px; -fx-text-fill: white; -fx-background-color: green;");
+                } else {
+                    checkBoxA.setStyle("-fx-font-family: Arial; -fx-font-size: 25px; -fx-text-fill: white; -fx-background-color: red;");
+                }
                 checkA();
-                System.out.println("HLLLLL");
             } else {
-                // Optionally handle when checkBoxA is deselected
-
+                // Reset the background color when deselected
+                checkBoxA.setStyle("-fx-font-family: Arial; -fx-font-size: 25px; -fx-text-fill: white;");
             }
         });
         checkBoxB.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
-                // Invoke function when checkBoxA is selected
+                // Check if the answer is correct
+                if (isCorrectAnswer("B")) {
+                    checkBoxB.setStyle("-fx-font-family: Arial; -fx-font-size: 25px; -fx-text-fill: white; -fx-background-color: green;");
+                } else {
+                    checkBoxB.setStyle("-fx-font-family: Arial; -fx-font-size: 25px; -fx-text-fill: white; -fx-background-color: red;");
+                }
                 checkB();
             } else {
-                // Optionally handle when checkBoxA is deselected
-
+                // Reset the background color when deselected
+                checkBoxB.setStyle("-fx-font-family: Arial; -fx-font-size: 25px; -fx-text-fill: white;");
             }
         });
         checkBoxC.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
-                // Invoke function when checkBoxA is selected
+                // Check if the answer is correct
+                if (isCorrectAnswer("C")) {
+                    checkBoxC.setStyle("-fx-font-family: Arial; -fx-font-size: 25px; -fx-text-fill: white; -fx-background-color: green;");
+                } else {
+                    checkBoxC.setStyle("-fx-font-family: Arial; -fx-font-size: 25px; -fx-text-fill: white; -fx-background-color: red;");
+                }
                 checkC();
             } else {
-                // Optionally handle when checkBoxA is deselected
-
+                // Reset the background color when deselected
+                checkBoxC.setStyle("-fx-font-family: Arial; -fx-font-size: 25px; -fx-text-fill: white;");
             }
         });
         checkBoxD.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
-                // Invoke function when checkBoxA is selected
+                // Check if the answer is correct
+                if (isCorrectAnswer("D")) {
+                    checkBoxD.setStyle("-fx-font-family: Arial; -fx-font-size: 25px; -fx-text-fill: white; -fx-background-color: green;");
+                } else {
+                    checkBoxD.setStyle("-fx-font-family: Arial; -fx-font-size: 25px; -fx-text-fill: white; -fx-background-color: red;");
+                }
                 checkD();
             } else {
-                // Optionally handle when checkBoxA is deselected
-
+                // Reset the background color when deselected
+                checkBoxD.setStyle("-fx-font-family: Arial; -fx-font-size: 25px; -fx-text-fill: white;");
             }
         });
     }
